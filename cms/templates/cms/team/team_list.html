@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="javascript:;">Home</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Tables</a>
+                        </li>
+                        <li class="active">Data tables</li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                        <thead>
+                        <tr>
+                            <th>Team ID</th>
+                            <th>Active</th>
+                            <th>Team Name</th>
+                            <th>Organizer</th>
+                            <th>Created Date</th>
+                            <th>Members</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in teams %}
+                            <tr>
+                                <td>{{ team.id }}</td>
+                                <td>{{ team.is_active }}</td>
+                                <td>{{ team.teamname }}</td>
+                                <td>{{ team.organizer }}</td>
+                                <td>{{ team.date_created }}</td>
+                                <td>{{ team.members }}</td>
+                                <td><a href="{% url 'edit_team' team_id=team.id %}" class="edit">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

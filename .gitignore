@@ -1,0 +1,17 @@
+.DS_Store
+*.pyc
+*.tsv
+*.swp
+*.csv
+*.msg
+*.egg-info
+*~
+*#
+/.idea
+
+log/
+
+ww2_admin/database.py
+ww2_admin/static_settings.py
+.python-version
+template/*

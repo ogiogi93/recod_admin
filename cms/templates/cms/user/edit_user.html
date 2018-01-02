@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    ユーザー情報を修正する
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            <form method="post" class="form-horizontal bordered-group" role="form"
+                                  action="{% url 'edit_user' user_id=user_id %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"> 修正 </button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-primary" type="button"> 削除 </button></a>
+                                </span>
+                                <span class="input-group-btn">
+                                    <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-primary" type="button"> チームを作る </button></a>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

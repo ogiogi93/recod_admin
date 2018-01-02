@@ -1,0 +1,239 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>COD WW2 Japan Competition Admin Site</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Call of Duty WW2 Japan Competition Admin Site">
+    <meta name="author" content="Takashi OGIWARA">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- page level plugin styles -->
+    <link rel="stylesheet" href="{% static 'css/climacons-font.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/rickshaw/rickshaw.min.css' %}">
+    <!-- /page level plugin styles -->
+
+    <!-- build:css({.tmp,app}) styles/app.min.css -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/perfect-scrollbar/css/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/roboto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/panel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/feather.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/urban.css' %}">
+    <link rel="stylesheet" href="{% static 'css/urban.skins.css' %}">
+    <!-- endbuild -->
+
+</head>
+
+<body>
+<div class="app layout-fixed-header">
+    <!-- sidebar panel -->
+    <div class="sidebar-panel offscreen-left">
+        <div class="brand">
+            <!-- logo -->
+            <div class="brand-logo">
+                <img src="{% static 'images/logo.png' %}" height="15" alt="">
+            </div>
+            <!-- /logo -->
+
+            <!-- toggle small sidebar menu -->
+            <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3" data-toggle="layout-small-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+            <!-- /toggle small sidebar menu -->
+
+        </div>
+
+        <!-- main navigation -->
+        <nav role="navigation">
+
+            <ul class="nav">
+
+                <!-- dashboard -->
+                <li>
+                    <a href="{% url 'top' %}">
+                        <i class="fa fa-flask"></i>
+                        <span> ダッシュボード </span>
+                    </a>
+                </li>
+                <!-- /dashboard -->
+
+                <!-- user -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-toggle-on"></i>
+                        <span>ユーザー管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'user_list' %}">
+                                <span>ユーザーリスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <span>新規ユーザー作成</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /user -->
+
+                <!-- team -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-toggle-on"></i>
+                        <span>チーム管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'team_list' %}">
+                                <span>チームーリスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <span>新規チーム作成</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /team -->
+
+                <!-- tournament -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-tint"></i>
+                        <span>大会管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="">
+                                <span>大会リスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <span>トーナメント生成</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /tournament -->
+
+                <!-- stats -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-tint"></i>
+                        <span>戦績管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="">
+                                <span>試合リスト</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /stats -->
+
+                <!-- article -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-tag"></i>
+                        <span>記事の管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="">
+                                <span>記事リスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <span>記事新規作成</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /article -->
+            </ul>
+        </nav>
+        <!-- /main navigation -->
+
+    </div>
+    <!-- /sidebar panel -->
+    {% block content %}
+    {% endblock %}
+    <!-- bottom footer -->
+    <footer class="content-footer">
+
+        <nav class="footer-right">
+            <ul class="nav">
+                <li>
+                    <a href="javascript:;">Feedback</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="scroll-up">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <nav class="footer-left">
+            <ul class="nav">
+                <li>
+                    <a href="javascript:;">Copyright <i class="fa fa-copyright"></i> <span>COD WW2 Japan Community</span> 2018. All rights
+                        reserved</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        Privacy Policy
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </footer>
+    <!-- /bottom footer -->
+</div>
+<!-- build:js({.tmp,app}) scripts/app.min.js -->
+<script src="{% static 'js/extentions/modernizr.js' %}"></script>
+<script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'vendor/fastclick/lib/fastclick.js' %}"></script>
+<script src="{% static 'vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+<script src="{% static 'js/ui/accordion.js' %}"></script>
+<script src="{% static 'js/ui/animate.js' %}"></script>
+<script src="{% static 'js/ui/link-transition.js' %}"></script>
+<script src="{% static 'js/ui/panel-controls.js' %}"></script>
+<script src="{% static 'js/ui/preloader.js' %}"></script>
+<script src="{% static 'js/ui/toggle.js' %}"></script>
+<script src="{% static 'js/urban-constants.js' %}"></script>
+<script src="{% static 'js/extentions/lib.js' %}"></script>
+<!-- endbuild -->
+
+<!-- page level scripts -->
+<script src="{% static 'vendor/d3/d3.min.js' %}"></script>
+<script src="{% static 'vendor/rickshaw/rickshaw.min.js' %}"></script>
+<script src="{% static 'vendor/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'vendor/flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'vendor/flot/jquery.flot.categories.js' %}"></script>
+<script src="{% static 'vendor/flot/jquery.flot.pie.js' %}"></script>
+<!-- /page level scripts -->
+
+<!-- initialize page scripts -->
+<script src="{% static 'js/pages/dashboard.js' %}"></script>
+<!-- /initialize page scripts -->
+
+</body>
+
+</html>

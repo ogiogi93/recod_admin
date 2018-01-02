@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'gaming_site_admin',
+        'USER': '',
+        'HOST': '127.0.0.1',
+        'PASSWORD': '',
+    },
+    'service_api': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'service_api',
+        'USER': '',
+        'HOST': '127.0.0.1',
+        'PASSWORD': '',
+    },
+}
