@@ -6,7 +6,10 @@ from team.models import (
     Team,
     Member
 )
-from team.forms import EditTeamForm
+from team.forms import (
+    EditTeamForm,
+    JoinTeam
+)
 
 
 def create_team_page(request, user_id=None):
@@ -59,6 +62,38 @@ def delete_team(request, team_id=None):
     if team:
         team.delete()
     return redirect('/team_list/')
+
+
+def joined_teams(request, user_id=None):
+    if not user_id:
+        return redirect('/team_list/')
+    return render(request, 'cms/user/edit_join_team.html', context={
+        'user_id': user_id,
+        'nickname': list(User.objects.values_list('nickname', flat=True).filter(id=user_id))[0],
+        'teams': Member.get_joined_teams(user_id),
+        'team_form': JoinTeam(user_id)
+    })
+
+
+def join_team(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        user = User.objects.get(pk=user_id)
+        team = Team.objects.get(pk=request.POST.get('team_id'))
+        if user and team:
+            Member.objects.add_member(user, team, is_admin=False)
+        return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
+    return redirect('/team_list/')
+
+
+def secession_team(request, user_id, team_id):
+    user = User.objects.get(pk=user_id)
+    team = Team.objects.get(pk=team_id)
+    if user and team:
+        member = Member.objects.filter(user=user).filter(team=team)
+        member.delete()
+        return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
+    return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
 
 
 def team_list(request):

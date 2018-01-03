@@ -22,10 +22,16 @@
                                     <button class="btn btn-primary" type="submit"> 修正 </button>
                                 </span>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-primary" type="button"> 削除 </button></a>
+                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-primary"
+                                                                                              type="button"> 削除 </button></a>
                                 </span>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-primary" type="button"> チームを作る </button></a>
+                                    <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-primary"
+                                                                                              type="button"> チームを作る </button></a>
+                                </span>
+                                <span class="input-group-btn">
+                                    <a href="{% url 'joined_team' user_id=user_id %}"><button class="btn btn-primary"
+                                                                                              type="button"> 所属チームを修正する </button></a>
                                 </span>
                             </form>
                         </div>

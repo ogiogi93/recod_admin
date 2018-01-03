@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from account.models import CustomUser as User
 from account.forms import EditUserProfile
+from team.models import Member
 
 
 def add_user(request):
@@ -25,7 +26,8 @@ def edit_user(request, user_id=None):
     if not user_id:
         return redirect('/user_list/')
 
-    user = User.objects.get(pk=user_id) # 修正時にPOSTでくる
+    user = User.objects.get(pk=user_id)
+    # 修正時にPOSTでくる
     if request.method == 'POST':
         form = EditUserProfile(request.POST, instance=user)
         if form.is_valid():
@@ -34,10 +36,12 @@ def edit_user(request, user_id=None):
         else:
             return render(request, 'cms/user/edit_user.html', context={
                 'user_id': user_id,
+                'joined_teams': Member.objects.filter(user_id=user_id),
                 'form': form
             })
     return render(request, 'cms/user/edit_user.html', context={
         'user_id': user_id,
+        'joined_teams': Member.objects.filter(user_id=user_id),
         'form': EditUserProfile(instance=User.objects.get(pk=user_id))
     })
 

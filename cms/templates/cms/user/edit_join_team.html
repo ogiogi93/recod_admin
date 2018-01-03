@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+    <!-- main area -->
+    <div class="main-content">
+        <div class="panel">
+            <div class="panel-heading border">
+                <ol class="breadcrumb mb0 no-padding">
+                    <li>
+                        <a href="javascript:;">Home</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">Tables</a>
+                    </li>
+                    <li class="active">Data tables</li>
+                </ol>
+            </div>
+            <div class="panel-body">
+                <h3>{{ nickname }}の所属チームの編集 </h3>
+                <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                    <thead>
+                    <tr>
+                        <th>Team ID</th>
+                        <th>Team Name</th>
+                        <th>Active</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for team, is_admin in teams %}
+                        <tr>
+                            <td>{{ team.id }}</td>
+                            <td>{{ team.teamname }}</td>
+                            <td>{{ team.is_active }}</td>
+                            {% if not is_admin %}
+                                <td><a href="{% url 'secession_team' user_id=user_id team_id=team.id %}" class="delete">脱退</a></td>
+                            {% else %}
+                                <td>リーダーのため脱退できません</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <form method="post" action="{% url 'join_team' %}">
+                    {% csrf_token %}
+                    <label for="join_team"> チームに所属する </label>
+                    <select name="team_id" id="join_team" title="チームを選択" class="selectpicker"
+                            data-transition-parent=".dropdown-menu">
+                        {% for team_id, teamname in team_form.fields.team.candidate_teams %}
+                            <option value="{{ team_id }}">{{ teamname }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"> 所属 </button>
+                    </span>
+                </form>
+            </div>
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

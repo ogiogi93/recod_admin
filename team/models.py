@@ -56,3 +56,15 @@ class Member(models.Model):
         db_table = 'team_members'
         managed = True
         unique_together = (('user', 'team'), ('team', 'is_admin'), )
+
+    @classmethod
+    def get_joined_teams(cls, user_id):
+        return [(m.team, m.is_admin) for m in
+                Member.objects.filter(user_id=user_id).all()]
+
+    @classmethod
+    def get_candidate_teams(cls, user_id):
+        return [(m.team.id, m.team.teamname) for m in
+                Member.objects.exclude(team__id__in=Member.objects.values_list('team__id', flat=True)
+                                       .filter(user_id=user_id)
+                                       ).all()]

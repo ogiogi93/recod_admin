@@ -1,5 +1,5 @@
 from django import forms
-from team.models import Team
+from team.models import Team, Member
 
 
 class EditTeamForm(forms.ModelForm):
@@ -22,3 +22,11 @@ class EditTeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ('is_active', 'teamname', 'description', )
+
+
+class JoinTeam(forms.Form):
+    team = forms.ChoiceField(label='チーム')
+
+    def __init__(self, user_id, *args, **kwargs):
+        super(JoinTeam, self).__init__(*args, **kwargs)
+        self.fields['team'].candidate_teams = Member.get_candidate_teams(user_id)
