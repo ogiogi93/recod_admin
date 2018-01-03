@@ -11,7 +11,7 @@
 
 log/
 
-ww2_admin/database.py
-ww2_admin/static_settings.py
+recod_admin/database.py
+recod_admin/static_settings.py
 .python-version
 template/*
