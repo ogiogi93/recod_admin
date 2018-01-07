@@ -1,21 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from account.models import CustomUser as User
-from account.forms import EditUserProfile
+from account.forms import (
+    RegisterForm,
+    EditUserProfile
+)
 from team.models import Member
 
 
 def add_user(request):
     # 新規追加時はPOSTでくる
     if request.method == 'POST':
-        form = EditUserProfile(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/user_list/')
         return render(request, 'cms/user/add_user.html', context={
             'form': form
         })
-    form = EditUserProfile()
+    form = RegisterForm()
     return render(request, 'cms/user/add_user.html', context={
         'form': form
     })
