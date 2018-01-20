@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="javascript:;">Home</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Tables</a>
+                        </li>
+                        <li class="active">Data tables</li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                        <thead>
+                        <tr>
+                            <th>Competition ID</th>
+                            <th>Active</th>
+                            <th>Name</th>
+                            <th>Created Date</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in competitions %}
+                            <tr>
+                                <td>{{ c.id }}</td>
+                                <td>{{ c.is_active }}</td>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.date_created }}</td>
+                                <td><a href="#" class="edit">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}
