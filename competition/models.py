@@ -16,12 +16,19 @@ class Competition(models.Model):
         db_table = 'competitions'
         managed = True
 
+    @classmethod
+    def get_competitions(cls):
+        return [(c.id, c.name) for c in (Competition.objects.filter(is_active=True)
+                                         .order_by('date_created')
+                                         .all())]
+
 
 class Schedule(models.Model):
     id = models.AutoField(primary_key=True)
     competition = models.ForeignKey(Competition, on_delete=False)
     name = models.CharField(max_length=255, null=False)
     start_datetime = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
