@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import url
 
 from account.views import *
+from competition.views import *
 from cms.views import *
 from team.views import *
 
@@ -35,4 +36,6 @@ urlpatterns = [
     url(r'^team/(?P<user_id>\d+)/create/$', create_team_page, name='create_team'),
     url(r'^team/edit/(?P<team_id>\d+)/$', edit_team, name='edit_team'),
     url(r'^team/delete/(?P<team_id>\d+)/$', delete_team, name='delete_team'),
+    url(r'^competition_list/$', competition, name='competition_list'),
+    url(r'^competition_list/create/$', create_competition, name='create_competition'),
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cms',
     'service_api',
     'team',
+    'competition',
 ]
 
 MIDDLEWARE = [
