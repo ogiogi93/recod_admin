@@ -7,13 +7,13 @@ class WriteDBProtectionError(Exception):
 
 class DefaultDBRouter(object):
     def db_for_read(self, model, **hints):
-        if model._meta.app_label in ('service_api', 'account', 'team'):
+        if model._meta.app_label in ('account', 'competition'):
             return 'service_api'
         else:
             return 'default'
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label in ('service_api', 'account', 'team'):
+        if model._meta.app_label in ('account', 'competition'):
             return 'service_api'
         else:
             return 'default'

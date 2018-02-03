@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load staticfiles %}
 {% block content %}
     <!-- content panel -->
     <div class="main-panel">
@@ -9,12 +8,11 @@
                 <div class="panel-heading border">
                     <ol class="breadcrumb mb0 no-padding">
                         <li>
-                            <a href="javascript:;">Home</a>
+                            <a href="{% url 'top' %}">ホーム</a>
                         </li>
                         <li>
-                            <a href="javascript:;">Tables</a>
+                            <a href="{% url 'user_list' %}">ユーザー</a>
                         </li>
-                        <li class="active">Data tables</li>
                     </ol>
                 </div>
                 <div class="panel-body">

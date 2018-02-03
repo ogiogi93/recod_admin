@@ -8,39 +8,38 @@
                 <div class="panel-heading border">
                     <ol class="breadcrumb mb0 no-padding">
                         <li>
-                            <a href="{% url 'top' %}"> ホーム </a>
+                            <a href="{% url 'top' %}">ホーム</a>
                         </li>
                         <li>
-                            <a href="{% url 'team_list' %}"> チーム </a>
+                            <a href="{% url 'competition_list' %}"> 大会 </a>
                         </li>
                     </ol>
                 </div>
                 <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'create_competition' %}"><button class="btn btn-primary"
+                                                                         type="button"> 新規追加 </button></a>
+                    </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>チーム名</th>
+                            <th>大会名</th>
                             <th>ゲーム</th>
                             <th>プラットフォーム</th>
-                            <th>監理者</th>
-                            <th>メンバー</th>
-                            <th>活動状態</th>
+                            <th>開催日</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for team in teams %}
+                        {% for c in competitions %}
                             <tr>
-                                <td>{{ team.id }}</td>
-                                <td>{{ team.teamname }}</td>
-                                <td>{{ team.game.title }}</td>
-                                <td>{{ team.game.platform.name }}</td>
-                                <td>{{ team.organizer }}</td>
-                                <td>{{ team.members }}</td>
-                                <td>{{ team.is_active }}</td>
-                                <td><a href="{% url 'edit_team' team_id=team.id %}" class="edit">Edit</a>
-                                </td>
+                                <td>{{ c.id }}</td>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.game.title }}</td>
+                                <td>{{ c.game.platform.name }}</td>
+                                <td>{{ c.start_date }}</td>
+                                <td><a href="{% url 'edit_competition' competition_id=c.id %}" class="edit">編集</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

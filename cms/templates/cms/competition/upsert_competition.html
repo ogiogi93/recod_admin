@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load staticfiles %}
 {% block content %}
     <!-- content panel -->
     <div class="main-panel">
@@ -7,23 +6,32 @@
         <div class="main-content">
             <div class="panel mb25">
                 <div class="panel-heading border">
-                    チーム情報を修正する
+                    大会を新規追加・修正する
                 </div>
                 <div class="panel-body">
                     <div class="row no-margin">
                         <div class="col-lg-12">
-                            <form method="post" class="form-horizontal bordered-group" role="form"
-                                  action="{% url 'edit_team' team_id=team_id %}">
+                            {% if competition_id %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_competition' competition_id=competition_id%}">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> 修正 </button>
+                                    <button class="btn btn-primary pull-right" type="submit"> 修正 </button>
                                 </span>
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'create_competition' %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'delete_team' team_id=team_id %}"><button class="btn btn-primary" type="button"> 削除 </button></a>
+                                    <button class="btn btn-primary pull-right" type="submit"> 追加 </button>
                                 </span>
+                            {% endif %}
                             </form>
                         </div>
                     </div>
