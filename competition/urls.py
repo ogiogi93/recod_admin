@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^team/delete/(?P<team_id>\d+)/$', delete_team, name='delete_team'),
     url(r'^competition_list/$', competition, name='competition_list'),
     url(r'^competition_list/create/$', create_competition, name='create_competition'),
-    url(r'^game_list/$', game_list, name='game_list'),
-    url(r'^game_list/add/$', upsert_game, name='upsert_game'),
+    url(r'^game/$', game_list, name='game_list'),
+    url(r'^game/add/$', upsert_game, name='add_game'),
+    url(r'^game/edit/(?P<game_id>\d+)/$', upsert_game, name='edit_game'),
 ]

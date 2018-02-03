@@ -2,7 +2,7 @@ from django import forms
 from competition.models import Game, Platform
 
 
-class AddGameForm(forms.ModelForm):
+class UpsertGameForm(forms.ModelForm):
     error_css_class = 'has-error'
     title = forms.CharField(max_length=50,
                             label='ゲームタイトル',

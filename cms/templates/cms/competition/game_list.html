@@ -19,7 +19,7 @@
                 </div>
                 <div class="panel-body">
                     <span class="input-group-btn">
-                        <a href="{% url 'upsert_game' %}"><button class="btn btn-primary" type="button"> 新規追加 </button></a>
+                        <a href="{% url 'add_game' %}"><button class="btn btn-primary" type="button"> 新規追加 </button></a>
                     </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
@@ -40,7 +40,7 @@
                                 <td>{{ game.platform.name }}</td>
                                 <td>{{ game.home_url }}</td>
                                 <td>{{ game.is_active }}</td>
-                                <td><a href="#" class="edit">Edit</a>
+                                <td><a href="{% url 'edit_game' game_id=game.id %}" class="edit">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}
