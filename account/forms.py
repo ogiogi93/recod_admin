@@ -103,9 +103,6 @@ class EmailChangeForm(forms.Form):
 
 class EditUserProfile(forms.ModelForm):
     error_css_class = 'has-error'
-    is_active = forms.BooleanField(required=False, label='Activeユーザー',
-                                   widget=forms.CheckboxInput(attrs={
-                                       'class': 'radio'}))
     is_admin = forms.BooleanField(required=False, label='Adminユーザー',
                                   widget=forms.CheckboxInput(attrs={
                                       'class': 'radio'}))
@@ -132,7 +129,7 @@ class EditUserProfile(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('is_active', 'is_admin', 'username', 'nickname', 'email', 'description')
+        fields = ('is_admin', 'username', 'nickname', 'email', 'description')
 
 
 class EditProfilePassword(PasswordChangeForm):

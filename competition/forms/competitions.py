@@ -2,11 +2,8 @@ from django import forms
 from competition.models import Competition, Schedule
 
 
-class EditCompetitionForm(forms.Form):
+class EditCompetitionForm(forms.ModelForm):
     error_css_class = 'has-error'
-    is_active = forms.BooleanField(required=False, label='Active',
-                                   widget=forms.CheckboxInput(attrs={
-                                       'class': 'radio'}))
     name = forms.CharField(max_length=50,
                            label='大会名',
                            required=True,
@@ -21,14 +18,11 @@ class EditCompetitionForm(forms.Form):
 
     class Meta:
         model = Competition
-        fields = ('is_active', 'name', 'description',)
+        fields = ('name', 'description',)
 
 
 class EditSchedule(forms.Form):
     error_css_class = 'has-error'
-    is_active = forms.BooleanField(required=False, label='Active',
-                                   widget=forms.CheckboxInput(attrs={
-                                       'class': 'radio'}))
     name = forms.CharField(max_length=50,
                            label='マッチ名',
                            required=True)
@@ -38,7 +32,7 @@ class EditSchedule(forms.Form):
 
     class Meta:
         model = Schedule
-        fields = ('is_active', 'name', 'start_datetime', 'competition', )
+        fields = ('name', 'start_datetime', 'competition', )
 
     def __init__(self, *args, **kwargs):
         super(EditSchedule, self).__init__(*args, **kwargs)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -31,18 +30,15 @@ class CustomUser(AbstractBaseUser):
         max_length=255,
         unique=True
     )
-
-    # Status
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 
-    # Extra
     nickname = models.CharField(max_length=255)
     description = models.TextField(max_length=1024)
-    image_url = models.ImageField(upload_to='users', blank=True, default='users/default_face.png')
+    image_url = models.ImageField(upload_to='images/users/', default='users/default_face.png')
 
     objects = MyUserManager()
     USERNAME_FIELD = 'email'

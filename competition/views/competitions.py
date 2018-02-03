@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from competition.models import Competition, Schedule
-from competition.forms import EditCompetitionForm, EditSchedule
+from competition.models import Competition
+from competition.forms.competitions import EditCompetitionForm
 
 
 def create_competition(request):
@@ -10,7 +10,7 @@ def create_competition(request):
         form = EditCompetitionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/competition_list/')
+            return redirect('/competition/competition_list/')
         return render(request, 'cms/competition/create_competition.html', context={
             'form': form
         })

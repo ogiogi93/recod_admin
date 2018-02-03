@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 
 from account.models import CustomUser as User
-from team.models import (
-    Team,
-    Member
-)
-from team.forms import (
-    EditTeamForm,
-    JoinTeam
-)
+from competition.models import Team, Member
+from competition.forms.teams import EditTeamForm, JoinTeam
 
 
 def create_team_page(request, user_id=None):

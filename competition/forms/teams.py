@@ -1,5 +1,5 @@
 from django import forms
-from team.models import Team, Member
+from competition.models import Team, Member
 
 
 class EditTeamForm(forms.ModelForm):
