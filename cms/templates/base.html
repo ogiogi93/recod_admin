@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>COD WW2 Japan Competition Admin Site</title>
+    <title>e-sports Japan Competition Admin Site</title>
     <meta name="viewport" content="width=device-width">
-    <meta name="description" content="Call of Duty WW2 Japan Competition Admin Site">
+    <meta name="description" content="e-sports Japan Competition Admin Site">
     <meta name="author" content="Takashi OGIWARA">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
@@ -136,6 +136,11 @@
                                 <span>大会リスト</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{% url 'create_competition' %}">
+                                <span>新規大会の作成</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- /tournament -->
@@ -188,7 +193,7 @@
             <ul class="nav">
                 <li>
                     <a href="javascript:;">Copyright <i class="fa fa-copyright"></i>
-                        <span>COD WW2 Japan Community</span> 2018. All rights
+                        <span>e-sports Japan Community</span> 2018. All rights
                         reserved</a>
                 </li>
                 <li>

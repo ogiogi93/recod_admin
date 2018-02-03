@@ -19,14 +19,14 @@
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
-                            <th>Team ID</th>
-                            <th>Team Name</th>
-                            <th>Game</th>
-                            <th>Organizer</th>
-                            <th>Created Date</th>
-                            <th>Members</th>
-                            <th>Active</th>
-                            <th>Edit</th>
+                            <th>ID</th>
+                            <th>チーム名</th>
+                            <th>ゲーム</th>
+                            <th>プラットフォーム</th>
+                            <th>監理者</th>
+                            <th>メンバー</th>
+                            <th>活動状態</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,8 +35,8 @@
                                 <td>{{ team.id }}</td>
                                 <td>{{ team.teamname }}</td>
                                 <td>{{ team.game.title }}</td>
+                                <td>{{ team.game.platform.name }}</td>
                                 <td>{{ team.organizer }}</td>
-                                <td>{{ team.date_created }}</td>
                                 <td>{{ team.members }}</td>
                                 <td>{{ team.is_active }}</td>
                                 <td><a href="{% url 'edit_team' team_id=team.id %}" class="edit">Edit</a>

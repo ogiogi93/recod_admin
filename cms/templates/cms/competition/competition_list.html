@@ -17,27 +17,29 @@
                 </div>
                 <div class="panel-body">
                     <span class="input-group-btn">
-                        <a href="{% url 'create_competition' %}"><button class="btn btn-primary" type="button"> 新規追加 </button></a>
+                        <a href="{% url 'create_competition' %}"><button class="btn btn-primary"
+                                                                         type="button"> 新規追加 </button></a>
                     </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
-                            <th>Competition ID</th>
-                            <th>Active</th>
-                            <th>Name</th>
-                            <th>Created Date</th>
-                            <th>Edit</th>
+                            <th>ID</th>
+                            <th>大会名</th>
+                            <th>ゲーム</th>
+                            <th>プラットフォーム</th>
+                            <th>開催日</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for c in competitions %}
                             <tr>
                                 <td>{{ c.id }}</td>
-                                <td>{{ c.is_active }}</td>
                                 <td>{{ c.name }}</td>
-                                <td>{{ c.date_created }}</td>
-                                <td><a href="#" class="edit">Edit</a>
-                                </td>
+                                <td>{{ c.game.title }}</td>
+                                <td>{{ c.game.platform.name }}</td>
+                                <td>{{ c.start_date }}</td>
+                                <td><a href="{% url 'edit_competition' competition_id=c.id %}" class="edit">編集</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
