@@ -8,44 +8,47 @@ from account.forms import (
 from competition.models import Member
 
 
-def add_user(request):
-    # 新規追加時はPOSTでくる
+def user_list(request):
+    """
+    ユーザーリストを返す
+    :param request:
+    :rtype render:
+    """
+    return render(request, 'cms/user/user_list.html', context={
+        'users': User.objects.all()
+    })
+
+
+def upsert_user(request, user_id=None):
+    """
+    ユーザーを新規追加 or 修正する
+    :param request:
+    :param int user_id:
+    :rtype render|redirect:
+    """
     if request.method == 'POST':
+        # 編集時はuser_idが設定されている
+        if user_id:
+            form = EditUserProfile(request.POST, instance=User.objects.get(pk=user_id))
+            if form.is_valid():
+                form.save()
+                return redirect('/user/user_list/')
+            return render(request, 'cms/user/upsert_user.html', context={
+                'form': form,
+                'user_id': user_id
+            })
+        #  user_idが指定されてされていなければ新規登録
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/user/user_list/')
-        return render(request, 'cms/user/add_user.html', context={
-            'form': form
+        return render(request, 'cms/user/upsert_user.html', context={
+            'form': form,
         })
-    form = RegisterForm()
-    return render(request, 'cms/user/add_user.html', context={
-        'form': form
-    })
-
-
-def edit_user(request, user_id=None):
-    # なぜかuser_idがなかった時はListページに飛ばす
-    if not user_id:
-        return redirect('/user/user_list/')
-
-    user = User.objects.get(pk=user_id)
-    # 修正時にPOSTでくる
-    if request.method == 'POST':
-        form = EditUserProfile(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('/user/user_list/')
-        else:
-            return render(request, 'cms/user/edit_user.html', context={
-                'user_id': user_id,
-                'joined_teams': Member.objects.filter(user_id=user_id),
-                'form': form
-            })
-    return render(request, 'cms/user/edit_user.html', context={
-        'user_id': user_id,
+    return render(request, 'cms/user/upsert_user.html', context={
+        'form': EditUserProfile(instance=User.objects.get(pk=user_id)) if user_id else RegisterForm(),
         'joined_teams': Member.objects.filter(user_id=user_id),
-        'form': EditUserProfile(instance=User.objects.get(pk=user_id))
+        'user_id': user_id
     })
 
 
@@ -54,9 +57,3 @@ def delete_user(request, user_id):
     if user:
         user.delete()
     return redirect('/user/user_list/')
-
-
-def user_list(request):
-    return render(request, 'cms/user/user_list.html', context={
-        'users': User.objects.all()
-    })

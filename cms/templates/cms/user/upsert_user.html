@@ -7,19 +7,20 @@
         <div class="main-content">
             <div class="panel mb25">
                 <div class="panel-heading border">
-                    ユーザー情報を修正する
+                    ユーザーを追加 or 修正する
                 </div>
                 <div class="panel-body">
                     <div class="row no-margin">
                         <div class="col-lg-12">
-                            <form method="post" class="form-horizontal bordered-group" role="form"
-                                  action="{% url 'edit_user' user_id=user_id %}">
+                            {% if user_id %} <!-- 編集の場合はuser_idが指定されている -->
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_user' user_id=user_id %}">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> 修正 </button>
+                                    <button class="btn btn-primary" type="submit"> 追加 </button>
                                 </span>
                                 <span class="input-group-btn">
                                     <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-primary"
@@ -33,6 +34,16 @@
                                     <a href="{% url 'joined_team' user_id=user_id %}"><button class="btn btn-primary"
                                                                                               type="button"> 所属チームを修正する </button></a>
                                 </span>
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'add_user' %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn"><button class="btn btn-primary"
+                                                                      type="submit"> 追加 </button></span>
+                            {% endif %}
                             </form>
                         </div>
                     </div>

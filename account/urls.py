@@ -19,7 +19,7 @@ from account.views import *
 
 urlpatterns = [
     url(r'^user_list/$', user_list, name='user_list'),
-    url(r'^user_list/add/$', add_user, name='add_user'),
-    url(r'^user_list/edit/(?P<user_id>\d+)/$', edit_user, name='edit_user'),
+    url(r'^user_list/upsert/$', upsert_user, name='add_user'),
+    url(r'^user_list/edit/(?P<user_id>\d+)/$', upsert_user, name='edit_user'),
     url(r'^user_list/delete/(?P<user_id>\d+)/$', delete_user, name='delete_user'),
 ]
