@@ -40,7 +40,10 @@ def upsert_user(request, user_id=None):
         #  user_idが指定されてされていなければ新規登録
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_user = form.save()
+            # 初回はユーザーネームをそのままニックネームとしても登録する
+            new_user.nickname = new_user.username
+            new_user.save()
             return redirect('/user/user_list/')
         return render(request, 'cms/user/upsert_user.html', context={
             'form': form,

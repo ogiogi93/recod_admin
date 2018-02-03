@@ -103,6 +103,27 @@
                 </li>
                 <!-- /team -->
 
+                <!-- game -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-toggle-on"></i>
+                        <span>ゲーム管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'game_list' %}">
+                                <span>ゲームリスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'add_game' %}">
+                                <span>新規ゲーム追加</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /game -->
+
                 <!-- tournament -->
                 <li>
                     <a href="javascript:;">
@@ -115,35 +136,9 @@
                                 <span>大会リスト</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <span>トーナメント生成</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'game_list' %}">
-                                <span>ゲームリスト</span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <!-- /tournament -->
-
-                <!-- stats -->
-                <li>
-                    <a href="javascript:;">
-                        <i class="fa fa-tint"></i>
-                        <span>戦績管理</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="">
-                                <span>試合リスト</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- /stats -->
 
                 <!-- article -->
                 <li>

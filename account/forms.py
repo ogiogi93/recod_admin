@@ -5,7 +5,7 @@ from account.models import CustomUser as User
 
 class RegisterForm(UserCreationForm):
     username = forms.CharField(max_length=50,
-                               label='ユーザーID',
+                               label='ユーザーネーム',
                                required=True,
                                error_messages={
                                    'required': 'そのユーザ名は既に使用されています'
