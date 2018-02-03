@@ -14,7 +14,7 @@ def add_user(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/user_list/')
+            return redirect('/user/user_list/')
         return render(request, 'cms/user/add_user.html', context={
             'form': form
         })

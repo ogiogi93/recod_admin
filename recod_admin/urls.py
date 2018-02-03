@@ -24,6 +24,6 @@ from cms.views import top
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', top, name='top'),
-    url(r'^account/', include(account_urls)),
+    url(r'^user/', include(account_urls)),
     url(r'^competition/', include(competition_urls)),
 ]

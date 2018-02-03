@@ -6,21 +6,22 @@ from account.models import CustomUser as User
 class Platform(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
-    logo_url = models.ImageField(upload_to='images/logos/platforms/')
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'platforms'
         managed = True
 
+    def __str__(self):
+        return self.name
+
 
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=False)
+    title = models.CharField(max_length=255, null=False)
     platform = models.ForeignKey(Platform, on_delete=False)
-    logo_url = models.ImageField(upload_to='images/logos/games/')
+    logo_url = models.URLField()
     home_url = models.URLField()
     is_active = models.BooleanField(default=True)
     date_released = models.DateField(null=False)
@@ -30,7 +31,7 @@ class Game(models.Model):
     class Meta:
         db_table = 'games'
         managed = True
-        unique_together = ('name', 'platform', )
+        unique_together = ('title', 'platform', )
 
 
 class Competition(models.Model):

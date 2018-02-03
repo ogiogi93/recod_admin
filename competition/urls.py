@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 
 from competition.views.competitions import *
+from competition.views.games import *
 from competition.views.teams import *
 
 urlpatterns = [
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^team/delete/(?P<team_id>\d+)/$', delete_team, name='delete_team'),
     url(r'^competition_list/$', competition, name='competition_list'),
     url(r'^competition_list/create/$', create_competition, name='create_competition'),
+    url(r'^game_list/$', game_list, name='game_list'),
+    url(r'^game_list/add/$', upsert_game, name='upsert_game'),
 ]

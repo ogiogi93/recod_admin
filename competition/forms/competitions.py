@@ -2,7 +2,7 @@ from django import forms
 from competition.models import Competition, Schedule
 
 
-class EditCompetitionForm(forms.ModelForm):
+class CreateCompetitionForm(forms.ModelForm):
     error_css_class = 'has-error'
     name = forms.CharField(max_length=50,
                            label='大会名',
@@ -21,7 +21,7 @@ class EditCompetitionForm(forms.ModelForm):
         fields = ('name', 'description',)
 
 
-class EditSchedule(forms.Form):
+class CreateSchedule(forms.Form):
     error_css_class = 'has-error'
     name = forms.CharField(max_length=50,
                            label='マッチ名',
@@ -35,5 +35,5 @@ class EditSchedule(forms.Form):
         fields = ('name', 'start_datetime', 'competition', )
 
     def __init__(self, *args, **kwargs):
-        super(EditSchedule, self).__init__(*args, **kwargs)
+        super(CreateSchedule, self).__init__(*args, **kwargs)
         self.fields['competition'].choices = Competition.get_competitions()

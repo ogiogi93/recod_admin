@@ -2,11 +2,8 @@ from django import forms
 from competition.models import Team, Member
 
 
-class EditTeamForm(forms.ModelForm):
+class CreateTeamForm(forms.ModelForm):
     error_css_class = 'has-error'
-    is_active = forms.BooleanField(required=False, label='Active',
-                                   widget=forms.CheckboxInput(attrs={
-                                       'class': 'radio'}))
     teamname = forms.CharField(max_length=50,
                                label='チーム名',
                                required=True,
@@ -21,7 +18,7 @@ class EditTeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ('is_active', 'teamname', 'description', )
+        fields = ('teamname', 'description', )
 
 
 class JoinTeam(forms.Form):

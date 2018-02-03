@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from account.models import CustomUser as User
 from competition.models import Team, Member
-from competition.forms.teams import EditTeamForm, JoinTeam
+from competition.forms.teams import CreateTeamForm, JoinTeam
 
 
 def create_team_page(request, user_id=None):
@@ -10,7 +10,7 @@ def create_team_page(request, user_id=None):
         return redirect('/team_list/')
     # 新規追加時はPOSTでくる
     if request.method == 'POST':
-        form = EditTeamForm(request.POST)
+        form = CreateTeamForm(request.POST)
         if form.is_valid():
             new_team = form.save()
 
@@ -18,12 +18,12 @@ def create_team_page(request, user_id=None):
             user = User.objects.get(pk=user_id)
             team = Team.objects.get(pk=new_team.pk)
             Member.objects.add_member(user, team, is_admin=True)
-            return redirect('/team_list/')
+            return redirect('/competition/team_list/')
         return render(request, 'cms/team/create_team.html', context={
             'user_id': user_id,
             'form': form
         })
-    form = EditTeamForm()
+    form = CreateTeamForm()
     return render(request, 'cms/team/create_team.html', context={
         'user_id': user_id,
         'form': form
@@ -32,21 +32,21 @@ def create_team_page(request, user_id=None):
 
 def edit_team(request, team_id=None):
     if not team_id:
-        return redirect('/team_list/')
+        return redirect('/competition/team_list/')
     team = Team.objects.get(pk=team_id)
     # 編集時はPOSTでくる
     if request.method == 'POST':
-        form = EditTeamForm(request.POST, instance=team)
+        form = CreateTeamForm(request.POST, instance=team)
         if form.is_valid():
             form.save()
-            return redirect('/team_list/')
+            return redirect('/competition/team_list/')
         return render(request, 'cms/team/edit_team.html', context={
             'team_id': team_id,
             'form': form
         })
     return render(request, 'cms/team/edit_team.html', context={
         'team_id': team_id,
-        'form': EditTeamForm(instance=team)
+        'form': CreateTeamForm(instance=team)
     })
 
 
@@ -54,12 +54,12 @@ def delete_team(request, team_id=None):
     team = Team.objects.get(pk=team_id)
     if team:
         team.delete()
-    return redirect('/team_list/')
+    return redirect('/competition/team_list/')
 
 
 def joined_teams(request, user_id=None):
     if not user_id:
-        return redirect('/team_list/')
+        return redirect('/competition/team_list/')
     return render(request, 'cms/user/edit_join_team.html', context={
         'user_id': user_id,
         'nickname': list(User.objects.values_list('nickname', flat=True).filter(id=user_id))[0],
@@ -75,8 +75,8 @@ def join_team(request):
         team = Team.objects.get(pk=request.POST.get('team_id'))
         if user and team:
             Member.objects.add_member(user, team, is_admin=False)
-        return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
-    return redirect('/team_list/')
+        return redirect('/competition/user_list/edit/{}/joined_team/'.format(user_id))
+    return redirect('/competition/team_list/')
 
 
 def secession_team(request, user_id, team_id):

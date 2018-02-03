@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'css/urban.css' %}">
     <link rel="stylesheet" href="{% static 'css/urban.skins.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- endbuild -->
 
 </head>
@@ -119,6 +120,11 @@
                                 <span>トーナメント生成</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{% url 'game_list' %}">
+                                <span>ゲームリスト</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- /tournament -->
@@ -186,7 +192,8 @@
         <nav class="footer-left">
             <ul class="nav">
                 <li>
-                    <a href="javascript:;">Copyright <i class="fa fa-copyright"></i> <span>COD WW2 Japan Community</span> 2018. All rights
+                    <a href="javascript:;">Copyright <i class="fa fa-copyright"></i>
+                        <span>COD WW2 Japan Community</span> 2018. All rights
                         reserved</a>
                 </li>
                 <li>
@@ -223,11 +230,20 @@
 <script src="{% static 'vendor/flot/jquery.flot.resize.js' %}"></script>
 <script src="{% static 'vendor/flot/jquery.flot.categories.js' %}"></script>
 <script src="{% static 'vendor/flot/jquery.flot.pie.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <!-- /page level scripts -->
 
 <!-- initialize page scripts -->
 <script src="{% static 'js/pages/dashboard.js' %}"></script>
 <!-- /initialize page scripts -->
+
+<!-- extra scripts -->
+<script>
+    $(function () {
+        $(".datepicker").flatpickr();
+    });
+</script>
+<!-- /extra scripts -->
 
 </body>
 

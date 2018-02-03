@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="javascript:;">Home</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Tables</a>
+                        </li>
+                        <li class="active">Data tables</li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'upsert_game' %}"><button class="btn btn-primary" type="button"> 新規追加 </button></a>
+                    </span>
+                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>タイトル</th>
+                            <th>プラットフォーム</th>
+                            <th>公式URL</th>
+                            <th>アクティブ</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for game in games %}
+                            <tr>
+                                <td>{{ game.id }}</td>
+                                <td>{{ game.title }}</td>
+                                <td>{{ game.platform.name }}</td>
+                                <td>{{ game.home_url }}</td>
+                                <td>{{ game.is_active }}</td>
+                                <td><a href="#" class="edit">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}
