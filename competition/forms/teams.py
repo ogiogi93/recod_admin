@@ -1,8 +1,8 @@
 from django import forms
-from competition.models import Team, Member
+from competition.models import Game, Team, Member
 
 
-class CreateTeamForm(forms.ModelForm):
+class UpsertTeamForm(forms.ModelForm):
     error_css_class = 'has-error'
     teamname = forms.CharField(max_length=50,
                                label='チーム名',
@@ -16,9 +16,14 @@ class CreateTeamForm(forms.ModelForm):
                                   error_messages={
                                       'required': 'チーム紹介文を入力して下さい'})
 
+    game = forms.ModelChoiceField(queryset=Game.objects.all(),
+                                  widget=forms.Select(attrs={
+                                      'class': 'form-control'}),
+                                  label='活動ゲーム')
+
     class Meta:
         model = Team
-        fields = ('teamname', 'description', )
+        fields = ('teamname', 'description', 'game')
 
 
 class JoinTeam(forms.Form):

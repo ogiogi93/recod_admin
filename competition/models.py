@@ -33,6 +33,9 @@ class Game(models.Model):
         managed = True
         unique_together = ('title', 'platform', )
 
+    def __str__(self):
+        return '{} ({})'.format(self.title, self.platform.name)
+
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)

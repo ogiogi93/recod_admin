@@ -32,10 +32,11 @@ def upsert_game(request, game_id=None):
             return render(request, 'cms/competition/upsert_game.html', context={
                 'form': form
             })
+        # 新規追加
         form = UpsertGameForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/competition//game/')
+            return redirect('/competition/game/')
         return render(request, 'cms/competition/upsert_game.html', context={
             'form': form
         })

@@ -53,6 +53,13 @@ def upsert_user(request, user_id=None):
 
 
 def delete_user(request, user_id):
+    """
+    ユーザーを削除する
+    :param request:
+    :param int user_id:
+    :rtype redirect:
+    :param request:
+    """
     user = get_object_or_404(User, pk=user_id)
     if user:
         user.delete()

@@ -35,7 +35,8 @@
                             <td>{{ team.teamname }}</td>
                             <td>{{ team.is_active }}</td>
                             {% if not is_admin %}
-                                <td><a href="{% url 'secession_team' user_id=user_id team_id=team.id %}" class="delete">脱退</a></td>
+                                <td><a href="{% url 'secession_team' user_id=user_id team_id=team.id %}" class="delete">脱退する</a>
+                                </td>
                             {% else %}
                                 <td>リーダーのため脱退できません</td>
                             {% endif %}
@@ -47,8 +48,8 @@
             <div class="form-group">
                 <form method="post" action="{% url 'join_team' %}">
                     {% csrf_token %}
-                    <label for="join_team"> チームに所属する </label>
-                    <select name="team_id" id="join_team" title="チームを選択" class="selectpicker"
+                    <label for="join_team"> 新たにチームに所属する </label>
+                    <select name="team_id" id="join_team" title="チームを選択" class="form-control selectpicker"
                             data-transition-parent=".dropdown-menu">
                         {% for team_id, teamname in team_form.fields.team.candidate_teams %}
                             <option value="{{ team_id }}">{{ teamname }}</option>
@@ -56,7 +57,7 @@
                     </select>
                     <input type="hidden" name="user_id" value="{{ user_id }}">
                     <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> 所属 </button>
+                                    <button class="btn btn-primary pull-right" type="submit"> 所属 </button>
                     </span>
                 </form>
             </div>

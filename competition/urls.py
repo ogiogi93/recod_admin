@@ -20,12 +20,12 @@ from competition.views.games import *
 from competition.views.teams import *
 
 urlpatterns = [
-    url(r'^user_list/edit/(?P<user_id>\d+)/joined_team/$', joined_teams, name='joined_team'),
+    url(r'^user_list/edit/(?P<user_id>\d+)/belong_team/$', belong_teams, name='joined_team'),
     url(r'^user_list/edit/(?P<user_id>\d+)/secession_team/(?P<team_id>\d+)/$', secession_team, name='secession_team'),
     url(r'^user_list/edit/join_team/$', join_team, name='join_team'),
     url(r'^team_list/$', team_list, name='team_list'),
-    url(r'^team/(?P<user_id>\d+)/create/$', create_team_page, name='create_team'),
-    url(r'^team/edit/(?P<team_id>\d+)/$', edit_team, name='edit_team'),
+    url(r'^team/(?P<user_id>\d+)/create/$', upsert_team, name='create_team'),
+    url(r'^team/edit/(?P<team_id>\d+)/$', upsert_team, name='edit_team'),
     url(r'^team/delete/(?P<team_id>\d+)/$', delete_team, name='delete_team'),
     url(r'^competition_list/$', competition, name='competition_list'),
     url(r'^competition_list/create/$', create_competition, name='create_competition'),
