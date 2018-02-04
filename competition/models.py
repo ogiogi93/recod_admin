@@ -1,4 +1,5 @@
 from django.db import models
+from django_mysql.models import ListCharField
 
 from account.models import CustomUser as User
 
@@ -37,10 +38,32 @@ class Game(models.Model):
         return '{} ({})'.format(self.title, self.platform.name)
 
 
+class Stage(models.Model):
+    class Type:
+        GROUP = 1
+        LEAGUE = 2
+        SWISS = 3
+        SINGLE_ELIMINATION = 4
+        DOUBLE_ELIMINATION = 5
+        GROUP_BRACKET = 5
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'stages'
+        managed = True
+
+    def __str__(self):
+        return self.name
+
+
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
     game = models.ForeignKey(Game, on_delete=False)
+    stage = models.ForeignKey(Stage, on_delete=False)
     logo_url = models.ImageField('images/logos/competitions/')
     start_date = models.DateField(null=False)
     end_date = models.DateField(null=False)
@@ -109,30 +132,13 @@ class Participate(models.Model):
         managed = True
 
 
-class Stage(models.Model):
-    class Type:
-        GROUP = 1
-        LEAGUE = 2
-        SWISS = 3
-        SINGLE_ELIMINATION = 4
-        DOUBLE_ELIMINATION = 5
-        GROUP_BRACKET = 5
-
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'stages'
-        managed = True
-
-
 class Match(models.Model):
     id = models.AutoField(primary_key=True)
     competition = models.ForeignKey(Competition, on_delete=False)
-    stage = models.ForeignKey(Stage, on_delete=False)
-    start_date = models.DateField(null=False)
-    start_time = models.TimeField(null=False)
+    round = models.IntegerField(null=False)
+    match = ListCharField(base_field=models.IntegerField(), size=2, max_length=(2 * 11))
+    start_date = models.DateField(auto_now_add=True)
+    start_time = models.TimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

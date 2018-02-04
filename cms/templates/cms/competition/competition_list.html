@@ -23,6 +23,7 @@
                             <th>大会名</th>
                             <th>ゲーム</th>
                             <th>プラットフォーム</th>
+                            <th>トーナメント形式</th>
                             <th>開催日</th>
                             <th>終了日</th>
                             <th></th>
@@ -35,6 +36,7 @@
                                 <td>{{ c.name }}</td>
                                 <td>{{ c.game.title }}</td>
                                 <td>{{ c.game.platform.name }}</td>
+                                <td>{{ c.stage.name }}</td>
                                 <td>{{ c.start_date }}</td>
                                 <td>{{ c.end_date }}</td>
                                 <td><a href="{% url 'edit_competition' competition_id=c.id %}" class="edit">編集</a></td>
