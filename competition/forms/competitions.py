@@ -1,5 +1,5 @@
 from django import forms
-from competition.models import Competition, Game
+from competition.models import Competition, Game, Participate, Team
 
 
 class UpsertCompetitionForm(forms.ModelForm):
@@ -34,4 +34,15 @@ class UpsertCompetitionForm(forms.ModelForm):
 
     class Meta:
         model = Competition
-        fields = ('name', 'description', 'game', 'start_date', 'end_date', )
+        fields = ('name', 'description', 'game', 'start_date', 'end_date',)
+
+
+class ParticipateCompetitionForm(forms.ModelForm):
+    competition = forms.ModelChoiceField(queryset=Competition.objects.filter(is_active=True).all(),
+                                         widget=forms.Select(attrs={
+                                             'class': 'form-control'}),
+                                         label='大会')
+
+    class Meta:
+        model = Participate
+        fields = ('competition', )

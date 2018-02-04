@@ -6,6 +6,8 @@ class UpsertTeamForm(forms.ModelForm):
     error_css_class = 'has-error'
     teamname = forms.CharField(max_length=50,
                                label='チーム名',
+                               widget=forms.TextInput(attrs={
+                                   'class': 'form-control'}),
                                required=True,
                                error_messages={
                                    'required': 'そのチーム名は既に使用されています'

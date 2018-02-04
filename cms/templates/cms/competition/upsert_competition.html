@@ -13,14 +13,41 @@
                         <div class="col-lg-12">
                             {% if competition_id %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
-                                      action="{% url 'edit_competition' competition_id=competition_id%}">
+                                      action="{% url 'edit_competition' competition_id=competition_id %}">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary pull-right" type="submit"> 修正 </button>
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
                                 </span>
+
+                                <div class="row">
+                                    <h5> 参加チーム </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>チーム名</th>
+                                            <th>登録日</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pt in participate_teams %}
+                                            <tr>
+                                                <td>{{ pt.team.id }}</td>
+                                                <td>{{ pt.team.teamname }}</td>
+                                                <td>{{ pt.date_joined }}</td>
+                                                <td>
+                                                    <a href="{% url 'refusal_competition' competition_id=competition_id team_id=pt.team.id %}"
+                                                       class="delete">削除</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             {% else %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
                                       action="{% url 'create_competition' %}">

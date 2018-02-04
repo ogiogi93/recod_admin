@@ -60,6 +60,13 @@ class Competition(models.Model):
                                          .order_by('date_created')
                                          .all())]
 
+    @classmethod
+    def get_target_game_competitions(cls, game_id):
+        return cls.objects.filter(game__id=game_id, is_active=True).order_by('-start_date').all()
+
+    def __str__(self):
+        return self.name
+
 
 class Team(models.Model):
     id = models.AutoField(primary_key=True)

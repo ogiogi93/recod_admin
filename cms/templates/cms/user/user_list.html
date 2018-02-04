@@ -16,20 +16,17 @@
                     </ol>
                 </div>
                 <div class="panel-body">
-                    <span class="input-group-btn">
-                        <a href="{% url 'add_user' %}"><button class="btn btn-primary" type="button"> 新規追加 </button></a>
-                    </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
-                            <th>User ID</th>
-                            <th>Admin</th>
-                            <th>Active</th>
-                            <th>User Name</th>
-                            <th>Nick Name</th>
-                            <th>Mail Address</th>
-                            <th>Star Date</th>
-                            <th>Edit</th>
+                            <th>ID</th>
+                            <th>Admin権限</th>
+                            <th>活動状況</th>
+                            <th>ユーザーネーム</th>
+                            <th>ニックネーム</th>
+                            <th>メールアドレス</th>
+                            <th>登録日</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -42,7 +39,7 @@
                                 <td>{{ user.nickname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.date_joined }}</td>
-                                <td><a href="{% url 'edit_user' user_id=user.id %}" class="edit">Edit</a>
+                                <td><a href="{% url 'edit_user' user_id=user.id %}" class="edit"> 編集 </a>
                                 </td>
                             </tr>
                         {% endfor %}

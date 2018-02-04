@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from account.models import CustomUser as User
-from competition.models import Team, Member
+from competition.models import Participate, Team, Member
 from competition.forms.teams import UpsertTeamForm, JoinTeam
 
 
@@ -22,6 +22,8 @@ def upsert_team(request, user_id=None, team_id=None):
                 return redirect('/competition/team_list/')
             return render(request, 'cms/team/upsert_team.html', context={
                 'user_id': user_id,
+                'participate_competitions': Participate.objects.filter(team_id=team_id).all(),
+                'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
                 'form': form
             })
         # 新規追加
@@ -36,11 +38,13 @@ def upsert_team(request, user_id=None, team_id=None):
             return redirect('/competition/team_list/')
         return render(request, 'cms/team/upsert_team.html', context={
             'user_id': user_id,
-            'form': form
+            'form': form,
         })
     return render(request, 'cms/team/upsert_team.html', context={
         'user_id': user_id,
         'team_id': team_id,
+        'participate_competitions': Participate.objects.filter(team_id=team_id).all(),
+        'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
         'form': UpsertTeamForm(instance=Team.objects.get(pk=team_id)) if team_id else UpsertTeamForm()
     })
 
@@ -103,8 +107,8 @@ def secession_team(request, user_id, team_id):
     if user and team:
         member = Member.objects.filter(user=user).filter(team=team)
         member.delete()
-        return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
-    return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
+        return redirect('/user_list/edit/{}/belong_team/'.format(user_id))
+    return redirect('/user_list/edit/{}/belong_team/'.format(user_id))
 
 
 def team_list(request):
