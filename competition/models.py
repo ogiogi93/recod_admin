@@ -61,20 +61,6 @@ class Competition(models.Model):
                                          .all())]
 
 
-class Schedule(models.Model):
-    id = models.AutoField(primary_key=True)
-    competition = models.ForeignKey(Competition, on_delete=False)
-    name = models.CharField(max_length=255, null=False)
-    start_datetime = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'schedules'
-        managed = True
-
-
 class Team(models.Model):
     id = models.AutoField(primary_key=True)
     teamname = models.CharField(max_length=255, null=False)
@@ -102,6 +88,63 @@ class Team(models.Model):
                                     .values_list('user__nickname', flat=True)
                                     .filter(team=team)])
         return teams
+
+
+class Participate(models.Model):
+    id = models.AutoField(primary_key=True)
+    competition = models.ForeignKey(Competition, on_delete=False)
+    team = models.ForeignKey(Team, on_delete=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'participates'
+        managed = True
+
+
+class Stage(models.Model):
+    class Type:
+        GROUP = 1
+        LEAGUE = 2
+        SWISS = 3
+        SINGLE_ELIMINATION = 4
+        DOUBLE_ELIMINATION = 5
+        GROUP_BRACKET = 5
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'stages'
+        managed = True
+
+
+class Match(models.Model):
+    id = models.AutoField(primary_key=True)
+    competition = models.ForeignKey(Competition, on_delete=False)
+    stage = models.ForeignKey(Stage, on_delete=False)
+    start_date = models.DateField(null=False)
+    start_time = models.TimeField(null=False)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'matches'
+        managed = True
+
+
+class MatchResult(models.Model):
+    id = models.AutoField(primary_key=True)
+    match = models.ForeignKey(Match, on_delete=False)
+    team = models.ForeignKey(Team, on_delete=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'match_results'
+        managed = True
 
 
 class MemberManager(models.Manager):
