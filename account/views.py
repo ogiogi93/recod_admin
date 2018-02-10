@@ -5,7 +5,7 @@ from account.forms import (
     RegisterForm,
     EditUserProfile
 )
-from competition.models import Member
+from competition.infrastructure.teams import Member
 
 
 def user_list(request):

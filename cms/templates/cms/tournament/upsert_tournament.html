@@ -23,6 +23,14 @@
                                 </span>
 
                                 <div class="row">
+                                    <h5> トーナメント表 </h5>
+                                    <span class="input-group-btn">
+                                        <a href="{% url 'generate_tournament' competition_id=competition_id %}"><button
+                                                class="btn btn-default pull-right" type="button"> トーナメント表を生成する </button></a>
+                                    </span>
+                                </div>
+
+                                <div class="row">
                                     <h5> 参加チーム </h5>
                                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                                         <thead>
@@ -69,4 +77,19 @@
         <!-- /main area -->
     </div>
     <!-- /content panel -->
+    <script src="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.js' %}"></script>
+    <script>
+    $(function () {
+        $.ajax({
+            url: "{% url 'get_tournament' competition_id=competition_id %}",
+            type: "get",
+            dataType:"json",
+            success: function (d) {
+                console.log(d);
+
+
+            }
+        })
+    });
+    </script>
 {% endblock %}

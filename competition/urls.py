@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from competition.views.competitions import *
-from competition.views.games import *
-from competition.views.teams import *
+from competition.repository.tournaments import *
+from competition.repository.games import *
+from competition.repository.teams import *
 
 urlpatterns = [
     url(r'^user_list/edit/(?P<user_id>\d+)/belong_team/$', belong_teams, name='joined_team'),
@@ -27,11 +27,11 @@ urlpatterns = [
     url(r'^team/(?P<user_id>\d+)/create/$', upsert_team, name='create_team'),
     url(r'^team/edit/(?P<team_id>\d+)/$', upsert_team, name='edit_team'),
     url(r'^team/delete/(?P<team_id>\d+)/$', delete_team, name='delete_team'),
-    url(r'^team/(?P<team_id>\d+)/participate/$', participate_competition, name='participate_competition'),
-    url(r'^competition_list/$', competition_list, name='competition_list'),
-    url(r'^competition_list/create/$', upsert_competition, name='create_competition'),
-    url(r'^competition_list/edit/(?P<competition_id>\d+)/$', upsert_competition, name='edit_competition'),
-    url(r'^participate/(?P<competition_id>\d+)/(?P<team_id>\d+)/$', refusal_competition, name='refusal_competition'),
+    url(r'^team/(?P<team_id>\d+)/participate/$', participate_tournament, name='participate_tournament'),
+    url(r'^tournament_list/$', tournament_list, name='tournament_list'),
+    url(r'^tournament_list/create/$', upsert_tournament, name='create_tournament'),
+    url(r'^tournament_list/edit/(?P<tournament_id>\d+)/$', upsert_tournament, name='edit_tournament'),
+    url(r'^participate/(?P<tournament_id>\d+)/(?P<team_id>\d+)/$', refusal_tournament, name='refusal_tournament'),
     url(r'^game/$', game_list, name='game_list'),
     url(r'^game/add/$', upsert_game, name='add_game'),
     url(r'^game/edit/(?P<game_id>\d+)/$', upsert_game, name='edit_game'),

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 
 from account.models import CustomUser as User
-from competition.models import Participate, Team, Member
+from competition.infrastructure.teams import Team, Member
+from competition.infrastructure.tournament import Participate
 from competition.forms.teams import UpsertTeamForm, JoinTeam
 
 

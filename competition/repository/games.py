@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from competition.models import Game
+from competition.infrastructure.discipline import Game
 from competition.forms.games import UpsertGameForm
 
 
