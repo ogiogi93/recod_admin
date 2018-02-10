@@ -19,6 +19,7 @@ class Discipline(models.Model):
     id = models.AutoField(primary_key=True)
     api_discipline_id = models.CharField(max_length=255, null=False, unique=True)
     name = models.CharField(max_length=255, null=False)
+    full_name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=30)
     copy_right = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

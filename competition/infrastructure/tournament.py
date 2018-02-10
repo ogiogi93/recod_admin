@@ -1,5 +1,4 @@
 from enumfields import Enum, EnumField
-
 from django.db import models
 
 from competition.infrastructure.discipline import Discipline
