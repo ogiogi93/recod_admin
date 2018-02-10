@@ -44,6 +44,8 @@ class Tournament(models.Model):
     prize = models.CharField(max_length=1500)
     is_active = models.BooleanField(default=True)
     match_format = models.ForeignKey(MatchFormat, on_delete=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'tournaments'
