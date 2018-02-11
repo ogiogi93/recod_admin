@@ -201,6 +201,7 @@ def upsert_api_tournament(t, api_tournament_id=None):
     :param int api_tournament_id:
     :rtype int:
     """
+    oauth = authorized_session()
     try:
         body = json.dumps({
             'discipline': t.game.discipline.api_discipline_id,
@@ -225,7 +226,6 @@ def upsert_api_tournament(t, api_tournament_id=None):
             'match_format': t.match_format.name,
             'platforms': [t.game.platform.name]
         })
-        oauth = authorized_session()
         if api_tournament_id:
             # api_tournament_idが指定されている場合は更新する
             entity = ApiTournamentEntity(
@@ -240,6 +240,8 @@ def upsert_api_tournament(t, api_tournament_id=None):
     except Exception as e:
         logger.error('[upsert_api_tournament] failed.'
                      ' error_type: {}, error: {}'.format(type(e), e))
+    finally:
+        oauth.close()
 
 
 def delete_api_tournament(api_tournament_id):
@@ -249,9 +251,15 @@ def delete_api_tournament(api_tournament_id):
     :rtype None:
     """
     oauth = authorized_session()
-    oauth.delete(url=TOORNAMENT_API_TOURNAMENT_URL + '/{}'.format(api_tournament_id))
-    logger.info('[delete_api_tournament] succeeded.'
-                'Tournament ID:{} is deleted.'.format(api_tournament_id))
+    try:
+        oauth.delete(url=TOORNAMENT_API_TOURNAMENT_URL + '/{}'.format(api_tournament_id))
+        logger.info('[delete_api_tournament] succeeded.'
+                    'Tournament ID:{} is deleted.'.format(api_tournament_id))
+    except Exception as e:
+        logger.error('[delete_api_participate] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
+    finally:
+        oauth.close()
 
 
 class ApiParticipateEntity(object):
@@ -288,11 +296,11 @@ def upsert_api_participate(t, api_tournament_id, api_participate_id=None):
     :param int api_participate_id:
     :rtype int:
     """
+    oauth = authorized_session()
     try:
         body = json.dumps({
             'name': t.name
         })
-        oauth = authorized_session()
         if api_participate_id:
             # api_tournament_idが指定されている場合は更新する
             url = TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id) + '/{}'.format(api_participate_id)
@@ -308,16 +316,24 @@ def upsert_api_participate(t, api_tournament_id, api_participate_id=None):
     except Exception as e:
         logger.error('[upsert_api_participate] failed.'
                      ' error_type: {}, error: {}'.format(type(e), e))
+    finally:
+        oauth.close()
 
 
 def refusal_api_participate(api_tournament_id, api_participate_id):
     """
-    Toornament API上のトーナメント参加を辞退する
+    Toornament API上のトーナメント登録情報を削除する
     :param int api_tournament_id:
     :param int api_participate_id:
     :return None:
     """
     oauth = authorized_session()
-    oauth.delete(url=TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id) + '/{}'.format(api_participate_id))
-    logger.info('[refusal_api_participate] succeeded.'
-                'Participate ID:{} refusal Tournament ID: {}.'.format(api_participate_id, api_tournament_id))
+    try:
+        oauth.delete(url=TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id) + '/{}'.format(api_participate_id))
+        logger.info('[refusal_api_participate] succeeded.'
+                    'Participate ID:{} refusal Tournament ID: {}.'.format(api_participate_id, api_tournament_id))
+    except Exception as e:
+        logger.error('[refusal_api_participate] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
+    finally:
+        oauth.close()
