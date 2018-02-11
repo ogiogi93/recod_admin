@@ -12,7 +12,7 @@ def tournament_list(request):
     :rtype render:
     """
     return render(request, 'cms/tournament/tournament_list.html', context={
-        'tournaments': Tournament.objects.order_by('start_date').all()
+        'tournaments': Tournament.objects.order_by('-date_start').all()
     })
 
 

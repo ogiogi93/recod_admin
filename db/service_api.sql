@@ -111,7 +111,7 @@ CREATE TABLE `tournaments` (
   `online` tinyint(1) DEFAULT '1',
   `public` tinyint(1) DEFAULT '1',
   `location` varchar(255),
-  `coutry` varchar(2) DEFAULT 'JP',
+  `country` varchar(2) DEFAULT 'JP',
   `description` varchar(1500),
   `rules` varchar(10000),
   `prize` varchar(1500),

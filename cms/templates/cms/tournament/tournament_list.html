@@ -11,7 +11,7 @@
                             <a href="{% url 'top' %}">ホーム</a>
                         </li>
                         <li>
-                            <a href="{% url 'competition_list' %}"> 大会 </a>
+                            <a href="{% url 'tournament_list' %}"> 大会 </a>
                         </li>
                     </ol>
                 </div>
@@ -30,16 +30,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for c in competitions %}
+                        {% for t in tournaments %}
                             <tr>
-                                <td>{{ c.id }}</td>
-                                <td>{{ c.name }}</td>
-                                <td>{{ c.game.title }}</td>
-                                <td>{{ c.game.platform.name }}</td>
-                                <td>{{ c.stage.name }}</td>
-                                <td>{{ c.start_date }}</td>
-                                <td>{{ c.end_date }}</td>
-                                <td><a href="{% url 'edit_competition' competition_id=c.id %}" class="edit">編集</a></td>
+                                <td>{{ t.id }}</td>
+                                <td>{{ t.name }}</td>
+                                <td>{{ t.game.discipline.name }}</td>
+                                <td>{{ t.game.platform.name }}</td>
+                                <td>{{ t.stage.name }}</td>
+                                <td>{{ t.date_start }}</td>
+                                <td>{{ c.date_end }}</td>
+                                <td><a href="{% url 'edit_tournament' tournament_id=t.id %}" class="edit">編集</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
