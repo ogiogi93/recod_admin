@@ -4,6 +4,7 @@ from django.db import models
 class Platform(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, unique=True)
+    display_name = models.CharField(max_length=255, null=False, unique=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -12,7 +13,7 @@ class Platform(models.Model):
         managed = False
 
     def __str__(self):
-        return self.name
+        return self.display_name
 
 
 class Discipline(models.Model):
@@ -21,12 +22,13 @@ class Discipline(models.Model):
     name = models.CharField(max_length=255, null=False)
     full_name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=30)
-    copy_right = models.CharField(max_length=255)
+    copy_rights = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'discipline'
+        db_table = 'disciplines'
         managed = False
 
     def __str__(self):

@@ -1,14 +1,14 @@
 from django.db import models
 
 from account.models import CustomUser as User
-from competition.infrastructure.discipline import Discipline
+from competition.infrastructure.discipline import Game
 
 
 class Team(models.Model):
     id = models.AutoField(primary_key=True)
-    discipline = models.ForeignKey(Discipline, on_delete=False)
+    game = models.ForeignKey(Game, on_delete=False)
     name = models.CharField(max_length=255, null=False)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateField(auto_now_add=True)
     description = models.TextField(max_length=1024)
     is_active = models.BooleanField(default=True)
     logo_url = models.ImageField('images/logos/teams/')
@@ -53,7 +53,7 @@ class Member(models.Model):
     team = models.ForeignKey(Team, on_delete=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = MemberManager()

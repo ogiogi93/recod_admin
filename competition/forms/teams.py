@@ -1,6 +1,6 @@
 from django import forms
 from competition.infrastructure.teams import Team, Member
-from competition.infrastructure.discipline import Discipline
+from competition.infrastructure.discipline import Game
 
 
 class UpsertTeamForm(forms.ModelForm):
@@ -19,14 +19,14 @@ class UpsertTeamForm(forms.ModelForm):
                                   error_messages={
                                       'required': 'チーム紹介文を入力して下さい'})
 
-    discipline = forms.ModelChoiceField(queryset=Discipline.objects.all(),
-                                        widget=forms.Select(attrs={
-                                            'class': 'form-control'}),
-                                        label='活動ゲーム')
+    game = forms.ModelChoiceField(queryset=Game.objects.filter(discipline__is_active=True).all(),
+                                  widget=forms.Select(attrs={
+                                      'class': 'form-control'}),
+                                  label='活動ゲーム')
 
     class Meta:
         model = Team
-        fields = ('name', 'description', 'discipline')
+        fields = ('name', 'description', 'game')
 
 
 class JoinTeam(forms.Form):

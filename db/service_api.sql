@@ -74,7 +74,7 @@ CREATE TABLE `team_members` (
 
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `discipline_id` int(11) UNSIGNED NOT NULL,
+  `game_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `date_created` date NOT NULL,
   `description` varchar(1024),
@@ -83,7 +83,7 @@ CREATE TABLE `teams` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `discipline_id_and_name` (`discipline_id`, `name`)
+  UNIQUE KEY `game_id_and_name` (`game_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -100,7 +100,7 @@ CREATE TABLE `tournaments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `api_tournament_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `discipline_id` int(11) UNSIGNED NOT NULL,
+  `game_id` int(11) UNSIGNED NOT NULL,
   `size` int(11) UNSIGNED NOT NULL,
   `participant_type` varchar(255),
   `full_name` varchar(80),
@@ -148,7 +148,7 @@ CREATE TABLE `participates` (
 CREATE TABLE `matches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `api_match_id` bigint(20) UNSIGNED NOT NULL,
-  `discipline_id` int(11) UNSIGNED NOT NULL,
+  `game_id` int(11) UNSIGNED NOT NULL,
   `tournament_id` int(11) UNSIGNED NOT NULL,
   `stage_number` int(11) UNSIGNED NOT NULL,
   `group_number` int(11) UNSIGNED NOT NULL,

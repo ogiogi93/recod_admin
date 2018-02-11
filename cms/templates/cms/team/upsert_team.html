@@ -69,20 +69,20 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for pc in participate_competitions %}
+                                        {% for pc in participate_tournamentss %}
                                             <tr>
-                                                <td>{{ pc.competition.id }}</td>
-                                                <td>{{ pc.competition.name }}</td>
-                                                <td>{{ pc.competition.game.title }}</td>
-                                                <td>{{ pc.competition.game.platform.name }}</td>
-                                                <td>{{ pc.competition.start_date }}</td>
+                                                <td>{{ pc.tournament.id }}</td>
+                                                <td>{{ pc.tournament.name }}</td>
+                                                <td>{{ pc.tournament.game.discipline.name }}</td>
+                                                <td>{{ pc.tournament.game.platform.name }}</td>
+                                                <td>{{ pc.tournament.date_start }}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'participate_competition' team_id=team_id %}"> <button
+                                    <a href="{% url 'participate_tournament' team_id=team_id %}"> <button
                                             class="btn btn-default pull-right" type="button"> 大会に参加する </button></a>
                                 </span>
                             {% elif user_id %}

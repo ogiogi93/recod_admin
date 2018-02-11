@@ -31,7 +31,7 @@
                         {% for game in games %}
                             <tr>
                                 <td>{{ game.id }}</td>
-                                <td>{{ game.title }}</td>
+                                <td>{{ game.discipline.name }}</td>
                                 <td>{{ game.platform.name }}</td>
                                 <td>{{ game.home_url }}</td>
                                 <td>{{ game.is_active }}</td>

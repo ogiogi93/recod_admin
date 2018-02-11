@@ -1,7 +1,7 @@
 from enumfields import Enum, EnumField
 from django.db import models
 
-from competition.infrastructure.discipline import Discipline
+from competition.infrastructure.discipline import Game
 from competition.infrastructure.teams import Team
 
 
@@ -26,7 +26,7 @@ class Tournament(models.Model):
     id = models.AutoField(primary_key=True)
     api_tournament_id = models.IntegerField(null=False)
     name = models.CharField(max_length=30, null=False)
-    discipline = models.ForeignKey(Discipline, on_delete=False)
+    game = models.ForeignKey(Game, on_delete=False)
     size = models.IntegerField(null=False)
     participant_type = EnumField(ParticipantType)
     full_name = models.CharField(max_length=80)
@@ -88,7 +88,7 @@ class Participate(models.Model):
 class Match(models.Model):
     id = models.AutoField(primary_key=True)
     api_match_id = models.IntegerField(null=False)
-    discipline = models.ForeignKey(Discipline, on_delete=False)
+    game = models.ForeignKey(Game, on_delete=False)
     tournament = models.ForeignKey(Tournament, on_delete=False)
     stage_number = models.IntegerField(null=False)
     group_number = models.IntegerField(null=False)

@@ -23,7 +23,7 @@ def upsert_team(request, user_id=None, team_id=None):
                 return redirect('/competition/team_list/')
             return render(request, 'cms/team/upsert_team.html', context={
                 'user_id': user_id,
-                'participate_competitions': Participate.objects.filter(team_id=team_id).all(),
+                'participate_tournaments': Participate.objects.filter(team_id=team_id).all(),
                 'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
                 'form': form
             })
@@ -44,7 +44,7 @@ def upsert_team(request, user_id=None, team_id=None):
     return render(request, 'cms/team/upsert_team.html', context={
         'user_id': user_id,
         'team_id': team_id,
-        'participate_competitions': Participate.objects.filter(team_id=team_id).all(),
+        'participate_tournaments': Participate.objects.filter(team_id=team_id).all(),
         'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
         'form': UpsertTeamForm(instance=Team.objects.get(pk=team_id)) if team_id else UpsertTeamForm()
     })
