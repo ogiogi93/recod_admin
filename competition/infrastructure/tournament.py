@@ -8,6 +8,8 @@ from competition.infrastructure.teams import Team
 class MatchFormat(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
+    display_name = models.CharField(max_length=255, null=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

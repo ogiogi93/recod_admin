@@ -90,6 +90,8 @@ CREATE TABLE `teams` (
 CREATE TABLE `match_formats` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
