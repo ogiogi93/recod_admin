@@ -26,13 +26,14 @@ class Team(models.Model):
         メンバー全員のニックネームを並べた文字列を含めている
         :rtype List[Team]:
         """
-        teams = cls.objects.all()
+        teams = cls.objects.select_related('game', 'game__discipline')\
+            .filter(game__discipline__is_active=True).all()
         for team in teams:
-            team.organizer = Member.objects \
+            team.organizer = Member.objects.select_related('user') \
                 .values_list('user__nickname', flat=True) \
                 .filter(team=team) \
                 .filter(is_admin=True).first()
-            team.members = ','.join([nickname for nickname in Member.objects
+            team.members = ','.join([nickname for nickname in Member.objects.select_related('user')
                                     .values_list('user__nickname', flat=True)
                                     .filter(team=team)])
         return teams

@@ -19,7 +19,7 @@ class UpsertTeamForm(forms.ModelForm):
                                   error_messages={
                                       'required': 'チーム紹介文を入力して下さい'})
 
-    game = forms.ModelChoiceField(queryset=Game.objects.filter(discipline__is_active=True).all(),
+    game = forms.ModelChoiceField(queryset=Game.get_enabled_games(),
                                   widget=forms.Select(attrs={
                                       'class': 'form-control'}),
                                   label='活動ゲーム')

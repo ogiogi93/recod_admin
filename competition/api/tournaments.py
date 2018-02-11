@@ -4,7 +4,8 @@ from competition.infrastructure.tournament import Tournament
 from competition.api import authorized_session
 from recod_admin import logging
 
-TOORNAMENT_API_CREATE_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
+TOORNAMENT_API_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
+TOORNAMENT_API_PARTICIPATE_URL = 'https://api.toornament.com/v1/tournaments/{}/participants'
 
 logger = logging.getLogger(__name__)
 
@@ -228,11 +229,13 @@ def upsert_api_tournament(t, api_tournament_id=None):
         if api_tournament_id:
             # api_tournament_idが指定されている場合は更新する
             entity = ApiTournamentEntity(
-                response=oauth.patch(url=TOORNAMENT_API_CREATE_TOURNAMENT_URL + '/{}'.format(api_tournament_id),
+                response=oauth.patch(url=TOORNAMENT_API_TOURNAMENT_URL + '/{}'.format(api_tournament_id),
                                      data=body).json())
         else:
             entity = ApiTournamentEntity(
-                response=oauth.post(url=TOORNAMENT_API_CREATE_TOURNAMENT_URL, data=body).json())
+                response=oauth.post(url=TOORNAMENT_API_TOURNAMENT_URL, data=body).json())
+        logger.info('[upsert_api_tournament] succeeded.'
+                    'Tournament ID:{} is created or updated.'.format(entity.id()))
         return entity.id()
     except Exception as e:
         logger.error('[upsert_api_tournament] failed.'
@@ -246,6 +249,75 @@ def delete_api_tournament(api_tournament_id):
     :rtype None:
     """
     oauth = authorized_session()
-    oauth.delete(url=TOORNAMENT_API_CREATE_TOURNAMENT_URL + '/{}'.format(api_tournament_id))
+    oauth.delete(url=TOORNAMENT_API_TOURNAMENT_URL + '/{}'.format(api_tournament_id))
     logger.info('[delete_api_tournament] succeeded.'
                 'Tournament ID:{} is deleted.'.format(api_tournament_id))
+
+
+class ApiParticipateEntity(object):
+    def __init__(self, response):
+        self._response = response
+
+    def id(self):
+        """
+        Unique identifier for this participant.
+        :rtype int:
+        """
+        return int(self._response.get('id', 0))
+
+    def name(self):
+        """
+        Participant name (maximum 40 characters).
+        :rtype str:
+        """
+        return self._response.get('name', '')
+
+    def lineup(self):
+        """
+        :rtype List[Dict[str]]:
+        """
+        return list(self._response.get('lineup', []))
+
+
+def upsert_api_participate(t, api_tournament_id, api_participate_id=None):
+    """
+    Toornament API上でトーナメント参加登録または更新する
+    DB用にapi_participate_idを返す
+    :param Team t:
+    :param int api_tournament_id:
+    :param int api_participate_id:
+    :rtype int:
+    """
+    try:
+        body = json.dumps({
+            'name': t.name
+        })
+        oauth = authorized_session()
+        if api_participate_id:
+            # api_tournament_idが指定されている場合は更新する
+            url = TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id) + '/{}'.format(api_participate_id)
+            entity = ApiParticipateEntity(
+                response=oauth.patch(url=url, data=body).json())
+        else:
+            url = TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id)
+            entity = ApiTournamentEntity(
+                response=oauth.post(url=url, data=body).json())
+        logger.info('[upsert_api_participate] succeeded.'
+                    'Participate ID:{} is created or updated.'.format(entity.id()))
+        return entity.id()
+    except Exception as e:
+        logger.error('[upsert_api_participate] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
+
+
+def refusal_api_participate(api_tournament_id, api_participate_id):
+    """
+    Toornament API上のトーナメント参加を辞退する
+    :param int api_tournament_id:
+    :param int api_participate_id:
+    :return None:
+    """
+    oauth = authorized_session()
+    oauth.delete(url=TOORNAMENT_API_PARTICIPATE_URL.format(api_tournament_id) + '/{}'.format(api_participate_id))
+    logger.info('[refusal_api_participate] succeeded.'
+                'Participate ID:{} refusal Tournament ID: {}.'.format(api_participate_id, api_tournament_id))

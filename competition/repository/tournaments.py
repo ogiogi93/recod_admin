@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
 
-from competition.api.tournaments import upsert_api_tournament, delete_api_tournament
+from competition.api.tournaments import (
+    delete_api_tournament,
+    refusal_api_participate,
+    upsert_api_tournament,
+    upsert_api_participate,
+)
 from competition.infrastructure.tournament import Tournament, Participate
 from competition.infrastructure.teams import Team
 from competition.forms.tournaments import UpsertTournamentForm, ParticipateTournamentForm
@@ -67,16 +72,26 @@ def participate_tournament(request, team_id):
     :rtype render:
     """
     if request.method == 'POST':
-        form = ParticipateTournamentForm(request.POST, initial={'team': Team.objects.get(pk=team_id)})
+        form = ParticipateTournamentForm(request.POST,
+                                         initial={'team': Team.objects.get(pk=team_id)})
+        # 既に登録済みの大会は除く
+        form.fields['tournament'].queryset = Tournament.objects.filter(is_active=True).exclude(participate__team__id=team_id)
         if form.is_valid():
             form.instance.team = Team.objects.get(pk=team_id)
+            # Toornament APIの方にも登録しておく
+            api_participate_id = upsert_api_participate(form.instance.team,
+                                                        api_tournament_id=form.instance.tournament.api_tournament_id)
+            form.instance.api_participate_id = api_participate_id
             form.save()
-            return redirect('/tournament/team/edit/{}/'.format(team_id))
+            return redirect('/competition/team/edit/{}/'.format(team_id))
         return render(request, 'cms/tournament/participate_tournament.html', context={
             'form': form
         })
+    form = ParticipateTournamentForm()
+    # 既に登録済みの大会は除く
+    form.fields['tournament'].queryset = Tournament.objects.filter(is_active=True).exclude(participate__team__id=team_id)
     return render(request, 'cms/tournament/participate_tournament.html', context={
-        'form': ParticipateTournamentForm()
+        'form': form
     })
 
 
@@ -91,7 +106,9 @@ def refusal_tournament(request, team_id, tournament_id):
     team = Team.objects.get(pk=team_id)
     tournament = Tournament.objects.get(pk=tournament_id)
     if team and tournament:
-        participate = Participate.objects.filter(team=team, tournament=tournament)
+        participate = Participate.objects.filter(team=team, tournament=tournament).first()
+        refusal_api_participate(api_tournament_id=participate.tournament.api_tournament_id,
+                                api_participate_id=participate.api_participate_id)
         participate.delete()
     return redirect('/competition/tournament_list/edit/{}/'.format(tournament_id))
 

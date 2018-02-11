@@ -49,7 +49,7 @@
                                         {% for pt in participate_teams %}
                                             <tr>
                                                 <td>{{ pt.team.id }}</td>
-                                                <td>{{ pt.team.teamname }}</td>
+                                                <td>{{ pt.team.name }}</td>
                                                 <td>{{ pt.date_joined }}</td>
                                                 <td>
                                                     <a href="{% url 'refusal_tournament' tournament_id=tournament_id team_id=pt.team.id %}"

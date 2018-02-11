@@ -53,6 +53,10 @@ class Tournament(models.Model):
         db_table = 'tournaments'
         managed = False
 
+    def __str__(self):
+        return '{}, 開催日: {} ~ {}, ゲーム: {} ({})'.format(
+            self.name, self.date_start, self.date_end, self.game.discipline.name, self.game.platform.display_name)
+
 
 class Stage(models.Model):
     class Type:
@@ -80,7 +84,7 @@ class Participate(models.Model):
     api_participate_id = models.IntegerField(null=False)
     tournament = models.ForeignKey(Tournament, on_delete=False)
     team = models.ForeignKey(Team, on_delete=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
