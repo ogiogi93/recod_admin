@@ -42,6 +42,7 @@ def upsert_tournament(request, tournament_id=None):
                 return redirect('/competition/tournament_list/')
             return render(request, 'cms/tournament/upsert_tournament.html', context={
                 'tournament_id': tournament_id,
+                'tournament_api_id': Tournament.objects.get(pk=tournament_id).api_tournament_id,
                 'participate_teams': Participate.objects.filter(tournament_id=tournament_id).all(),
                 'form': form
             })
@@ -58,6 +59,7 @@ def upsert_tournament(request, tournament_id=None):
         })
     return render(request, 'cms/tournament/upsert_tournament.html', context={
         'tournament_id': tournament_id,
+        'tournament_api_id': Tournament.objects.get(pk=tournament_id).api_tournament_id,
         'participate_teams': Participate.objects.filter(tournament_id=tournament_id).all(),
         'form': UpsertTournamentForm(
             instance=Tournament.objects.get(pk=tournament_id)) if tournament_id else UpsertTournamentForm()

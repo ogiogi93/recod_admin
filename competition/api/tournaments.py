@@ -337,3 +337,8 @@ def refusal_api_participate(api_tournament_id, api_participate_id):
                      ' error_type: {}, error: {}'.format(type(e), e))
     finally:
         oauth.close()
+
+
+class ApiMatchEntity(object):
+    def __init__(self, response):
+        self._response = response
