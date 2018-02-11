@@ -1,20 +1,22 @@
-import requests
-from datetime import date
+import json
 
+from competition.infrastructure.tournament import Tournament
 from competition.api import authorized_session
+
+TOORNAMENT_API_CREATE_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
 
 
 class ApiTournamentEntity(object):
     def __init__(self, response):
         """
-        :param int response:
+        :param dict response:
         """
         self._response = response
 
     def id(self):
         """
         An unique identifier for this tournament.
-        :rtype int: 
+        :rtype int:
         """
         return self._response.__dict__.get('id', '')
 
@@ -185,3 +187,37 @@ class ApiTournamentEntity(object):
         :rtype List[str]:
         """
         return list(self._response.__dict__.get('platforms', []))
+
+
+def create_tournament(t):
+    """
+    Toornament APIに新規トーナメントを登録し, api_tournament_idを取得する
+    :param Tournament t:
+    :rtype int:
+    """
+    body = json.dumps({
+        'discipline': t.game.discipline.api_discipline_id,
+        'name': t.name,
+        'size': t.size,
+        'participant_type': t.participant_type.name,
+        'full_name': t.full_name,
+        'organization': t.organization,
+        'website': t.website,
+        'date_start': t.date_start,
+        'date_end': t.date_end,
+        'time_zone': 'JP',
+        'online': t.online,
+        'public': t.public,
+        'location': t.location,
+        'country': t.country,
+        'description': t.description,
+        'rules': t.rules,
+        'prize': t.prize,
+        'check_in': True,
+        'participant_nationality': True,
+        'match_format': t.match_format.name,
+        'platforms': [t.game.platform.name]
+    })
+    oauth = authorized_session()
+    entity = ApiTournamentEntity(response=oauth.post(url=TOORNAMENT_API_CREATE_TOURNAMENT_URL, data=body).json())
+    return entity.id
