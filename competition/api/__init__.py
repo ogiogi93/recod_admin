@@ -1,4 +1,3 @@
-
 import requests
 from django.utils.lru_cache import lru_cache
 from requests_oauthlib import OAuth2Session
@@ -18,7 +17,7 @@ def get_toornament_access_token():
     query = {
         'grant_type': 'client_credentials',
         'client_id': STATIC_SETTINGS['TOORNAMENT_CLIENT_ID'],
-        'client_secret': STATIC_SETTINGS['TOORNAMENT_SECRET_ID']
+        'client_secret': STATIC_SETTINGS['TOORNAMENT_CLIENT_SECRET']
     }
     response = requests.post(url=TOORNAMENT_API_ACCESS_TOKEN_URL, data=query).json()
     return response['access_token']

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from competition.api.tournaments import upsert_api_tournament, delete_api_tournament
 from competition.infrastructure.tournament import Tournament, Participate
 from competition.infrastructure.teams import Team
 from competition.forms.tournaments import UpsertTournamentForm, ParticipateTournamentForm
@@ -28,8 +29,12 @@ def upsert_tournament(request, tournament_id=None):
         if tournament_id:
             form = UpsertTournamentForm(request.POST, instance=Tournament.objects.get(pk=tournament_id))
             if form.is_valid():
+                # Toornament APIにPOSTする
+                api_tournament_id = upsert_api_tournament(
+                    form.instance, api_tournament_id=Tournament.objects.get(pk=tournament_id).api_tournament_id)
+                form.instance.api_tournament_id = api_tournament_id
                 form.save()
-                return redirect('/tournament/tournament_list/')
+                return redirect('/competition/tournament_list/')
             return render(request, 'cms/tournament/upsert_tournament.html', context={
                 'tournament_id': tournament_id,
                 'participate_teams': Participate.objects.filter(tournament_id=tournament_id).all(),
@@ -38,8 +43,11 @@ def upsert_tournament(request, tournament_id=None):
         # 新規作成
         form = UpsertTournamentForm(request.POST)
         if form.is_valid():
+            # Toornament APIにPOSTする
+            api_tournament_id = upsert_api_tournament(form.instance)
+            form.instance.api_tournament_id = api_tournament_id
             form.save()
-            return redirect('/tournament/tournament_list/')
+            return redirect('/competition/tournament_list/')
         return render(request, 'cms/tournament/upsert_tournament.html', context={
             'form': form
         })
@@ -85,4 +93,18 @@ def refusal_tournament(request, team_id, tournament_id):
     if team and tournament:
         participate = Participate.objects.filter(team=team, tournament=tournament)
         participate.delete()
-    return redirect('tournament/tournament_list/edit/{}/'.format(tournament_id))
+    return redirect('/competition/tournament_list/edit/{}/'.format(tournament_id))
+
+
+def delete_tournament(request, tournament_id):
+    """
+    大会を削除する
+    :param request:
+    :param int tournament_id:
+    :rtype redirect:
+    """
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if tournament:
+        delete_api_tournament(api_tournament_id=tournament.api_tournament_id)
+        tournament.delete()
+    return redirect('/competition/tournament_list')

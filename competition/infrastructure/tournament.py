@@ -1,5 +1,5 @@
-from enumfields import Enum, EnumField
 from django.db import models
+from django.utils.lru_cache import lru_cache
 
 from competition.infrastructure.discipline import Game
 from competition.infrastructure.teams import Team
@@ -17,20 +17,21 @@ class MatchFormat(models.Model):
         managed = False
 
     def __str__(self):
-        return self.name
+        return self.display_name
+
+    @classmethod
+    @lru_cache(maxsize=1)
+    def get_enabled_match_format(cls):
+        return cls.objects.filter(is_active=True).all()
 
 
 class Tournament(models.Model):
-    class ParticipantType(Enum):
-        TEAM = 'team'
-        SINGLE = 'single'
-
     id = models.AutoField(primary_key=True)
     api_tournament_id = models.IntegerField(null=False)
     name = models.CharField(max_length=30, null=False)
     game = models.ForeignKey(Game, on_delete=False)
     size = models.IntegerField(null=False)
-    participant_type = EnumField(ParticipantType)
+    participant_type = models.CharField(max_length=30, null=False)
     full_name = models.CharField(max_length=80)
     organization = models.CharField(max_length=255)
     website = models.URLField()

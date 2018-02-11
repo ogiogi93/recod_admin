@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^tournament_list/$', tournament_list, name='tournament_list'),
     url(r'^tournament_list/create/$', upsert_tournament, name='create_tournament'),
     url(r'^tournament_list/edit/(?P<tournament_id>\d+)/$', upsert_tournament, name='edit_tournament'),
+    url(r'^tournament_list/delete/(?P<tournament_id>\d+)/$', delete_tournament, name='delete_tournament'),
     url(r'^participate/(?P<tournament_id>\d+)/(?P<team_id>\d+)/$', refusal_tournament, name='refusal_tournament'),
     url(r'^game/$', game_list, name='game_list'),
     url(r'^game/add/$', upsert_game, name='add_game'),

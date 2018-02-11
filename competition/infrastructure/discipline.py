@@ -52,4 +52,8 @@ class Game(models.Model):
         unique_together = ('discipline', 'platform', )
 
     def __str__(self):
-        return '{} ({})'.format(self.discipline.name, self.platform.name)
+        return '{} ({})'.format(self.discipline.name, self.platform.display_name)
+
+    @classmethod
+    def get_enabled_games(cls):
+        return cls.objects.filter(discipline__is_active=True).select_related('discipline', 'platform').all()
