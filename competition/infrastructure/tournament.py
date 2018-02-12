@@ -59,24 +59,17 @@ class Tournament(models.Model):
 
 
 class Stage(models.Model):
-    class Type:
-        GROUP = 1
-        LEAGUE = 2
-        SWISS = 3
-        SINGLE_ELIMINATION = 4
-        DOUBLE_ELIMINATION = 5
-        GROUP_BRACKET = 5
-
     id = models.AutoField(primary_key=True)
+    api_stage_id = models.IntegerField(null=False)
+    tournament = models.ForeignKey(Tournament, on_delete=False)
     name = models.CharField(max_length=255, null=False)
+    type = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'stages'
         managed = False
-
-    def __str__(self):
-        return self.name
 
 
 class Participate(models.Model):
@@ -97,7 +90,7 @@ class Match(models.Model):
     api_match_id = models.CharField(max_length=255, null=False)
     game = models.ForeignKey(Game, on_delete=False)
     tournament = models.ForeignKey(Tournament, on_delete=False)
-    stage_number = models.IntegerField(null=False)
+    stage = models.ForeignKey(Stage, on_delete=False)
     group_number = models.IntegerField(null=False)
     round_number = models.IntegerField(null=False)
     match_format = models.ForeignKey(MatchFormat, on_delete=False)
