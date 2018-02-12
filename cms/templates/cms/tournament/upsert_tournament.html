@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    大会を新規追加・修正する
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            {% if tournament_id %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_tournament' tournament_id=tournament_id %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
+                                    <a href="{% url 'delete_tournament' tournament_id=tournament_id %}">
+                                        <button class="btn btn-default pull-right" type="button"> 削除 </button>
+                                    </a>
+                                </span>
+
+                                <div class="row">
+                                    <h5> トーナメント表 </h5>
+                                    <span class="input-group-btn">
+                                        <a href="https://organizer.toornament.com/tournaments/{{ tournament_api_id }}" target="_blank"><button
+                                                class="btn btn-default pull-right" type="button"> トーナメント表を生成する(Toornament Organizer) </button></a>
+                                        <a href="{% url 'update_tournament_match' tournament_id=tournament_id %}" target="_blank"><button
+                                                class="btn btn-default pull-right" type="button"> マッチ情報を更新する(Toornament Organzierの情報を適用する) </button></a>
+                                    </span>
+                                </div>
+
+                                <div class="row">
+                                    <h5> 参加チーム </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>チーム名</th>
+                                            <th>登録日</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pt in participate_teams %}
+                                            <tr>
+                                                <td>{{ pt.team.id }}</td>
+                                                <td>{{ pt.team.name }}</td>
+                                                <td>{{ pt.date_joined }}</td>
+                                                <td>
+                                                    <a href="{% url 'refusal_tournament' tournament_id=tournament_id team_id=pt.team.id %}"
+                                                       class="delete">削除</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'create_tournament' %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary pull-right" type="submit"> 追加 </button>
+                                </span>
+                            {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+    <script src="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.js' %}"></script>
+{% endblock %}

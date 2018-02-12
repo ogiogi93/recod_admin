@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from competition.models import Game
+from competition.infrastructure.discipline import Game
 from competition.forms.games import UpsertGameForm
 
 
@@ -10,7 +10,7 @@ def game_list(request):
     :param request:
     :rtype render:
     """
-    return render(request, 'cms/competition/game_list.html', context={
+    return render(request, 'cms/game/game_list.html', context={
         'games': Game.objects.all()
     })
 
@@ -29,7 +29,7 @@ def upsert_game(request, game_id=None):
             if form.is_valid():
                 form.save()
                 return redirect('/competition/game/')
-            return render(request, 'cms/competition/upsert_game.html', context={
+            return render(request, 'cms/game/upsert_game.html', context={
                 'form': form
             })
         # 新規追加
@@ -37,9 +37,9 @@ def upsert_game(request, game_id=None):
         if form.is_valid():
             form.save()
             return redirect('/competition/game/')
-        return render(request, 'cms/competition/upsert_game.html', context={
+        return render(request, 'cms/game/upsert_game.html', context={
             'form': form
         })
-    return render(request, 'cms/competition/upsert_game.html', context={
+    return render(request, 'cms/game/upsert_game.html', context={
         'form': UpsertGameForm(instance=Game.objects.get(pk=game_id)) if game_id else UpsertGameForm()
     })

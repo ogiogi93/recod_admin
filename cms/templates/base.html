@@ -18,6 +18,7 @@
     <!-- build:css({.tmp,app}) styles/app.min.css -->
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/perfect-scrollbar/css/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/roboto.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/panel.css' %}">
@@ -99,6 +100,11 @@
                                 <span>チームーリスト</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{% url 'create_team' user_id=1%}"> <!-- TODO: ログインユーザIDを配置 -->
+                                <span>新規チームを追加</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- /team -->
@@ -132,12 +138,12 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="{% url 'competition_list' %}">
+                            <a href="{% url 'tournament_list' %}">
                                 <span>大会リスト</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'create_competition' %}">
+                            <a href="{% url 'create_tournament' %}">
                                 <span>新規大会の作成</span>
                             </a>
                         </li>
