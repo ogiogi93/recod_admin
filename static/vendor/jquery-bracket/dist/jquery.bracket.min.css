@@ -49,7 +49,7 @@ div.jQBracket .round {
 }
 
 div.jQBracket .match {
-    position: relative
+    position: relative;
 }
 
 div.jQBracket .editable {
@@ -60,7 +60,7 @@ div.jQBracket .team {
     position: relative;
     z-index: 1;
     float: left;
-    background-color: #eee;
+    background-color: #819FF7;
     cursor: default
 }
 
