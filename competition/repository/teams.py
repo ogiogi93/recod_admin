@@ -90,7 +90,7 @@ def join_team(request):
         team = Team.objects.get(pk=request.POST.get('team_id'))
         if user and team:
             Member.objects.add_member(user, team, is_admin=False)
-        return redirect('/competition/user_list/edit/{}/belong_team/'.format(user_id))
+        return redirect('/competition/user/edit/{}/belong_team/'.format(user_id))
     return redirect('/competition/team/')
 
 
@@ -108,8 +108,8 @@ def secession_team(request, user_id, team_id):
     if user and team:
         member = Member.objects.filter(user=user).filter(team=team)
         member.delete()
-        return redirect('/user_list/edit/{}/belong_team/'.format(user_id))
-    return redirect('/user_list/edit/{}/belong_team/'.format(user_id))
+        return redirect('/user/edit/{}/belong_team/'.format(user_id))
+    return redirect('/user/edit/{}/belong_team/'.format(user_id))
 
 
 def team_list(request):
