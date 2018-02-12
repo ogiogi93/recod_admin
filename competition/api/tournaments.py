@@ -9,6 +9,7 @@ from recod_admin.settings import STATIC_SETTINGS
 TOORNAMENT_API_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
 TOORNAMENT_API_PARTICIPATE_URL = 'https://api.toornament.com/v1/tournaments/{}/participants'
 TOORNAMENT_API_MATCH_URL = 'https://api.toornament.com/v1/tournaments/{}/matches'
+TOORNAMENT_API_STAGE_URL = 'https://api.toornament.com/v1/tournaments/{}/stages'
 
 logger = logging.getLogger(__name__)
 
@@ -340,6 +341,62 @@ def refusal_api_participate(api_tournament_id, api_participate_id):
                      ' error_type: {}, error: {}'.format(type(e), e))
     finally:
         oauth.close()
+
+
+class ApiTournamentStageEntity(object):
+    def __init__(self, response):
+        self._response = response
+
+    def number(self):
+        """
+        Stage Number.
+        :rtype int|None:
+        """
+        number = self._response.get('number', None)
+        if number:
+            return int(number)
+        return number
+
+    def name(self):
+        """
+        Name of this stage.
+        :rtype str:
+        """
+        return self._response.get('name', '')
+
+    def type(self):
+        """
+        Stage type.
+        Possible values: group, league, swiss, single_elimination, double_elimination, bracket_group
+        :rtype str:
+        """
+        return self._response.get('type', '')
+
+    def size(self):
+        """
+        Number of participants of this stage
+        :rtype int|None:
+        """
+        return self._response.get('size', None)
+
+
+def get_tournament_stages(api_tournament_id):
+    """
+    Toornament API上のトーナメントのステージ情報を取得する
+    （Toornament Organizerにてトーナメント形式の設定及び生成が必要）
+    :param int api_tournament_id:
+    :return List[ApiTournamentStageEntity]:
+    """
+    try:
+        response = requests.get(
+            TOORNAMENT_API_STAGE_URL.format(api_tournament_id),
+            headers={'X-Api-Key': STATIC_SETTINGS['TOORNAMENT_API_KEY']}).json()
+        entities = [ApiTournamentStageEntity(r) for r in response]
+        logger.info('[get_tournament_stages] succeeded.')
+        return entities
+    except Exception as e:
+        logger.error('[get_tournament_stages] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
 
 
 class ApiParticipantEntity(object):

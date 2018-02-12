@@ -28,13 +28,23 @@
 
                                 <div class="row">
                                     <h5> トーナメント表 </h5>
+                                    <div class="row">
+                                        <div class="center-block">
+                                            <div class="show-tournament"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                     <span class="input-group-btn">
-                                        <a href="https://organizer.toornament.com/tournaments/{{ tournament_api_id }}" target="_blank"><button
+                                        <a href="https://organizer.toornament.com/tournaments/{{ tournament_api_id }}"
+                                           target="_blank"><button
                                                 class="btn btn-default pull-right" type="button"> トーナメント表を生成する(Toornament Organizer) </button></a>
-                                        <a href="{% url 'update_tournament_match' tournament_id=tournament_id %}" target="_blank"><button
+                                        <a href="{% url 'update_tournament_match' tournament_id=tournament_id %}"
+                                           target="_blank"><button
                                                 class="btn btn-default pull-right" type="button"> マッチ情報を更新する(Toornament Organzierの情報を適用する) </button></a>
                                     </span>
+                                    </div>
                                 </div>
+
 
                                 <div class="row">
                                     <h5> 参加チーム </h5>
@@ -83,5 +93,14 @@
         <!-- /main area -->
     </div>
     <!-- /content panel -->
+    <script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.js' %}"></script>
+    <script>
+        /* Show Tournament */
+        var data = {{ tournament_bracket|safe }};
+        console.log(data);
+        $('.show-tournament').bracket({
+            init: data
+        });
+    </script>
 {% endblock %}

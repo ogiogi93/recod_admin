@@ -128,10 +128,14 @@ CREATE TABLE `tournaments` (
 
 CREATE TABLE `stages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_stage_id` int(11) UNSIGNED NOT NULL,
+  `tournament_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `api_stage_id` (`api_stage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -152,7 +156,7 @@ CREATE TABLE `matches` (
   `api_match_id` varchar(255) NOT NULL,
   `game_id` int(11) UNSIGNED NOT NULL,
   `tournament_id` int(11) UNSIGNED NOT NULL,
-  `stage_number` int(11) UNSIGNED NOT NULL,
+  `stage_id` int(11) UNSIGNED NOT NULL,
   `group_number` int(11) UNSIGNED NOT NULL,
   `round_number` int(11) UNSIGNED NOT NULL,
   `match_format_id` int(11) UNSIGNED NOT NULL,
