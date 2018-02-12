@@ -100,7 +100,7 @@ CREATE TABLE `match_formats` (
 
 CREATE TABLE `tournaments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `api_tournament_id` bigint(20) UNSIGNED NOT NULL,
+  `api_tournament_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `game_id` int(11) UNSIGNED NOT NULL,
   `size` int(11) UNSIGNED NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE `stages` (
 
 CREATE TABLE `participates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `api_participate_id` bigint(20) UNSIGNED NOT NULL,
+  `api_participate_id` varchar(255) NOT NULL,
   `tournament_id` int(11) UNSIGNED NOT NULL,
   `team_id` int(11) UNSIGNED NOT NULL,
   `date_joined` date NOT NULL,
@@ -149,18 +149,33 @@ CREATE TABLE `participates` (
 
 CREATE TABLE `matches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `api_match_id` bigint(20) UNSIGNED NOT NULL,
+  `api_match_id` varchar(255) NOT NULL,
   `game_id` int(11) UNSIGNED NOT NULL,
   `tournament_id` int(11) UNSIGNED NOT NULL,
   `stage_number` int(11) UNSIGNED NOT NULL,
   `group_number` int(11) UNSIGNED NOT NULL,
+  `round_number` int(11) UNSIGNED NOT NULL,
   `match_format_id` int(11) UNSIGNED NOT NULL,
-  `start_date` date NOT NULL,
-  `start_time` time NOT NULL,
+  `status` varchar(80) DEFAULT 'pending',
+  `start_date` date,
+  `start_time` time,
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `api_match_id` (`api_match_id`),
-  UNIQUE KEY `tournament_id_and_stage_number_and_group_number` (`tournament_id`, `stage_number`, `group_number`)
+  UNIQUE KEY `api_match_id` (`api_match_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `match_teams` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `match_id` int(11) UNSIGNED NOT NULL,
+  `team_id` int(11) UNSIGNED NOT NULL,
+  `result` int(11) UNSIGNED,
+  `score` int(11) UNSIGNED,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `match_id_and_team_id` (`match_id`, `team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

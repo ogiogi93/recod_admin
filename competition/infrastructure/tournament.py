@@ -27,7 +27,7 @@ class MatchFormat(models.Model):
 
 class Tournament(models.Model):
     id = models.AutoField(primary_key=True)
-    api_tournament_id = models.IntegerField(null=False)
+    api_tournament_id = models.CharField(max_length=255, null=False)
     name = models.CharField(max_length=30, null=False)
     game = models.ForeignKey(Game, on_delete=False)
     size = models.IntegerField(null=False)
@@ -81,7 +81,7 @@ class Stage(models.Model):
 
 class Participate(models.Model):
     id = models.AutoField(primary_key=True)
-    api_participate_id = models.IntegerField(null=False)
+    api_participate_id = models.CharField(max_length=255, null=False)
     tournament = models.ForeignKey(Tournament, on_delete=False)
     team = models.ForeignKey(Team, on_delete=False)
     date_joined = models.DateField(auto_now_add=True)
@@ -94,12 +94,14 @@ class Participate(models.Model):
 
 class Match(models.Model):
     id = models.AutoField(primary_key=True)
-    api_match_id = models.IntegerField(null=False)
+    api_match_id = models.CharField(max_length=255, null=False)
     game = models.ForeignKey(Game, on_delete=False)
     tournament = models.ForeignKey(Tournament, on_delete=False)
     stage_number = models.IntegerField(null=False)
     group_number = models.IntegerField(null=False)
+    round_number = models.IntegerField(null=False)
     match_format = models.ForeignKey(MatchFormat, on_delete=False)
+    status = models.CharField(max_length=80, default='pending')
     start_date = models.DateField(auto_now_add=True)
     start_time = models.TimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -108,4 +110,19 @@ class Match(models.Model):
 
     class Meta:
         db_table = 'matches'
+        managed = False
+
+
+class MatchTeam(models.Model):
+    id = models.AutoField(primary_key=True)
+    match = models.ForeignKey(Match, on_delete=False)
+    team = models.ForeignKey(Team, on_delete=False)
+    result = models.IntegerField()
+    score = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'match_teams'
         managed = False

@@ -4,6 +4,7 @@ import requests
 from competition.infrastructure.tournament import Tournament
 from competition.api import authorized_session
 from recod_admin import logging
+from recod_admin.settings import STATIC_SETTINGS
 
 TOORNAMENT_API_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
 TOORNAMENT_API_PARTICIPATE_URL = 'https://api.toornament.com/v1/tournaments/{}/participants'
@@ -22,7 +23,7 @@ class ApiTournamentEntity(object):
     def id(self):
         """
         An unique identifier for this tournament.
-        :rtype int:
+        :rtype str:
         """
         return self._response.get('id', '')
 
@@ -271,22 +272,22 @@ class ApiParticipateEntity(object):
     def id(self):
         """
         Unique identifier for this participant.
-        :rtype int:
+        :rtype str:
         """
-        return int(self._response.get('id', 0))
+        return self._response.get('id', '') if self._response else None
 
     def name(self):
         """
         Participant name (maximum 40 characters).
         :rtype str:
         """
-        return self._response.get('name', '')
+        return self._response.get('name', '') if self._response else None
 
     def lineup(self):
         """
         :rtype List[Dict[str]]:
         """
-        return list(self._response.get('lineup', []))
+        return list(self._response.get('lineup', [])) if self._response else None
 
 
 def upsert_api_participate(t, api_tournament_id, api_participate_id=None):
@@ -348,9 +349,9 @@ class ApiParticipantEntity(object):
     def id(self):
         """
         Unique identifier for this participant
-        :rtype int|None:
+        :rtype str:
         """
-        return self._participant.get('id', None)
+        return self._participant.get('id')
 
     def name(self):
         """
@@ -385,6 +386,20 @@ class ApiMatchOpponentEntity(object):
         """
         return ApiParticipateEntity(self._opponents.get('participant', None))
 
+    def result(self):
+        """
+        The result of the opponent: 1 = win, 2 = draw, 3 = loss. This property is only available on "duel" match format.
+        :rtype int|None:
+        """
+        return self._opponents.get('result', None)
+
+    def score(self):
+        """
+        The opponent's score.
+        :rtype int|None:
+        """
+        return self._opponents.get('score', None)
+
 
 class ApiMatchEntity(object):
     def __init__(self, response):
@@ -393,7 +408,7 @@ class ApiMatchEntity(object):
     def id(self):
         """
         An unique identifier for this match.
-        :rtype int|None:
+        :rtype str|None:
         """
         return self._response.get('id', None)
 
@@ -485,7 +500,9 @@ def get_tournament_matches(api_tournament_id):
     :return List[ApiTournamentMatchEntity]:
     """
     try:
-        response = requests.get(TOORNAMENT_API_MATCH_URL.format(api_tournament_id)).json()
+        response = requests.get(
+            TOORNAMENT_API_MATCH_URL.format(api_tournament_id),
+            headers={'X-Api-Key': STATIC_SETTINGS['TOORNAMENT_API_KEY']}).json()
         entities = [ApiMatchEntity(r) for r in response]
         logger.info('[get_tournament_matches] succeeded.')
         return entities

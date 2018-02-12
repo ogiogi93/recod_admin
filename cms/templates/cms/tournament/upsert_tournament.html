@@ -31,6 +31,8 @@
                                     <span class="input-group-btn">
                                         <a href="https://organizer.toornament.com/tournaments/{{ tournament_api_id }}" target="_blank"><button
                                                 class="btn btn-default pull-right" type="button"> トーナメント表を生成する(Toornament Organizer) </button></a>
+                                        <a href="{% url 'update_tournament_match' tournament_id=tournament_id %}" target="_blank"><button
+                                                class="btn btn-default pull-right" type="button"> マッチ情報を更新する(Toornament Organzierの情報を適用する) </button></a>
                                     </span>
                                 </div>
 

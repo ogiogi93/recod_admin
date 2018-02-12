@@ -32,7 +32,7 @@ def upsert_user(request, user_id=None):
             form = EditUserProfile(request.POST, instance=User.objects.get(pk=user_id))
             if form.is_valid():
                 form.save()
-                return redirect('/user/user_list/')
+                return redirect('/user/')
             return render(request, 'cms/user/upsert_user.html', context={
                 'form': form,
                 'user_id': user_id
@@ -44,7 +44,7 @@ def upsert_user(request, user_id=None):
             # 初回はユーザーネームをそのままニックネームとしても登録する
             new_user.nickname = new_user.username
             new_user.save()
-            return redirect('/user/user_list/')
+            return redirect('/user/')
         return render(request, 'cms/user/upsert_user.html', context={
             'form': form,
         })
@@ -66,4 +66,4 @@ def delete_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if user:
         user.delete()
-    return redirect('/user/user_list/')
+    return redirect('/user/')

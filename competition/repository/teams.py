@@ -20,7 +20,7 @@ def upsert_team(request, user_id=None, team_id=None):
             form = UpsertTeamForm(request.POST, instance=Team.objects.get(pk=team_id))
             if form.is_valid():
                 form.save()
-                return redirect('/competition/team_list/')
+                return redirect('/competition/team/')
             return render(request, 'cms/team/upsert_team.html', context={
                 'user_id': user_id,
                 'participate_tournaments': Participate.objects.filter(team_id=team_id).all(),
@@ -36,7 +36,7 @@ def upsert_team(request, user_id=None, team_id=None):
             user = User.objects.get(pk=user_id)
             team = Team.objects.get(pk=new_team.pk)
             Member.objects.add_member(user, team, is_admin=True)
-            return redirect('/competition/team_list/')
+            return redirect('/competition/team/')
         return render(request, 'cms/team/upsert_team.html', context={
             'user_id': user_id,
             'form': form,
@@ -60,7 +60,7 @@ def delete_team(request, team_id):
     team = Team.objects.get(pk=team_id)
     if team:
         team.delete()
-    return redirect('/competition/team_list/')
+    return redirect('/competition/team/')
 
 
 def belong_teams(request, user_id):
@@ -91,7 +91,7 @@ def join_team(request):
         if user and team:
             Member.objects.add_member(user, team, is_admin=False)
         return redirect('/competition/user_list/edit/{}/belong_team/'.format(user_id))
-    return redirect('/competition/team_list/')
+    return redirect('/competition/team/')
 
 
 def secession_team(request, user_id, team_id):
