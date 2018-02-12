@@ -1,4 +1,5 @@
 import json
+import requests
 
 from competition.infrastructure.tournament import Tournament
 from competition.api import authorized_session
@@ -6,6 +7,7 @@ from recod_admin import logging
 
 TOORNAMENT_API_TOURNAMENT_URL = 'https://api.toornament.com/v1/tournaments'
 TOORNAMENT_API_PARTICIPATE_URL = 'https://api.toornament.com/v1/tournaments/{}/participants'
+TOORNAMENT_API_MATCH_URL = 'https://api.toornament.com/v1/tournaments/{}/matches'
 
 logger = logging.getLogger(__name__)
 
@@ -339,6 +341,154 @@ def refusal_api_participate(api_tournament_id, api_participate_id):
         oauth.close()
 
 
+class ApiParticipantEntity(object):
+    def __init__(self, participant):
+        self._participant = participant
+
+    def id(self):
+        """
+        Unique identifier for this participant
+        :rtype int|None:
+        """
+        return self._participant.get('id', None)
+
+    def name(self):
+        """
+        Participant name.
+        :rtype str:
+        """
+        return self._participant.get('name', '')
+
+    def country(self):
+        """
+        Country of the participant.
+        :rtype str|None:
+        """
+        return self._participant.get('country', None)
+
+
+class ApiMatchOpponentEntity(object):
+    def __init__(self, opponents):
+        self._opponents = opponents
+
+    def number(self):
+        """
+        The number of the opponent.
+        :rtype int|None:
+        """
+        return self._opponents.get('number', None)
+
+    def participant(self):
+        """
+        The participant represented in this opponent.
+        :rtype ApiParticipateEntity:
+        """
+        return ApiParticipateEntity(self._opponents.get('participant', None))
+
+
 class ApiMatchEntity(object):
     def __init__(self, response):
         self._response = response
+
+    def id(self):
+        """
+        An unique identifier for this match.
+        :rtype int|None:
+        """
+        return self._response.get('id', None)
+
+    def type(self):
+        """
+        Type of match: "duel" means only two opponents are involved; "ffa" means more than two opponents are involved.
+        :rtype str:
+        """
+        return self._response.get('type', '')
+
+    def discipline(self):
+        """
+        The discipline unique identifier of the match.
+        :rtype str:
+        """
+        return self._response.get('discipline', '')
+
+    def status(self):
+        """
+        Status of the match: "pending" implies it has not yet started; "running" means it has started but not yet ended;
+         "completed" indicates the match is finished.
+        Possible values: pending, running, completed
+        :rtype str:
+        """
+        return self._response.get('status', '')
+
+    def tournament_id(self):
+        """
+        The tournament's unique identifier of this match.
+        :rtype str:
+        """
+        return self._response.get('tournament_id', '')
+
+    def number(self):
+        """
+        Number of this match.
+        :rtype int|None:
+        """
+        return self._response.get('number', None)
+
+    def stage_number(self):
+        """
+        Stage number of this match.
+        :rtype int|None:
+        """
+        return self._response.get('stage_number', None)
+
+    def group_number(self):
+        """
+        Group number of this match.
+        :rtype int|None:
+        """
+        return self._response.get('group_number', None)
+
+    def round_number(self):
+        """
+        Round number of this match.
+        :rtype int|None:
+        """
+        return self._response.get('round_number', None)
+
+    def timezone(self):
+        """
+        Time-zone of the match.
+        :rtype str|None:
+        """
+        return self._response.get('timezone', None)
+
+    def match_format(self):
+        """
+        Defines how many games are required to decide which participant won, draw or lost the match.
+        :rtype str|None:
+        """
+        return self._response.get('match_format', None)
+
+    def opponents(self):
+        """
+        List of the opponents involved in this match.
+        :rtype List[ApiMatchOpponentEntity]:
+        """
+        return [ApiMatchOpponentEntity(opponent) for opponent in self._response.get('opponents', [])]
+
+
+def get_tournament_matches(api_tournament_id):
+    """
+    Toornament API上のトーナメントのマッチ情報を取得する
+    （Toornament Organizerにてトーナメント形式の設定及び生成が必要）
+    :param int api_tournament_id:
+    :return List[ApiTournamentMatchEntity]:
+    """
+    try:
+        response = requests.get(TOORNAMENT_API_MATCH_URL.format(api_tournament_id)).json()
+        entities = [ApiMatchEntity(r) for r in response]
+        logger.info('[get_tournament_matches] succeeded.')
+        return entities
+    except Exception as e:
+        logger.error('[get_tournament_matches] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
