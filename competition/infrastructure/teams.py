@@ -26,16 +26,15 @@ class Team(models.Model):
         メンバー全員のニックネームを並べた文字列を含めている
         :rtype List[Team]:
         """
-        teams = cls.objects.select_related('game', 'game__discipline')\
+        teams = cls.objects.select_related('game', 'game__discipline', 'game__platform') \
             .filter(game__discipline__is_active=True).all()
         for team in teams:
-            team.organizer = Member.objects.select_related('user') \
-                .values_list('user__nickname', flat=True) \
-                .filter(team=team) \
-                .filter(is_admin=True).first()
-            team.members = ','.join([nickname for nickname in Member.objects.select_related('user')
-                                    .values_list('user__nickname', flat=True)
-                                    .filter(team=team)])
+            team.organizer = str(Member.objects.select_related('user').values_list('user__nickname', flat=True)
+                                 .filter(team=team)
+                                 .filter(is_admin=True).first())
+            team.members = str(','.join([nickname for nickname in Member.objects.select_related('user')
+                                        .values_list('user__nickname', flat=True)
+                                        .filter(team=team)]))
         return teams
 
 
@@ -62,7 +61,7 @@ class Member(models.Model):
     class Meta:
         db_table = 'team_members'
         managed = False
-        unique_together = (('user', 'team'), ('team', 'is_admin'), )
+        unique_together = (('user', 'team'), ('team', 'is_admin'),)
 
     @classmethod
     def get_joined_teams(cls, user_id):
@@ -75,5 +74,3 @@ class Member(models.Model):
                 Member.objects.exclude(team__id__in=Member.objects.values_list('team__id', flat=True)
                                        .filter(user_id=user_id)
                                        ).all()]
-
-

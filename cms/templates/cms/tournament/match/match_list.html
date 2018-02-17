@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- content panel -->
+<div class="main-panel">
+    <!-- main area -->
+    <div class="main-content">
+        <div class="panel">
+            <div class="panel-heading border">
+                <ol class="breadcrumb mb0 no-padding">
+                    <li>
+                        <a href="{% url 'top' %}"> ホーム </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'team_list' %}"> チーム </a>
+                    </li>
+                </ol>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for match in matches %}
+                        <tr>
+                            <td>{{ team.id }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- /main area -->
+</div>
+    <!-- /content panel -->
+{% endblock %}

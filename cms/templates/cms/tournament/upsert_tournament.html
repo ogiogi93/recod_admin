@@ -47,6 +47,41 @@
 
 
                                 <div class="row">
+                                    <h5> マッチスケジュール </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>試合日</th>
+                                            <th>試合開始時間</th>
+                                            <th>ステージID</th>
+                                            <th>グループID </th>
+                                            <th>ラウンドID </th>
+                                            <th>試合</th>
+                                            <th>状態</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for mt in matches %}
+                                            <tr>
+                                                <td>{{ mt.id }}</td>
+                                                <td>{{ mt.start_date }}</td>
+                                                <td>{{ mt.start_time }}</td>
+                                                <td>{{ mt.stage.id }}</td>
+                                                <td>{{ mt.group_number }}</td>
+                                                <td>{{ mt.round_number }}</td>
+                                                <td>{{ mt.detail }}</td>
+                                                <td>{{ mt.status }}</td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="row">
                                     <h5> 参加チーム </h5>
                                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                                         <thead>
@@ -72,6 +107,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+
                             {% else %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
                                       action="{% url 'create_tournament' %}">

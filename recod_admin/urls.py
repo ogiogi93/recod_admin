@@ -14,16 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 from django.conf.urls import include, url
+from django.shortcuts import render
+from django.urls import path
 
-from account import urls as account_urls
-from competition import urls as competition_urls
-from cms.views import top
+import account.urls as account_urls
+import competition.urls.games as games
+import competition.urls.teams as teams
+import competition.urls.tournaments as tournaments
+
+
+def top(request):
+    return render(request, 'cms/index.html')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', top, name='top'),
     url(r'^user/', include(account_urls)),
-    url(r'^competition/', include(competition_urls)),
+    url(r'^competition/', include(games)),
+    url(r'^competition/', include(teams)),
+    url(r'^competition/', include(tournaments)),
 ]

@@ -50,6 +50,7 @@ def upsert_tournament(request, tournament_id=None):
                 'tournament_bracket': _get_tournament_bracket(tournament_id) if tournament_id else None,
                 'participate_teams': Participate.objects.select_related('tournament', 'team').filter(
                     tournament_id=tournament_id).all(),
+                'matches': _get_match_list(tournament_id),
                 'form': form
             })
         # 新規作成
@@ -69,6 +70,7 @@ def upsert_tournament(request, tournament_id=None):
         'tournament_bracket': _get_tournament_bracket(tournament_id) if tournament_id else None,
         'participate_teams': Participate.objects.select_related('tournament', 'team').filter(
             tournament_id=tournament_id).all(),
+        'matches': _get_match_list(tournament_id),
         'form': UpsertTournamentForm(
             instance=Tournament.objects.get(pk=tournament_id)) if tournament_id else UpsertTournamentForm()
     })
@@ -220,3 +222,21 @@ def _get_tournament_bracket(tournament_id):
         ]
     })
     return brackets
+
+
+def _get_match_list(tournament_id):
+    """
+    指定されたトーナメントのマッチリストを返す
+    :param int tournament_id:
+    :rtype List[Match]:
+    """
+    matches = Match.objects.filter(tournament_id=tournament_id)
+    match_ids = list(match.id for match in matches)
+    match_teams = MatchTeam.objects.select_related('team', 'match').filter(match_id__in=match_ids)\
+        .order_by('match__stage__id', 'match__group_number', 'match__round_number')
+    # Matchオブジェクトにマッチ情報をListで入れておく
+    # FIXME: Matchに直接入れるのは微妙
+    for match in matches:
+        match.detail = ' vs '.join([mt.team.name + '(' + str(mt.score) + ')'
+                                    for mt in match_teams if mt.match_id == match.id])
+    return matches
