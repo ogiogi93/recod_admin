@@ -110,6 +110,7 @@ class MatchTeam(models.Model):
     id = models.AutoField(primary_key=True)
     match = models.ForeignKey(Match, on_delete=False)
     team = models.ForeignKey(Team, on_delete=False)
+    api_opponent_id = models.IntegerField(null=False)
     result = models.IntegerField()
     score = models.IntegerField()
     is_active = models.BooleanField(default=True)

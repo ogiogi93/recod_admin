@@ -183,6 +183,7 @@ def get_and_upsert_matches(request, tournament_id):
             MatchTeam.objects.update_or_create(
                 match=match[0],
                 team=Participate.objects.get(api_participate_id=participate_id).team,
+                api_opponent_id=opponent.number(),
                 defaults={
                     'result': opponent.result(),
                     'score': opponent.score()

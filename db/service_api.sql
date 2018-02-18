@@ -175,6 +175,7 @@ CREATE TABLE `match_teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `match_id` int(11) UNSIGNED NOT NULL,
   `team_id` int(11) UNSIGNED NOT NULL,
+  `api_opponent_id` int(11) UNSIGNED NOT NULL,
   `result` int(11) UNSIGNED,
   `score` int(11) UNSIGNED,
   `is_active` tinyint(1) DEFAULT '1',

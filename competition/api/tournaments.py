@@ -566,3 +566,38 @@ def get_tournament_matches(api_tournament_id):
     except Exception as e:
         logger.error('[get_tournament_matches] failed.'
                      ' error_type: {}, error: {}'.format(type(e), e))
+
+
+def update_match_result(api_tournament_id, api_match_id, api_opponent_id, status, result, score):
+    """
+    Toornament APIにマッチ結果を登録する
+    :param int api_tournament_id:
+    :param int api_match_id:
+    :param int api_opponent_id:
+    :param str status:
+    :param int result:
+    :param int score:
+    :rtype None:
+    """
+    oauth = authorized_session()
+    try:
+        body = json.dumps({
+            'status': status,
+            'opponents': {
+                'number': api_opponent_id,
+                'result': result,
+                'score': score,
+                'forfeit': False
+            }
+        })
+        oauth.put(
+            url=TOORNAMENT_API_MATCH_URL.format(api_tournament_id) + '/{}/result'.format(api_match_id),
+            data=body).json()
+        logger.info('[update_match_result] succeeded.'
+                    'Match ID:{} refusal Tournament ID: {}.'.format(api_match_id, api_tournament_id))
+        return True
+    except Exception as e:
+        logger.error('[update_match_result] failed.'
+                     ' error_type: {}, error: {}'.format(type(e), e))
+    finally:
+        oauth.close()

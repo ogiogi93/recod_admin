@@ -73,7 +73,9 @@
                                                 <td>{{ mt.round_number }}</td>
                                                 <td>{{ mt.detail }}</td>
                                                 <td>{{ mt.status }}</td>
-                                                <td></td>
+                                                <td>
+                                                    <a href="{% url 'update_match' match_id=mt.id %}"> 更新 </a>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
