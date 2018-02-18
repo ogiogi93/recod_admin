@@ -23,14 +23,15 @@ def update_match(request, match_id):
         for f in [form, form_opponent]:
             if f.is_valid():
                 match_team_id = f.instance.id
-                match_team = MatchTeam.objects.select_related('match', 'match__tournament', 'team').get(pk=match_team_id)
+                match_team = MatchTeam.objects.select_related('match', 'match__tournament', 'team').get(
+                    pk=match_team_id)
                 # Toornament APIに登録する
                 updated = update_match_result(api_tournament_id=match_team.match.tournament.api_tournament_id,
-                                          api_match_id=match_team.match.api_match_id,
-                                          api_opponent_id=match_team.api_opponent_id,
-                                          status='completed',
-                                          result=f.instance.result,
-                                          score=f.instance.score)
+                                              api_match_id=match_team.match.api_match_id,
+                                              api_opponent_id=match_team.api_opponent_id,
+                                              status='completed',
+                                              result=f.instance.result,
+                                              score=f.instance.score)
                 if not updated:
                     continue
                 f.save()
