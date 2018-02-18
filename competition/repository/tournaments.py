@@ -183,8 +183,8 @@ def get_and_upsert_matches(request, tournament_id):
             MatchTeam.objects.update_or_create(
                 match=match[0],
                 team=Participate.objects.get(api_participate_id=participate_id).team,
-                api_opponent_id=opponent.number(),
                 defaults={
+                    'api_opponent_id': opponent.number(),
                     'result': opponent.result(),
                     'score': opponent.score()
                 })
@@ -197,22 +197,26 @@ def _get_tournament_bracket(tournament_id):
     :param tournament_id:
     :rtype json:
     """
-    # 初戦(既に対戦チームが決定しているマッチ)
-    match_teams = MatchTeam.objects.select_related('match', 'team', 'match__stage') \
-        .filter(match__tournament__id=tournament_id).order_by('match_id')
-    # match_idが低い順番からトーナメント表に配置していく
-    match_ids = sorted(set(mt.match_id for mt in match_teams))
+    round_numbers = sorted(set(Match.objects.values_list('round_number', flat=True)
+                               .filter(tournament_id=tournament_id)))
     teams = []
     results = []
-    for match_id in match_ids:
-        _teams = []
-        _results = []
-        for mt in match_teams:
-            if mt.match_id == match_id:
-                _teams.append(mt.team.name)
-                _results.append(mt.result)
-        teams.append(_teams)
-        results.append(_results)
+    for round_number in round_numbers:
+        match_teams = MatchTeam.objects.select_related('match', 'team')\
+            .filter(match__tournament__id=tournament_id)\
+            .filter(match__round_number=round_number)
+        match_ids = sorted(set(mt.match.id for mt in match_teams))
+        for match_id in match_ids:
+            _teams = []
+            _results = []
+            _match_teams = [mt for mt in match_teams if mt.match.id == match_id]
+            for match_team in _match_teams:
+                _teams.append(match_team.team.name)
+                _results.append(match_team.score)
+            if round_number == 1:
+                teams.append(_teams)
+            results.append(_results)
+
     # こちらを参考に頑張りましょう http://www.aropupu.fi/bracket/
     brackets = json.dumps({
         'teams': teams,

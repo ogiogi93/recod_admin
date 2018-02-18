@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 
 from competition.api.tournaments import update_match_result
 from competition.forms.matchs import UpdateMatchForm
-from competition.infrastructure.tournament import Match, MatchTeam, Team
+from competition.infrastructure.tournament import Match, MatchTeam
+from competition.repository.tournaments import get_and_upsert_matches
 
 
 def update_match(request, match_id):
@@ -11,7 +11,6 @@ def update_match(request, match_id):
     指定されたマッチの結果をチームごとに更新する
     :param request:
     :param int match_id:
-    :param int|None match_team_id:
     :return JsonResponse:
     """
     if request.method == 'POST':
@@ -20,28 +19,32 @@ def update_match(request, match_id):
         form = UpdateMatchForm(request.POST, prefix='form', instance=MatchTeam.objects.get(pk=team_match_id))
         form_opponent = UpdateMatchForm(
             request.POST, prefix='form_opponent', instance=MatchTeam.objects.get(pk=opponent_team_match_id))
+        results = []
         for f in [form, form_opponent]:
             if f.is_valid():
                 match_team_id = f.instance.id
                 match_team = MatchTeam.objects.select_related('match', 'match__tournament', 'team').get(
                     pk=match_team_id)
-                # Toornament APIに登録する
-                updated = update_match_result(api_tournament_id=match_team.match.tournament.api_tournament_id,
-                                              api_match_id=match_team.match.api_match_id,
-                                              api_opponent_id=match_team.api_opponent_id,
-                                              status='completed',
-                                              result=f.instance.result,
-                                              score=f.instance.score)
-                if not updated:
-                    continue
+                results.append({
+                    'number': match_team.api_opponent_id,
+                    'score': f.instance.score,
+                    'result': f.instance.result,
+                    'forfeit': False})
                 f.save()
             else:
                 return _render_match(request, match_id)
+
+        # Toornament APIに登録する
+        match = Match.objects.select_related('tournament').get(pk=match_id)
+        update_match_result(api_tournament_id=match.tournament.api_tournament_id,
+                            api_match_id=match.api_match_id,
+                            status='completed',
+                            opponents=results)
         # Match.statusも更新しておく
         match = Match.objects.get(id=match_id)
         match.status = 'completed'
         match.save()
-        return redirect('/competition/tournament/edit/{}/'.format(match.tournament_id))
+        return get_and_upsert_matches(request, tournament_id=match.tournament_id)
     return _render_match(request, match_id)
 
 
