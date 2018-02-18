@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}"> ホーム </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'game_list' %}"> ゲーム </a>
+                        </li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            ゲームを新規追加・修正する
+                            {% if game_id %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_game' game_id=game_id %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
+                                </span>
+
+                                <div class="row">
+                                    <h5> マップリスト </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>マップ名</th>
+                                            <th>状態</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for map in maps %}
+                                            <tr>
+                                                <td>{{ map.id }}</td>
+                                                <td>{{ map.name }}</td>
+                                                <td>{{ map.is_active }}</td>
+                                                <td>
+                                                    <a href="{% url 'edit_map' game_id=game_id map_id=map.id %}">
+                                                        編集 </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <span class="input-group-btn">
+                                    <a href="{% url 'add_map' game_id=game_id %}">
+                                        <button class="btn btn-default pull-right" type="button"> 新規追加 </button>
+                                    </a>
+                                    </span>
+                                </div>
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'add_game' %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"> 追加 </button>
+                                </span>
+                            {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

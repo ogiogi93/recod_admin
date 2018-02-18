@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 
 from account.models import CustomUser as User
-from competition.models import Team, Member
+from competition.infrastructure.teams import Team, Member
+from competition.infrastructure.tournament import Participate
 from competition.forms.teams import UpsertTeamForm, JoinTeam
 
 
@@ -19,9 +20,11 @@ def upsert_team(request, user_id=None, team_id=None):
             form = UpsertTeamForm(request.POST, instance=Team.objects.get(pk=team_id))
             if form.is_valid():
                 form.save()
-                return redirect('/competition/team_list/')
+                return redirect('/competition/team/')
             return render(request, 'cms/team/upsert_team.html', context={
                 'user_id': user_id,
+                'participate_tournaments': Participate.objects.filter(team_id=team_id).all(),
+                'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
                 'form': form
             })
         # 新規追加
@@ -33,14 +36,16 @@ def upsert_team(request, user_id=None, team_id=None):
             user = User.objects.get(pk=user_id)
             team = Team.objects.get(pk=new_team.pk)
             Member.objects.add_member(user, team, is_admin=True)
-            return redirect('/competition/team_list/')
+            return redirect('/competition/team/')
         return render(request, 'cms/team/upsert_team.html', context={
             'user_id': user_id,
-            'form': form
+            'form': form,
         })
     return render(request, 'cms/team/upsert_team.html', context={
         'user_id': user_id,
         'team_id': team_id,
+        'participate_tournaments': Participate.objects.filter(team_id=team_id).all(),
+        'members': Member.objects.filter(team_id=team_id).order_by('id').all(),
         'form': UpsertTeamForm(instance=Team.objects.get(pk=team_id)) if team_id else UpsertTeamForm()
     })
 
@@ -55,7 +60,7 @@ def delete_team(request, team_id):
     team = Team.objects.get(pk=team_id)
     if team:
         team.delete()
-    return redirect('/competition/team_list/')
+    return redirect('/competition/team/')
 
 
 def belong_teams(request, user_id):
@@ -85,8 +90,8 @@ def join_team(request):
         team = Team.objects.get(pk=request.POST.get('team_id'))
         if user and team:
             Member.objects.add_member(user, team, is_admin=False)
-        return redirect('/competition/user_list/edit/{}/belong_team/'.format(user_id))
-    return redirect('/competition/team_list/')
+        return redirect('/competition/user/edit/{}/belong_team/'.format(user_id))
+    return redirect('/competition/team/')
 
 
 def secession_team(request, user_id, team_id):
@@ -103,8 +108,8 @@ def secession_team(request, user_id, team_id):
     if user and team:
         member = Member.objects.filter(user=user).filter(team=team)
         member.delete()
-        return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
-    return redirect('/user_list/edit/{}/joined_team/'.format(user_id))
+        return redirect('/user/edit/{}/belong_team/'.format(user_id))
+    return redirect('/user/edit/{}/belong_team/'.format(user_id))
 
 
 def team_list(request):

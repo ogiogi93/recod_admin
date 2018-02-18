@@ -6,7 +6,18 @@
         <div class="main-content">
             <div class="panel mb25">
                 <div class="panel-heading border">
-                    ユーザーを追加 or 修正する
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}">ホーム</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user_list' %}">ユーザー</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'edit_user' user_id=user_id %}"> {{ user_id }} </a>
+                        </li>
+                    </ol>
+                    <h4>ユーザーを追加 or 修正する</h4>
                 </div>
                 <div class="panel-body">
                     <div class="row no-margin">
@@ -19,18 +30,12 @@
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> 修正 </button>
-                                </span>
-                                <span class="input-group-btn">
-                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-primary"
+                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-default pull-right"
                                                                                               type="button"> 削除 </button></a>
-                                </span>
-                                <span class="input-group-btn">
-                                    <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-primary"
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
+                                    <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-default"
                                                                                               type="button"> チームを作る </button></a>
-                                </span>
-                                <span class="input-group-btn">
-                                    <a href="{% url 'joined_team' user_id=user_id %}"><button class="btn btn-primary"
+                                    <a href="{% url 'joined_team' user_id=user_id %}"><button class="btn btn-default"
                                                                                               type="button"> 所属チームを修正する </button></a>
                                 </span>
                             {% else %}

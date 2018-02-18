@@ -6,7 +6,18 @@
         <div class="main-content">
             <div class="panel mb25">
                 <div class="panel-heading border">
-                    チームを作成・修正する
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}"> ホーム </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'team_list' %}"> チーム </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'edit_team' team_id=team_id %}"> {{ team_id }} </a>
+                        </li>
+                    </ol>
+                    <h4>チームを作成・修正する</h4>
                 </div>
                 <div class="panel-body">
                     <div class="row no-margin">
@@ -19,11 +30,71 @@
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> 修正 </button>
-                                </span>
+                                    <a href="{% url 'delete_team' team_id=team_id %}"> <button
+                                            class="btn btn-default pull-right"
+                                            type="button"> 削除 </button></a>
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
+                            </span>
+
+                                <div class="row">
+                                    <h5> メンバーリスト </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>ニックネーム</th>
+                                            <th>参加日</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for member in members %}
+                                            <tr>
+                                                <td>{{ member.user.id }}</td>
+                                                <td>{{ member.user.nickname }}</td>
+                                                <td>{{ member.user.date_joined }}</td>
+                                                {% if not member.is_admin %}
+                                                    <td>
+                                                        <a href="{% url 'secession_team' user_id=member.user.id team_id=team_id %}"
+                                                           class="delete"> 脱退させる </a>
+                                                    </td>
+                                                {% else %}
+                                                    <td>管理者のため脱退させることはできません</td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row">
+                                    <h5> 参加大会リスト </h5>
+                                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>大会名</th>
+                                            <th>ゲーム</th>
+                                            <th>プラットフォーム</th>
+                                            <th>開催日</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pc in participate_tournaments %}
+                                            <tr>
+                                                <td>{{ pc.tournament.id }}</td>
+                                                <td>{{ pc.tournament.name }}</td>
+                                                <td>{{ pc.tournament.game.discipline.name }}</td>
+                                                <td>{{ pc.tournament.game.platform.name }}</td>
+                                                <td>{{ pc.tournament.date_start }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'delete_team' team_id=team_id %}"><button class="btn btn-primary"
-                                                                                              type="button"> 削除 </button></a>
+                                    <a href="{% url 'participate_tournament' team_id=team_id %}"> <button
+                                            class="btn btn-default pull-right" type="button"> 大会に参加する </button></a>
                                 </span>
                             {% elif user_id %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"

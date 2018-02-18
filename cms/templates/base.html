@@ -9,8 +9,7 @@
     <meta name="description" content="e-sports Japan Competition Admin Site">
     <meta name="author" content="Takashi OGIWARA">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
-
-    <!-- page level plugin styles -->
+<!-- page level plugin styles -->
     <link rel="stylesheet" href="{% static 'css/climacons-font.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/rickshaw/rickshaw.min.css' %}">
     <!-- /page level plugin styles -->
@@ -18,6 +17,7 @@
     <!-- build:css({.tmp,app}) styles/app.min.css -->
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/perfect-scrollbar/css/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/roboto.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/panel.css' %}">
@@ -99,6 +99,11 @@
                                 <span>チームーリスト</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{% url 'create_team' user_id=1%}"> <!-- TODO: ログインユーザIDを配置 -->
+                                <span>新規チームを追加</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- /team -->
@@ -132,12 +137,12 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="{% url 'competition_list' %}">
+                            <a href="{% url 'tournament_list' %}">
                                 <span>大会リスト</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'create_competition' %}">
+                            <a href="{% url 'create_tournament' %}">
                                 <span>新規大会の作成</span>
                             </a>
                         </li>
@@ -225,7 +230,6 @@
 
 <!-- page level scripts -->
 <script src="{% static 'vendor/d3/d3.min.js' %}"></script>
-<script src="{% static 'vendor/rickshaw/rickshaw.min.js' %}"></script>
 <script src="{% static 'vendor/flot/jquery.flot.js' %}"></script>
 <script src="{% static 'vendor/flot/jquery.flot.resize.js' %}"></script>
 <script src="{% static 'vendor/flot/jquery.flot.categories.js' %}"></script>
@@ -234,8 +238,9 @@
 <!-- /page level scripts -->
 
 <!-- initialize page scripts -->
-<script src="{% static 'js/pages/dashboard.js' %}"></script>
 <!-- /initialize page scripts -->
+
+
 
 <!-- extra scripts -->
 <script>
@@ -244,6 +249,9 @@
     });
 </script>
 <!-- /extra scripts -->
+
+{% block js %}
+{% endblock %}
 
 </body>
 

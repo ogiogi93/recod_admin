@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    試合結果を入力する
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            <form method="post" class="form-horizontal bordered-group" id="match-update-form"
+                                  role="form"
+                                  action="{% url 'update_match_team' match_id=match_id %}">
+                                {% csrf_token %}
+                                <h3 style="text-align: center"> {{ team_name }} </h3>
+                                <div class="form-group">
+                                    {{ form.as_p }}
+                                </div>
+                                <h4 style="text-align: center"> VS </h4>
+                                <h3 style="text-align: center"> {{ opponent_team_name }} </h3>
+                                <div class="form-group">
+                                    {{ opponent_form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary pull-right" type="submit"> 更新 </button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}
+
+{% block js %}
+    <script>
+        function changeResult() {
+            let score = parseInt($("input#id_form-score").val());
+            let opposite_score = parseInt($("input#id_form_opponent-score").val());
+
+            if (score > opposite_score) {
+                $('#id_form-result option[value="1"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="3"]').prop('selected',true);
+            } else if (score < opposite_score) {
+                $('#id_form-result option[value="3"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="1"]').prop('selected',true);
+            } else {
+                $('#id_form-result option[value="2"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="2"]').prop('selected',true);
+            }
+            return false;
+        }
+
+        $(function () {
+            $('#id_form-score,#id_form_opponent-score').change(function () {
+                changeResult();
+            });
+        });
+    </script>
+{% endblock %}
