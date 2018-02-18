@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}"> ホーム </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'game_list' %}"> ゲーム </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'edit_game' game_id=game_id %}"> {{ game_id }} </a>
+                        </li>
+                    </ol>
+                    <h4>マップを新規追加・修正する</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            {% if map_id %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_map' game_id=game_id map_id=map_id %}">
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'add_map' game_id=game_id %}">
+                            {% endif %}
+                            <div class="form-group">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                            </div>
+                            <span class="input-group-btn">
+                                    <button class="btn btn-default pull-right" type="submit"> 追加・修正 </button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

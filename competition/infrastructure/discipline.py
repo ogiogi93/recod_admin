@@ -66,6 +66,7 @@ class Map(models.Model):
     logo_url = models.URLField()
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'maps'
