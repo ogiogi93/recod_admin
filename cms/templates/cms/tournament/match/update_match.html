@@ -33,9 +33,35 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- /main area -->
     </div>
     <!-- /content panel -->
+{% endblock %}
+
+{% block js %}
+    <script>
+        function changeResult() {
+            let score = parseInt($("input#id_form-score").val());
+            let opposite_score = parseInt($("input#id_form_opponent-score").val());
+
+            if (score > opposite_score) {
+                $('#id_form-result option[value="1"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="3"]').prop('selected',true);
+            } else if (score < opposite_score) {
+                $('#id_form-result option[value="3"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="1"]').prop('selected',true);
+            } else {
+                $('#id_form-result option[value="2"]').prop('selected',true);
+                $('#id_form_opponent-result option[value="2"]').prop('selected',true);
+            }
+            return false;
+        }
+
+        $(function () {
+            $('#id_form-score,#id_form_opponent-score').change(function () {
+                changeResult();
+            });
+        });
+    </script>
 {% endblock %}
