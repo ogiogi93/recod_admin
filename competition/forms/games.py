@@ -1,5 +1,5 @@
 from django import forms
-from competition.infrastructure.discipline import Discipline, Game, Platform
+from competition.infrastructure.discipline import Discipline, Game, Map, Platform
 
 
 class UpsertGameForm(forms.ModelForm):
@@ -26,3 +26,20 @@ class UpsertGameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = ('platform', 'discipline', 'home_url', 'date_released')
+
+
+class UpsertMapForm(forms.ModelForm):
+    error_css_class = 'has-error'
+    name = forms.CharField(max_length=50,
+                           required=True,
+                           label='マップ名',
+                           widget=forms.TextInput(attrs={
+                               'class': 'form-control'}))
+    logo_url = forms.URLField(required=False,
+                              widget=forms.TextInput(attrs={
+                                  'class': 'form-control'}),
+                              label='マップ画像URL')
+
+    class Meta:
+        model = Map
+        fields = ('name', 'logo_url', )

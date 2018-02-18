@@ -7,7 +7,15 @@
         <div class="main-content">
             <div class="panel mb25">
                 <div class="panel-heading border">
-                    大会を新規追加・修正する
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}">ホーム</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tournament_list' %}"> 大会 </a>
+                        </li>
+                    </ol>
+                    <h4>大会を新規追加・修正する</h4>
                 </div>
                 <div class="panel-body">
                     <div class="row no-margin">
@@ -55,8 +63,8 @@
                                             <th>試合日</th>
                                             <th>試合開始時間</th>
                                             <th>ステージID</th>
-                                            <th>グループID </th>
-                                            <th>ラウンドID </th>
+                                            <th>グループID</th>
+                                            <th>ラウンドID</th>
                                             <th>試合</th>
                                             <th>状態</th>
                                             <th></th>
@@ -131,13 +139,13 @@
         <!-- /main area -->
     </div>
     <!-- /content panel -->
-    <script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
+{% endblock %}
+{% block js %}
     <script src="{% static 'vendor/jquery-bracket/dist/jquery.bracket.min.js' %}"></script>
     <script>
         /* Show Tournament */
-        let data = {{ tournament_bracket|safe }};
         $('.show-tournament').bracket({
-            init: data
+            init: {{ tournament_bracket|safe }}
         });
     </script>
 {% endblock %}

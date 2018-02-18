@@ -11,8 +11,10 @@ CREATE TABLE `account_customuser` (
   `date_joined` datetime(6) NOT NULL,
   `nickname` varchar(255) NOT NULL,
   `description` longtext NOT NULL,
-  `image_url` varchar(100) NOT NULL,
+  `image_url` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`is_active`),
+  KEY (`is_admin`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -25,6 +27,7 @@ CREATE TABLE `platforms` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`is_active`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,6 +43,7 @@ CREATE TABLE `disciplines` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`is_active`),
   UNIQUE KEY `api_discipline_id_and_name` (`api_discipline_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -55,6 +59,9 @@ CREATE TABLE `games` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`platform_id`),
+  KEY (`discipline_id`),
+  KEY (`is_active`),
   UNIQUE KEY `platform_id_and_discipline_id` (`platform_id`,`discipline_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -69,6 +76,9 @@ CREATE TABLE `team_members` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
+  key (`user_id`),
+  KEY (`team_id`),
+  KEY (`is_active`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -83,6 +93,8 @@ CREATE TABLE `teams` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`game_id`),
+  KEY (`is_active`),
   UNIQUE KEY `game_id_and_name` (`game_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -94,6 +106,7 @@ CREATE TABLE `match_formats` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`is_active`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -122,6 +135,10 @@ CREATE TABLE `tournaments` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`game_id`),
+  KEY (`is_active`),
+  KEY (`date_start`),
+  KEY (`is_active`),
   UNIQUE KEY `api_tournament_id` (`api_tournament_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -135,6 +152,7 @@ CREATE TABLE `stages` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`tournament_id`),
   UNIQUE KEY `api_stage_id` (`api_stage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -147,6 +165,7 @@ CREATE TABLE `participates` (
   `date_joined` date NOT NULL,
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`tournament_id`),
   UNIQUE KEY `tournament_id_and_team_id` (`tournament_id`, `team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -167,6 +186,11 @@ CREATE TABLE `matches` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`game_id`),
+  KEY (`tournament_id`),
+  KEY (`stage_id`),
+  KEY (`start_date`),
+  KEY (`is_active`),
   UNIQUE KEY `api_match_id` (`api_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -182,5 +206,23 @@ CREATE TABLE `match_teams` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY (`match_id`),
+  KEY (`team_id`),
+  KEY (`is_active`),
   UNIQUE KEY `match_id_and_team_id` (`match_id`, `team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `maps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `game_id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `logo_url` varchar(200),
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`game_id`),
+  KEY (`is_active`),
+  UNIQUE KEY `game_id_and_name` (`game_id`, `name`)
+)
