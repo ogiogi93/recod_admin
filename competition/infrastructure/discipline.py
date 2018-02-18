@@ -57,3 +57,17 @@ class Game(models.Model):
     @classmethod
     def get_enabled_games(cls):
         return cls.objects.filter(discipline__is_active=True).select_related('discipline', 'platform').all()
+
+
+class Map(models.Model):
+    id = models.AutoField(primary_key=True)
+    game = models.ForeignKey(Game, on_delete=False)
+    name = models.CharField(max_length=255, null=False)
+    logo_url = models.URLField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'maps'
+        managed = False
+        unique_together = ('game', 'name', )
