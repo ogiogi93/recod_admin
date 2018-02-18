@@ -5,7 +5,7 @@ from competition.infrastructure.discipline import Game
 
 class UpsertTournamentForm(forms.ModelForm):
     error_css_class = 'has-error'
-    Participate_TYPE_CHOICES = (
+    PARTICIPATE_TYPE_CHOICES = (
         ('team', 'チーム'),
         ('single', '個人')
     )
@@ -32,7 +32,7 @@ class UpsertTournamentForm(forms.ModelForm):
                                   'class': 'form-control'}),
                               label='参加チーム数上限')
     participant_type = forms.ChoiceField(required=True,
-                                         choices=Participate_TYPE_CHOICES,
+                                         choices=PARTICIPATE_TYPE_CHOICES,
                                          widget=forms.Select(attrs={
                                              'class': 'form-control'}),
                                          label='参加タイプ')
