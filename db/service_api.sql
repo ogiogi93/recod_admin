@@ -13,8 +13,8 @@ CREATE TABLE `account_customuser` (
   `description` longtext NOT NULL,
   `image_url` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`is_active`),
-  KEY (`is_admin`),
+  KEY (`idx_is_active`),
+  KEY (`idx_is_admin`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `platforms` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`is_active`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -43,7 +43,7 @@ CREATE TABLE `disciplines` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`is_active`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `api_discipline_id_and_name` (`api_discipline_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -59,9 +59,9 @@ CREATE TABLE `games` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`platform_id`),
-  KEY (`discipline_id`),
-  KEY (`is_active`),
+  KEY (`idx_platform_id`),
+  KEY (`idx_discipline_id`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `platform_id_and_discipline_id` (`platform_id`,`discipline_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -76,9 +76,9 @@ CREATE TABLE `team_members` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-  key (`user_id`),
-  KEY (`team_id`),
-  KEY (`is_active`),
+  key (`idx_user_id`),
+  KEY (`idx_team_id`),
+  KEY (`idx_is_active`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -93,8 +93,8 @@ CREATE TABLE `teams` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`game_id`),
-  KEY (`is_active`),
+  KEY (`idx_game_id`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `game_id_and_name` (`game_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -106,7 +106,7 @@ CREATE TABLE `match_formats` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`is_active`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -135,10 +135,10 @@ CREATE TABLE `tournaments` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`game_id`),
-  KEY (`is_active`),
-  KEY (`date_start`),
-  KEY (`is_active`),
+  KEY (`idx_game_id`),
+  KEY (`idx_is_active`),
+  KEY (`idx_date_start`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `api_tournament_id` (`api_tournament_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -152,7 +152,7 @@ CREATE TABLE `stages` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`tournament_id`),
+  KEY (`idx_tournament_id`),
   UNIQUE KEY `api_stage_id` (`api_stage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -165,7 +165,7 @@ CREATE TABLE `participates` (
   `date_joined` date NOT NULL,
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`tournament_id`),
+  KEY (`idx_tournament_id`),
   UNIQUE KEY `tournament_id_and_team_id` (`tournament_id`, `team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -186,11 +186,11 @@ CREATE TABLE `matches` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`game_id`),
-  KEY (`tournament_id`),
-  KEY (`stage_id`),
-  KEY (`start_date`),
-  KEY (`is_active`),
+  KEY (`idx_game_id`),
+  KEY (`idx_tournament_id`),
+  KEY (`idx_stage_id`),
+  KEY (`idx_start_date`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `api_match_id` (`api_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -206,9 +206,9 @@ CREATE TABLE `match_teams` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`match_id`),
-  KEY (`team_id`),
-  KEY (`is_active`),
+  KEY (`idx_match_id`),
+  KEY (`idx_team_id`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `match_id_and_team_id` (`match_id`, `team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -222,7 +222,98 @@ CREATE TABLE `maps` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY (`game_id`),
-  KEY (`is_active`),
+  KEY (`idx_game_id`),
+  KEY (`idx_is_active`),
   UNIQUE KEY `game_id_and_name` (`game_id`, `name`)
 )
+
+
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `content` text,
+  `image` varchar(255) DEFAULT NULL,
+  `original_image` varchar(255) DEFAULT '',
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `image_width` float DEFAULT '0',
+  `image_height` float DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_articles_on_url` (`url`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_created_at` (`created_at`),
+  KEY `idx_title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `video_authors` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `platform_id` int(10) unsigned NOT NULL,
+  `platform_author_id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `home_url` varchar(255) DEFAULT NULL,
+  `thumbnail_url` varchar(1024) DEFAULT NULL,
+  `enabled` bit(1) NOT NULL,
+  `view_count` bigint(20) DEFAULT NULL,
+  `comment_count` bigint(20) DEFAULT NULL,
+  `subscriber_count` bigint(20) DEFAULT NULL,
+  `video_count` int(10) unsigned DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_platform_author_id_and_platform_id` (`platform_author_id`,`platform_id`),
+  KEY `idx_platform_id_and_enabled` (`platform_id`,`enabled`),
+  KEY `idx_name` (`name`),
+  KEY `idx_home_url` (`home_url`),
+  KEY `idx_enabled` (`enabled`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `video_platforms` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `video_tags` (
+  `video_id` bigint(20) NOT NULL,
+  `tags` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`video_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `videos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `article_id` bigint(20) NOT NULL,
+  `platform_id` int(10) unsigned NOT NULL,
+  `platform_video_id` varchar(255) NOT NULL,
+  `video_author_id` bigint(20) NOT NULL,
+  `thumbnail_url` varchar(1024) NOT NULL,
+  `thumbnail_width` int(10) NOT NULL,
+  `thumbnail_height` int(10) NOT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `view_count` bigint(20) DEFAULT NULL,
+  `like_count` bigint(20) DEFAULT NULL,
+  `dislike_count` bigint(20) DEFAULT NULL,
+  `comment_count` bigint(20) DEFAULT NULL,
+  `published_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_article_id` (`article_id`),
+  UNIQUE KEY `idx_platform_video_id_and_platform_id` (`platform_video_id`,`platform_id`),
+  KEY `idx_platform_id` (`platform_id`),
+  KEY `idx_video_author_id_and_published_at` (`video_author_id`, `published_at`),
+  KEY `idx_published_at` (`published_at`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
