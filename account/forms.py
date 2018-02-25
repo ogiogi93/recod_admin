@@ -121,6 +121,10 @@ class EditUserProfile(forms.ModelForm):
                                  'class': 'form-control'}),
                              error_messages={
                                  'required': '正しいメールアドレスを入力して下さい'})
+    image = forms.ImageField(required=False, label='プロフィール画像',
+                             widget=forms.FileInput(attrs={
+                                 'class': 'form-control'}
+                             ))
     description = forms.CharField(required=False, label='自己紹介文',
                                   widget=forms.Textarea(attrs={
                                       'class': 'form-control'}),
@@ -129,7 +133,7 @@ class EditUserProfile(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('is_admin', 'username', 'nickname', 'email', 'description')
+        fields = ('is_admin', 'username', 'nickname', 'email', 'description', 'image')
 
 
 class EditProfilePassword(PasswordChangeForm):

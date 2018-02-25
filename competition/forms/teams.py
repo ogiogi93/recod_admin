@@ -23,10 +23,14 @@ class UpsertTeamForm(forms.ModelForm):
                                   widget=forms.Select(attrs={
                                       'class': 'form-control'}),
                                   label='活動ゲーム')
+    image = forms.ImageField(required=False, label='チーム画像',
+                             widget=forms.FileInput(attrs={
+                                 'class': 'form-control'}
+                             ))
 
     class Meta:
         model = Team
-        fields = ('name', 'description', 'game')
+        fields = ('name', 'description', 'game', 'image')
 
 
 class JoinTeam(forms.Form):

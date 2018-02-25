@@ -41,6 +41,10 @@ class UpsertTournamentForm(forms.ModelForm):
                                 label='大会名(省略なし)',
                                 widget=forms.TextInput(attrs={
                                     'class': 'form-control'}))
+    image = forms.ImageField(required=False, label='大会サムネイル画像',
+                             widget=forms.FileInput(attrs={
+                                 'class': 'form-control'}
+                             ))
     organization = forms.CharField(required=False,
                                    max_length=255,
                                    label='運営団体',
@@ -94,7 +98,7 @@ class UpsertTournamentForm(forms.ModelForm):
 
     class Meta:
         model = Tournament
-        fields = ('name', 'game', 'size', 'participant_type', 'full_name', 'organization', 'website',
+        fields = ('name', 'game', 'size', 'participant_type', 'full_name', 'image', 'organization', 'website',
                   'date_start', 'date_end', 'online', 'public', 'location', 'description', 'rules',
                   'prize', 'match_format')
 
