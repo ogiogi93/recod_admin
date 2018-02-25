@@ -35,11 +35,11 @@ class UpsertMapForm(forms.ModelForm):
                            label='マップ名',
                            widget=forms.TextInput(attrs={
                                'class': 'form-control'}))
-    logo_url = forms.URLField(required=False,
+    image = forms.URLField(required=False,
                               widget=forms.TextInput(attrs={
                                   'class': 'form-control'}),
                               label='マップ画像URL')
 
     class Meta:
         model = Map
-        fields = ('name', 'logo_url', )
+        fields = ('name', 'image', )

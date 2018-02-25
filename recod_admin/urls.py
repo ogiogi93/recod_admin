@@ -19,6 +19,7 @@ from django.shortcuts import render
 from django.urls import path
 
 import account.urls as account_urls
+import article.urls as article_urls
 import competition.urls.games as games
 import competition.urls.matches as matches
 import competition.urls.teams as teams
@@ -33,6 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', top, name='top'),
     url(r'^user/', include(account_urls)),
+    url(r'^article/', include(article_urls)),
     url(r'^competition/', include(games)),
     url(r'^competition/', include(matches)),
     url(r'^competition/', include(teams)),
