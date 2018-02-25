@@ -199,6 +199,7 @@ try:
 except ImportError:
     raise
 
+# https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
 AWS_REGION = STATIC_SETTINGS['AWS_REGION']
 AWS_ACCESS_KEY_ID = STATIC_SETTINGS['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = STATIC_SETTINGS['AWS_SECRET_ACCESS_KEY']
