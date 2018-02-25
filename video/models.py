@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from article.models import Article
+
 
 class VideoAuthor(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -34,7 +36,7 @@ class VideoPlatform(models.Model):
 
 
 class VideoTag(models.Model):
-    video = models.OneToOneField('Video', related_name='tag', primary_key=True)
+    video = models.OneToOneField('Video', related_name='tag', primary_key=True, on_delete=False)
     tags = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -45,7 +47,7 @@ class VideoTag(models.Model):
 
 class Video(models.Model):
     id = models.BigAutoField(primary_key=True)
-    article = models.ForeignKey('Article', on_delete=False)
+    article = models.ForeignKey(Article, on_delete=False)
     platform = models.ForeignKey('VideoPlatform', on_delete=False)
     platform_video_id = models.CharField(max_length=255)
     video_author = models.ForeignKey('VideoAuthor', on_delete=False)
@@ -59,7 +61,6 @@ class Video(models.Model):
     like_count = models.BigIntegerField(blank=True, null=True)
     dislike_count = models.BigIntegerField(blank=True, null=True)
     comment_count = models.BigIntegerField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
     published_at = models.DateTimeField()
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now)

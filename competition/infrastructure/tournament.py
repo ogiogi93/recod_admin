@@ -45,6 +45,7 @@ class Tournament(models.Model):
     rules = models.CharField(max_length=10000)
     prize = models.CharField(max_length=1500)
     is_active = models.BooleanField(default=True)
+    image = models.URLField()
     match_format = models.ForeignKey(MatchFormat, on_delete=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
