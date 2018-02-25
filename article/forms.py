@@ -14,12 +14,12 @@ class UpsertArticleForm(forms.ModelForm):
                               label='本文', max_length=10000,
                               widget=forms.Textarea(attrs={
                                   'class': 'form-control'}))
-    image = forms.URLField(required=False,
-                           label='サムネイル画像URL',
-                           widget=forms.URLInput(attrs={
-                               'class': 'form-control'
-                           }))
+    thumbnail_url = forms.URLField(required=False,
+                                   label='サムネイル画像URL',
+                                   widget=forms.URLInput(attrs={
+                                       'class': 'form-control'
+                                   }))
 
     class Meta:
         model = Article
-        fields = ('title', 'content', 'image', )
+        fields = ('title', 'content', 'thumbnail_url',)

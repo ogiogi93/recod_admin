@@ -17,7 +17,7 @@ def upsert_team(request, user_id=None, team_id=None):
     if request.method == 'POST':
         # 編集時
         if team_id:
-            form = UpsertTeamForm(request.POST, instance=Team.objects.get(pk=team_id))
+            form = UpsertTeamForm(request.POST, request.FILES, instance=Team.objects.get(pk=team_id))
             if form.is_valid():
                 form.save()
                 return redirect('/competition/team/')
@@ -28,7 +28,7 @@ def upsert_team(request, user_id=None, team_id=None):
                 'form': form
             })
         # 新規追加
-        form = UpsertTeamForm(request.POST)
+        form = UpsertTeamForm(request.POST, request.FILES)
         if form.is_valid():
             new_team = form.save()
 

@@ -29,7 +29,7 @@ def upsert_user(request, user_id=None):
     if request.method == 'POST':
         # 編集時はuser_idが設定されている
         if user_id:
-            form = EditUserProfile(request.POST, instance=User.objects.get(pk=user_id))
+            form = EditUserProfile(request.POST, request.FILES, instance=User.objects.get(pk=user_id))
             if form.is_valid():
                 form.save()
                 return redirect('/user/')
@@ -38,7 +38,7 @@ def upsert_user(request, user_id=None):
                 'user_id': user_id
             })
         #  user_idが指定されてされていなければ新規登録
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             new_user = form.save()
             # 初回はユーザーネームをそのままニックネームとしても登録する

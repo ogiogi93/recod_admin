@@ -9,7 +9,7 @@ class Article(models.Model):
     user = models.ForeignKey(User, on_delete=False)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    image = models.URLField(max_length=255)
+    thumbnail_url = models.URLField()
     original_image = models.URLField(max_length=255)
     url = models.URLField(max_length=255, default=None)
     is_active = models.BooleanField(default=True)

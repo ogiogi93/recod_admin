@@ -36,7 +36,7 @@ def upsert_tournament(request, tournament_id=None):
     if request.method == 'POST':
         # 編集時
         if tournament_id:
-            form = UpsertTournamentForm(request.POST, instance=Tournament.objects.get(pk=tournament_id))
+            form = UpsertTournamentForm(request.POST, request.FILES, instance=Tournament.objects.get(pk=tournament_id))
             if form.is_valid():
                 # Toornament APIにPOSTする
                 api_tournament_id = upsert_api_tournament(
@@ -54,7 +54,7 @@ def upsert_tournament(request, tournament_id=None):
                 'form': form
             })
         # 新規作成
-        form = UpsertTournamentForm(request.POST)
+        form = UpsertTournamentForm(request.POST, request.FILES)
         if form.is_valid():
             # Toornament APIにPOSTする
             api_tournament_id = upsert_api_tournament(form.instance)
