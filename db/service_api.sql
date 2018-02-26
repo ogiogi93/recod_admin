@@ -89,7 +89,8 @@ CREATE TABLE `teams` (
   `date_created` date NOT NULL,
   `description` varchar(1024),
   `is_active` tinyint(1) DEFAULT '1',
-  `image` varchar(200),
+  `thumbnail_url` varchar(200),
+  `website` varchar(200),
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
@@ -233,6 +234,7 @@ CREATE TABLE `maps` (
 CREATE TABLE `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
+  `game_id` int(11) UNSIGNED NOT NULL,
   `url` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `content` text,
@@ -245,6 +247,8 @@ CREATE TABLE `articles` (
   `image_height` float DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_articles_on_url` (`url`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_game_id` (`game_id`),
   KEY `idx_is_active` (`is_active`),
   KEY `idx_created_at` (`created_at`),
   KEY `idx_title` (`title`)
@@ -317,6 +321,57 @@ CREATE TABLE `videos` (
   KEY `idx_platform_id` (`platform_id`),
   KEY `idx_video_author_id_and_published_at` (`video_author_id`, `published_at`),
   KEY `idx_published_at` (`published_at`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `forums` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(1500),
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `topics` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `forum_id` bigint(20) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(1500),
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_forum_id` (`forum_id`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `threads` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `topic_id` bigint(20) NOT NULL,
+  `description` varchar(1500) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_topic_id` (`topic_id`),
+  KEY `idx_is_active` (`is_active`),
   KEY `idx_updated_at` (`updated_at`),
   KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

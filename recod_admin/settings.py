@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'competition',
     'account',
     'article',
-    'video',
+    'forum',
     'cms',
 ]
 
@@ -199,6 +199,7 @@ try:
 except ImportError:
     raise
 
+# https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
 AWS_REGION = STATIC_SETTINGS['AWS_REGION']
 AWS_ACCESS_KEY_ID = STATIC_SETTINGS['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = STATIC_SETTINGS['AWS_SECRET_ACCESS_KEY']
@@ -213,6 +214,4 @@ AWS_LOCATION = STATIC_SETTINGS['AWS_LOCATION']
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'recod_admin.storage_backends.MediaStorage'
+STATIC_URL = '/static/'

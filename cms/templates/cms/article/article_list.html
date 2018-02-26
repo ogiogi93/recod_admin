@@ -16,6 +16,11 @@
                     </ol>
                 </div>
                 <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'publish_article' %}">
+                            <button class="btn btn-default pull-right" type="submit"> 新規記事を作成 </button>
+                        </a>
+                    </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
@@ -31,7 +36,7 @@
                         {% for article in articles %}
                             <tr>
                                 <td>
-                                    <img src="{{ article.image }}" width="50" height="50">
+                                    <img src="{{ article.thumbnail_url }}" width="50" height="50">
                                 </td>
                                 <td>{{ article.title }}</td>
                                 <td>{{ article.user.nickname }}</td>

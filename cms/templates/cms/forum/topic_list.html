@@ -8,40 +8,34 @@
                 <div class="panel-heading border">
                     <ol class="breadcrumb mb0 no-padding">
                         <li>
-                            <a href="{% url 'top' %}"> ホーム </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'game_list' %}"> ゲーム </a>
+                            <a href="{% url 'top' %}">ホーム</a>
                         </li>
                     </ol>
                 </div>
                 <div class="panel-body">
                     <span class="input-group-btn">
-                        <a href="{% url 'add_game' %}">
-                            <button class="btn btn-default pull-right" type="submit"> ゲームを新規追加 </button>
+                        <a href="{% url 'create_topic' forum_id=forum_id %}">
+                            <button class="btn btn-default pull-right" type="submit"> 新規トピックの作成 </button>
                         </a>
                     </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>タイトル</th>
-                            <th>プラットフォーム</th>
-                            <th>公式URL</th>
-                            <th>アクティブ</th>
-                            <th>Edit</th>
+                            <th>作成者</th>
+                            <th>投稿日</th>
+                            <th>更新日</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for game in games %}
+                        {% for topic in topics %}
                             <tr>
-                                <td>{{ game.id }}</td>
-                                <td>{{ game.discipline.name }}</td>
-                                <td>{{ game.platform.name }}</td>
-                                <td>{{ game.home_url }}</td>
-                                <td>{{ game.is_active }}</td>
-                                <td><a href="{% url 'edit_game' game_id=game.id %}" class="edit"> 編集 </a>
-                                </td>
+                                <td><a href="{% url 'thread_list' forum_id=forum_id topic_id=topic.id %}">{{ topic.title }}</a></td>
+                                <td>{{ topic.user.nickname }}</td>
+                                <td>{{ topic.created_at }}</td>
+                                <td>{{ topic.updated_at.date }}</td>
+                                <td><a href="{% url 'edit_topic' forum_id=forum_id topic_id=topic.id %}" class="edit"> 編集 </a>
                             </tr>
                         {% endfor %}
                         </tbody>

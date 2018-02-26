@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from article.models import Article
+from competition.infrastructure.article import Article
 from account.models import CustomUser as User
 from article.forms import UpsertArticleForm
 

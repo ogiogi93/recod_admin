@@ -1,5 +1,7 @@
 from django import forms
-from article.models import Article
+
+from competition.infrastructure.article import Article
+from competition.infrastructure.discipline import Game
 
 
 class UpsertArticleForm(forms.ModelForm):
@@ -19,7 +21,11 @@ class UpsertArticleForm(forms.ModelForm):
                                    widget=forms.URLInput(attrs={
                                        'class': 'form-control'
                                    }))
+    game = forms.ModelChoiceField(queryset=Game.get_enabled_games(),
+                                  widget=forms.Select(attrs={
+                                      'class': 'form-control'}),
+                                  label='活動ゲーム')
 
     class Meta:
         model = Article
-        fields = ('title', 'content', 'thumbnail_url',)
+        fields = ('title', 'content', 'thumbnail_url', 'game')

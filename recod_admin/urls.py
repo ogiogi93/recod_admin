@@ -24,6 +24,7 @@ import competition.urls.games as games
 import competition.urls.matches as matches
 import competition.urls.teams as teams
 import competition.urls.tournaments as tournaments
+import forum.urls as forum_urls
 
 
 def top(request):
@@ -39,4 +40,5 @@ urlpatterns = [
     url(r'^competition/', include(matches)),
     url(r'^competition/', include(teams)),
     url(r'^competition/', include(tournaments)),
+    url(r'^forum/', include(forum_urls)),
 ]
