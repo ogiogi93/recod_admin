@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'account',
     'article',
     'forum',
-    'video',
     'cms',
 ]
 

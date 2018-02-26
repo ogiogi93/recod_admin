@@ -27,10 +27,14 @@ class UpsertTeamForm(forms.ModelForm):
                              widget=forms.FileInput(attrs={
                                  'class': 'form-control'}
                              ))
+    website = forms.URLField(required=False, label='チームサイトURL',
+                             widget=forms.URLInput(attrs={
+                                 'class': 'form-control'}
+                             ))
 
     class Meta:
         model = Team
-        fields = ('name', 'description', 'game', 'image')
+        fields = ('name', 'description', 'game', 'image', 'website')
 
 
 class JoinTeam(forms.Form):

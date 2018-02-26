@@ -89,7 +89,8 @@ CREATE TABLE `teams` (
   `date_created` date NOT NULL,
   `description` varchar(1024),
   `is_active` tinyint(1) DEFAULT '1',
-  `image` varchar(200),
+  `thumbnail_url` varchar(200),
+  `website` varchar(200),
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
@@ -233,6 +234,7 @@ CREATE TABLE `maps` (
 CREATE TABLE `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
+  `game_id` int(11) UNSIGNED NOT NULL,
   `url` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `content` text,
@@ -245,6 +247,8 @@ CREATE TABLE `articles` (
   `image_height` float DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_articles_on_url` (`url`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_game_id` (`game_id`),
   KEY `idx_is_active` (`is_active`),
   KEY `idx_created_at` (`created_at`),
   KEY `idx_title` (`title`)
