@@ -320,3 +320,54 @@ CREATE TABLE `videos` (
   KEY `idx_updated_at` (`updated_at`),
   KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `forums` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(1500),
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `topics` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `forum_id` bigint(20) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(1500),
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_forum_id` (`forum_id`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `threads` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `topic_id` bigint(20) NOT NULL,
+  `description` varchar(1500) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_topic_id` (`topic_id`),
+  KEY `idx_is_active` (`is_active`),
+  KEY `idx_updated_at` (`updated_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

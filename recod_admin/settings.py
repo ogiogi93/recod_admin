@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'competition',
     'account',
     'article',
+    'forum',
     'video',
     'cms',
 ]
@@ -214,6 +215,4 @@ AWS_LOCATION = STATIC_SETTINGS['AWS_LOCATION']
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'recod_admin.storage_backends.MediaStorage'
+STATIC_URL = '/static/'
