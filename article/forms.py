@@ -24,7 +24,7 @@ class UpsertArticleForm(forms.ModelForm):
     game = forms.ModelChoiceField(queryset=Game.get_enabled_games(),
                                   widget=forms.Select(attrs={
                                       'class': 'form-control'}),
-                                  label='活動ゲーム')
+                                  label='対象ゲーム')
 
     class Meta:
         model = Article

@@ -14,7 +14,9 @@
                             <a href="{% url 'team_list' %}"> チーム </a>
                         </li>
                         <li>
-                            <a href="{% url 'edit_team' team_id=team_id %}"> {{ team_id }} </a>
+                            {% if team_id %}
+                                {{ team_id }}
+                            {% endif %}
                         </li>
                     </ol>
                     <h4>チームを作成・修正する</h4>
