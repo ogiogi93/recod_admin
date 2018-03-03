@@ -23,3 +23,6 @@ class Article(models.Model):
     class Meta:
         managed = False
         db_table = 'articles'
+
+    def __str__(self):
+        return self.title

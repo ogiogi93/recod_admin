@@ -340,6 +340,20 @@ create table `platforms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+CREATE TABLE `video_attributes` (
+  `video_id` bigint(20) NOT NULL,
+  `article_id` bigint(20),
+  `game_id` bigint(20) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`video_id`),
+  KEY `idx_article_id` (`article_id`),
+  KEY `idx_game_id` (`game_id`),
+  KEY `idx_is_active` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 CREATE TABLE `forums` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,

@@ -25,6 +25,7 @@ import match.urls as matches
 import team.urls as teams
 import tournament.urls as tournaments
 import forum.urls as forum_urls
+import video.urls as video_urls
 
 
 def top(request):
@@ -41,4 +42,5 @@ urlpatterns = [
     url(r'^competition/', include(teams)),
     url(r'^competition/', include(tournaments)),
     url(r'^forum/', include(forum_urls)),
+    url(r'^video/', include(video_urls)),
 ]

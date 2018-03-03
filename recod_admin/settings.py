@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'service_api',
     'team',
     'tournament',
+    'video',
 ]
 
 MIDDLEWARE = [

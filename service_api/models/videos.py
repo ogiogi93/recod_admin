@@ -1,5 +1,8 @@
 from django.db import models
 
+from service_api.models.articles import Article
+from service_api.models.disciplines import Game
+
 
 class Author(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -22,7 +25,7 @@ class Author(models.Model):
         managed = False
 
 
-class Platform(models.Model):
+class VideoPlatform(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(null=False)
@@ -35,7 +38,7 @@ class Platform(models.Model):
 class Video(models.Model):
     id = models.BigAutoField(primary_key=True)
     author = models.ForeignKey('Author', on_delete=False)
-    platform = models.ForeignKey('Platform', on_delete=False)
+    platform = models.ForeignKey('VideoPlatform', on_delete=False)
     platform_video_id = models.CharField(max_length=255, null=False)
     platform_category_id = models.IntegerField()
     title = models.TextField(null=False)
@@ -61,6 +64,9 @@ class Video(models.Model):
         db_table = 'videos'
         managed = False
 
+    def __str__(self):
+        return self.title
+
 
 class VideoText(models.Model):
     video = models.OneToOneField('Video', related_name='text', primary_key=True, on_delete=False)
@@ -69,4 +75,16 @@ class VideoText(models.Model):
 
     class Meta:
         db_table = 'video_texts'
+        managed = False
+
+
+class VideoAttribute(models.Model):
+    video = models.OneToOneField(Video, related_name='attribute', primary_key=True, on_delete=False)
+    article = models.ForeignKey(Article, on_delete=False)
+    game = models.ForeignKey(Game, on_delete=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'video_attributes'
         managed = False
