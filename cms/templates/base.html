@@ -190,7 +190,28 @@
                         </li>
                     </ul>
                 </li>
-                <!-- /article -->
+                <!-- /forum -->
+
+                <!-- video -->
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-tag"></i>
+                        <span>動画の管理</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'video_list' %}">
+                                <span>動画リスト</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'crawl_video' %}">
+                                <span>Youtube動画を新規収集</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /forum -->
             </ul>
         </nav>
         <!-- /main navigation -->

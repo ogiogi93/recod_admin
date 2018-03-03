@@ -255,75 +255,103 @@ CREATE TABLE `articles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+-- 動画投稿者の情報
 CREATE TABLE `video_authors` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `platform_id` int(10) unsigned NOT NULL,
-  `platform_author_id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `home_url` varchar(255) DEFAULT NULL,
-  `thumbnail_url` varchar(255) DEFAULT NULL,
-  `enabled` bit(1) NOT NULL,
-  `view_count` bigint(20) DEFAULT NULL,
-  `comment_count` bigint(20) DEFAULT NULL,
-  `subscriber_count` bigint(20) DEFAULT NULL,
-  `video_count` int(10) unsigned DEFAULT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `platform_author_id` varchar(255) NOT NULL,  -- 動画プラットフォーム上での識別子 (YouTube: チャンネルID)
+  `name` varchar(255) NOT NULL,  -- YouTube ならチャンネル名
+  `home_url` varchar(255) DEFAULT NULL,  -- YouTube ならチャンネルTOPのURL. 不明時は null.
+  `thumbnail_url` varchar(1024) DEFAULT NULL,  -- サムネイルのURL. 意外に小さい. 不明時は null.
+  `enabled` bit(1) NOT NULL,   -- 1: 動画収集する, 0: 動画収集しない
+  `view_count` bigint(20) DEFAULT NULL,  -- 各動画PF上での表示回数(v3 APIのview_countの値). 不明時は null
+  `comment_count` bigint(20) DEFAULT NULL,  -- 各動画PF上でのコメント数. 不明時は null
+  `subscriber_count` bigint(20) DEFAULT NULL,  -- 各動画PF上での購読者数. 非公開 or 不明時は null
+  `video_count` int(10) unsigned DEFAULT NULL,  -- 各動画PF上での動画数. 不明時は null
+  `modified_at` datetime NOT NULL,  -- いつプラットフォームから情報を取得したか (= API 叩いた時刻, UTC)
+  `updated_at` datetime NOT NULL,  -- Gunosy 側でフィードを最後に取得 or 投稿者情報を最後に更新した時刻 (UTC)
+  `created_at` datetime NOT NULL,  -- Gunosy 側で投稿者情報を作成した時刻 (UTC)
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_platform_author_id_and_platform_id` (`platform_author_id`,`platform_id`),
-  KEY `idx_platform_id_and_enabled` (`platform_id`,`enabled`),
+  UNIQUE KEY `idx_platform_author_id_and_platform_id` (`platform_author_id`, `platform_id`),
+  KEY `idx_platform_id_and_enabled_and_modified_at` (`platform_id`, `enabled`, `modified_at`),
   KEY `idx_name` (`name`),
   KEY `idx_home_url` (`home_url`),
   KEY `idx_enabled` (`enabled`),
+  KEY `idx_modified_at_and_enabled` (`modified_at`, `enabled`),
+  KEY `idx_updated_at_and_enabled` (`updated_at`, `enabled`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `videos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `platform_id` int(10) unsigned NOT NULL,
+  `platform_video_id` varchar(255) NOT NULL,  -- 動画プラットフォーム上での識別子 (YouTube なら tzgdojo5KcM とか)
+  `platform_category_id` int(10) unsigned DEFAULT NULL, -- 動画プラットフォーム上のカテゴリID. 不明時は null
+  `author_id` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `original_title` varchar(255) NOT NULL DEFAULT '',
+  `thumbnail_url` varchar(1024) NOT NULL,
+  `enabled` bit(1) NOT NULL,
+  `original_url` varchar(1024) DEFAULT NULL,  -- 動画サイト上での動画閲覧時の URL. 不明時は null
+  `mp4_url` varchar(1024) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,  -- 動画の時間(秒). 不明時は null
+  `width` int DEFAULT 640,
+  `height` int DEFAULT 360,
+  `view_count` bigint(20) DEFAULT NULL,  -- 各動画PF上での再生数. 不明時は null
+  `like_count` bigint(20) DEFAULT NULL,  -- 各動画PF上での +1 数. facebook like の数ではない. 不明時は null
+  `dislike_count` bigint(20) DEFAULT NULL,  -- 各動画PF上での -1 数. 不明時は null
+  `favorite_count` bigint(20) DEFAULT NULL,  -- 各動画PF上でのお気に入り数. 不明時は null
+  `comment_count` bigint(20) DEFAULT NULL,  -- 各動画PF上でのコメント数. 不明時は null
+  `modified_at` datetime NOT NULL,  -- メディア(YouTube)側の動画更新時刻(UTC). 不明時はpublished_atと同じ値.
+  `published_at` datetime NOT NULL,  -- メディア(YouTube)側の動画公開時刻(UTC). 不明時はcreated_atと同じ値.
+  `updated_at` datetime NOT NULL,  -- Gunosy 側の動画情報更新時刻 (UTC)
+  `created_at` datetime NOT NULL,  -- Gunosy 側の動画情報作成時刻 (UTC)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_platform_video_id_and_platform_id` (`platform_video_id`, `platform_id`),
+  KEY `idx_platform_id_and_enabled_and_published_at` (`platform_id`, `enabled`, `published_at`),
+  KEY `idx_platform_category_id_and_enabled_and_published_at` (`platform_category_id`, `enabled`, `published_at`),
+  KEY `idx_author_id_and_enabled_and_published_at` (`author_id`, `enabled`, `published_at`),
+  KEY `idx_title` (`title`),
+  KEY `idx_original_title` (`original_title`),
+  KEY `idx_modified_at` (`modified_at`),
+  KEY `idx_published_at` (`published_at`),
   KEY `idx_updated_at` (`updated_at`),
   KEY `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-CREATE TABLE `video_platforms` (
-  `id` int(10) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `video_tags` (
+-- 動画情報 (テキスト)
+-- YouTube なら description (平文テキスト. HTMLではない.) が入る
+CREATE TABLE `video_texts` (
   `video_id` bigint(20) NOT NULL,
-  `tags` text NOT NULL,
+  `text` text,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`video_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `videos` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `article_id` bigint(20) NOT NULL,
-  `platform_id` int(10) unsigned NOT NULL,
-  `platform_video_id` varchar(255) NOT NULL,
-  `video_author_id` bigint(20) NOT NULL,
-  `thumbnail_url` varchar(1024) NOT NULL,
-  `thumbnail_width` int(10) NOT NULL,
-  `thumbnail_height` int(10) NOT NULL,
-  `duration` int(11) DEFAULT NULL,
-  `width` int(11) DEFAULT NULL,
-  `height` int(11) DEFAULT NULL,
-  `view_count` bigint(20) DEFAULT NULL,
-  `like_count` bigint(20) DEFAULT NULL,
-  `dislike_count` bigint(20) DEFAULT NULL,
-  `comment_count` bigint(20) DEFAULT NULL,
-  `published_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+-- 動画プラットフォーム
+create table `platforms` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_article_id` (`article_id`),
-  UNIQUE KEY `idx_platform_video_id_and_platform_id` (`platform_video_id`,`platform_id`),
-  KEY `idx_platform_id` (`platform_id`),
-  KEY `idx_video_author_id_and_published_at` (`video_author_id`, `published_at`),
-  KEY `idx_published_at` (`published_at`),
-  KEY `idx_updated_at` (`updated_at`),
-  KEY `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `video_attributes` (
+  `video_id` bigint(20) NOT NULL,
+  `article_id` bigint(20),
+  `game_id` bigint(20) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`video_id`),
+  KEY `idx_article_id` (`article_id`),
+  KEY `idx_game_id` (`game_id`),
+  KEY `idx_is_active` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE `forums` (

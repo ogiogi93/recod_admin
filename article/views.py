@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
-from competition.infrastructure.article import Article
-from account.models import CustomUser as User
 from article.forms import UpsertArticleForm
+from service_api.models.articles import Article
+from service_api.models.users import CustomUser as User
 
 
 def article_list(request):
