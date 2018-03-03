@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from account.models import CustomUser as User
+from service_api.models.users import CustomUser as User
 
 
 class RegisterForm(UserCreationForm):

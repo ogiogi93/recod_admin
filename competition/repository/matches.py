@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from competition.api.tournaments import update_match_result
 from competition.forms.matchs import UpdateMatchForm
-from competition.infrastructure.tournament import Match, MatchTeam
 from competition.repository.tournaments import get_and_upsert_matches
+from service_api.models.tournaments import Match, MatchTeam
 
 
 def update_match(request, match_id):

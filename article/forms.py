@@ -1,7 +1,7 @@
 from django import forms
 
-from competition.infrastructure.article import Article
-from competition.infrastructure.discipline import Game
+from service_api.models.articles import Article
+from service_api.models.disciplines import Game
 
 
 class UpsertArticleForm(forms.ModelForm):

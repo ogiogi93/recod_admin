@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 
-from account.models import CustomUser as User
-from competition.infrastructure.teams import Team, Member
-from competition.infrastructure.tournament import Participate
 from competition.forms.teams import UpsertTeamForm, JoinTeam
+from service_api.models.users import CustomUser as User
+from service_api.models.teams import Team, Member
+from service_api.models.tournaments import Participate
 
 
 def upsert_team(request, user_id=None, team_id=None):

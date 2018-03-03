@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from account.models import CustomUser as User
+from service_api.models.users import CustomUser as User
 from account.forms import (
     RegisterForm,
     EditUserProfile
 )
-from competition.infrastructure.teams import Member
+from service_api.models.teams import Member
 
 
 def user_list(request):

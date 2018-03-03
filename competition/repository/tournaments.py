@@ -10,9 +10,10 @@ from competition.api.tournaments import (
     upsert_api_tournament,
     upsert_api_participate,
 )
-from competition.infrastructure.tournament import Game, Match, MatchTeam, Stage, Tournament, Participate
-from competition.infrastructure.teams import Team
 from competition.forms.tournaments import UpsertTournamentForm, ParticipateTournamentForm
+from service_api.models.tournaments import Match, MatchTeam, Stage, Tournament, Participate
+from service_api.models.teams import Team
+from service_api.models.disciplines import Game
 
 
 def tournament_list(request):

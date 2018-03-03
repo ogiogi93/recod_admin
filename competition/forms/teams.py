@@ -1,6 +1,6 @@
 from django import forms
-from competition.infrastructure.teams import Team, Member
-from competition.infrastructure.discipline import Game
+from service_api.models.teams import Team, Member
+from service_api.models.disciplines import Game
 
 
 class UpsertTeamForm(forms.ModelForm):

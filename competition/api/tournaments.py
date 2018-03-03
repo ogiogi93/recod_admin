@@ -1,7 +1,7 @@
 import json
 import requests
 
-from competition.infrastructure.tournament import Tournament
+from service_api.models.tournaments import Tournament
 from competition.api import authorized_session
 from recod_admin import logging
 from recod_admin.settings import STATIC_SETTINGS

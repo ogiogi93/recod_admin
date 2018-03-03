@@ -1,7 +1,7 @@
 from django.db import models
 
-from account.models import CustomUser as User
-from competition.infrastructure.discipline import Game
+from service_api.models.users import CustomUser as User
+from service_api.models.disciplines import Game
 
 
 class Team(models.Model):

@@ -1,5 +1,5 @@
 from django import forms
-from competition.infrastructure.tournament import MatchTeam
+from service_api.models.tournaments import MatchTeam
 
 
 class UpdateMatchForm(forms.ModelForm):

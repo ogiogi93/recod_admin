@@ -1,5 +1,5 @@
 from django import forms
-from account.models import Forum, Topic, Thread
+from service_api.models.forums import Forum, Topic, Thread
 
 
 class UpsertForumForm(forms.ModelForm):

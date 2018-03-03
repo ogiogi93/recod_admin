@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
-from account.models import CustomUser as User
-from competition.infrastructure.discipline import Game
+from service_api.models.users import CustomUser as User
+from service_api.models.disciplines import Game
 
 
 class Article(models.Model):

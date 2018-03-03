@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from competition.infrastructure.discipline import Game, Map
+from service_api.models.disciplines import Game, Map
 from competition.forms.games import UpsertGameForm, UpsertMapForm
 
 

@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.lru_cache import lru_cache
 
-from competition.infrastructure.discipline import Game
-from competition.infrastructure.teams import Team
+from service_api.models.disciplines import Game
+from service_api.models.teams import Team
 
 
 class MatchFormat(models.Model):

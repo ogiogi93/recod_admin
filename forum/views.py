@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
-from account.models import CustomUser as User
-from account.models import Forum, Thread, Topic
 from forum.forms import UpsertForumForm, UpsertThreadForm, UpsertTopicForm
+from service_api.models.users import CustomUser as User
+from service_api.models.forums import Forum, Thread, Topic
 
 
 def upsert_forum(request, forum_id=None):

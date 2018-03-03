@@ -1,5 +1,5 @@
 from django import forms
-from competition.infrastructure.discipline import Discipline, Game, Map, Platform
+from service_api.models.disciplines import Discipline, Game, Map, Platform
 
 
 class UpsertGameForm(forms.ModelForm):

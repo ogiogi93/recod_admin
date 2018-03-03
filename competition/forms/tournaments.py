@@ -1,6 +1,6 @@
 from django import forms
-from competition.infrastructure.tournament import MatchFormat, Participate, Tournament
-from competition.infrastructure.discipline import Game
+from service_api.models.tournaments import MatchFormat, Participate, Tournament
+from service_api.models.disciplines import Game
 
 
 class UpsertTournamentForm(forms.ModelForm):
