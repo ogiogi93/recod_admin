@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from competition.forms.teams import UpsertTeamForm, JoinTeam
+from team.forms import UpsertTeamForm, JoinTeam
 from service_api.models.users import CustomUser as User
 from service_api.models.teams import Team, Member
 from service_api.models.tournaments import Participate

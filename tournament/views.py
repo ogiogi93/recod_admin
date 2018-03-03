@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import render, redirect
 
-from competition.api.tournaments import (
+from tournament.api.tournaments import (
     delete_api_tournament,
     get_tournament_matches,
     get_tournament_stages,
@@ -10,7 +10,7 @@ from competition.api.tournaments import (
     upsert_api_tournament,
     upsert_api_participate,
 )
-from competition.forms.tournaments import UpsertTournamentForm, ParticipateTournamentForm
+from tournament.forms import UpsertTournamentForm, ParticipateTournamentForm
 from service_api.models.tournaments import Match, MatchTeam, Stage, Tournament, Participate
 from service_api.models.teams import Team
 from service_api.models.disciplines import Game

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from service_api.models.disciplines import Game, Map
-from competition.forms.games import UpsertGameForm, UpsertMapForm
+from game.forms import UpsertGameForm, UpsertMapForm
 
 
 def game_list(request):
