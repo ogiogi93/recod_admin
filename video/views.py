@@ -67,6 +67,6 @@ def upsert_video_attribute(request, video_id):
         })
     return render(request, 'cms/video/upsert_video_attribute.html', context={
         'form': UpsertVideoAttributeForm(instance=VideoAttribute.objects.get(pk=video_id))
-        if video_attribute else UpsertVideoAttributeForm(),
+        if video_id else UpsertVideoAttributeForm(),
         'video_id': video_id
     })
