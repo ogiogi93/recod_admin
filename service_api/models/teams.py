@@ -11,6 +11,7 @@ class Team(models.Model):
     date_created = models.DateField(auto_now_add=True)
     description = models.TextField(max_length=1024)
     is_active = models.BooleanField(default=True)
+    website = models.URLField()
     image = models.ImageField(upload_to='teams/', default='default-team-icon.png')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
