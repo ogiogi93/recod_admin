@@ -37,12 +37,12 @@
                                 <td><a href="{{ video.original_url }}" target="_blank">{{ video.title }}</a></td>
                                 <td>{{ video.author.name }}</td>
                                 <td>{{ video.view_count }}</td>
-                                {% if video.attribute and video.attribute.game %}
+                                {% if video.attribute.game %}
                                     <td>{{ video.attribute.game.discipline.name }}</td>
                                 {% else %}
                                     <td></td>
                                 {% endif %}
-                                {% if video.attribute and video.attribute.article %}
+                                {% if video.attribute.article %}
                                     <td>{{ video.attribute.article.title }}</td>
                                 {% else %}
                                     <td></td>
