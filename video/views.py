@@ -28,18 +28,24 @@ def upsert_video(request):
         if form.is_valid():
             platform_video_id = form.cleaned_data['platform_video_id']
             # 収集
-            register(identifier=YouTubeVideoIdentifier(platform_video_id))
+            video = register(identifier=YouTubeVideoIdentifier(platform_video_id))
+            VideoAttribute.objects.update_or_create(
+                video_id=video.video_id,
+                defaults={
+                    'game': form.cleaned_data['game'],
+                    'article': form.cleaned_data['article']
+                })
             return redirect('/video/')
         return render(request, 'cms/video/upsert_video.html', context={
             'form': form
         })
     return render(request, 'cms/video/upsert_video.html', context={
-            'form': UpsertVideoForm()
+        'form': UpsertVideoForm()
     })
 
 
 def upsert_video_attribute(request, video_id):
-    """指定の動画を収集する　
+    """指定の動画の設定を修正する
 
     :param request:
     :param int video_id:

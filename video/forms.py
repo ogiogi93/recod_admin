@@ -11,6 +11,17 @@ class UpsertVideoForm(forms.Form):
                                             'class': 'form-control'}),
                                         label='Youtubeの動画ID')
 
+    game = forms.ModelChoiceField(required=True,
+                                  queryset=Game.objects.filter(is_active=True).all(),
+                                  widget=forms.Select(attrs={
+                                      'class': 'form-control'}),
+                                  label='ゲームタイトル')
+    article = forms.ModelChoiceField(required=False,
+                                     queryset=Article.objects.filter(is_active=True).all(),
+                                     widget=forms.Select(attrs={
+                                         'class': 'form-control'}),
+                                     label='記事タイトル')
+
 
 class UpsertVideoAttributeForm(forms.ModelForm):
     video = forms.ModelChoiceField(required=True,
