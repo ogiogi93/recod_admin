@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel mb25">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}">ホーム</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'forum_list' %}">フォーム</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'topic_list' forum_id=forum_id %}">トピック</a>
+                        </li>
+                    </ol>
+                    <h4>トピックを新規作成 or 修正する</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row no-margin">
+                        <div class="col-lg-12">
+                            {% if topic_id %} <!-- 編集の場合はtopic_idが指定されている -->
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'edit_topic' forum_id=forum_id topic_id=topic_id %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn">
+                                    <a href="{% url 'delete_topic' forum_id=forum_id topic_id=topic_id %}"><button class="btn btn-default pull-right"
+                                                       type="button"> 削除 </button></a>
+                                    <button class="btn btn-default pull-right" type="submit"> 修正 </button>
+                                </span>
+                            {% else %}
+                                <form method="post" class="form-horizontal bordered-group" role="form"
+                                      action="{% url 'create_topic' forum_id=forum_id %}">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                </div>
+                                <span class="input-group-btn"><button class="btn btn-primary"
+                                                                      type="submit"> 投稿 </button></span>
+                            {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

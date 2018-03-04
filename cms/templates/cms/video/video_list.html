@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}"> ホーム </a>
+                        </li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'crawl_video' %}">
+                            <button class="btn btn-default pull-right" type="submit"> Youtube動画を新規収集する </button>
+                        </a>
+                    </span>
+                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>タイトル</th>
+                            <th>チャンネル名</th>
+                            <th>視聴数</th>
+                            <th>ゲーム</th>
+                            <th>紐づいている記事</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for video in videos %}
+                            <tr>
+                                <td>{{ video.id }}</td>
+                                <td><a href="{{ video.original_url }}" target="_blank">{{ video.title }}</a></td>
+                                <td>{{ video.author.name }}</td>
+                                <td>{{ video.view_count }}</td>
+                                {% if video.attribute.game %}
+                                    <td>{{ video.attribute.game.discipline.name }}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                {% if video.attribute.article %}
+                                    <td>{{ video.attribute.article.title }}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                <td><a href="{% url 'edit_video_attribute' video_id=video.id %}" class="edit"> 編集 </a>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

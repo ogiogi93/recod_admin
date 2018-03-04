@@ -14,7 +14,9 @@
                             <a href="{% url 'team_list' %}"> チーム </a>
                         </li>
                         <li>
-                            <a href="{% url 'edit_team' team_id=team_id %}"> {{ team_id }} </a>
+                            {% if team_id %}
+                                {{ team_id }}
+                            {% endif %}
                         </li>
                     </ol>
                     <h4>チームを作成・修正する</h4>
@@ -24,7 +26,7 @@
                         <div class="col-lg-12">
                             {% if team_id %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
-                                      action="{% url 'edit_team' team_id=team_id %}">
+                                      action="{% url 'edit_team' team_id=team_id %}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}
@@ -98,7 +100,7 @@
                                 </span>
                             {% elif user_id %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
-                                      action="{% url 'create_team' user_id=user_id %}">
+                                      action="{% url 'create_team' user_id=user_id %}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}

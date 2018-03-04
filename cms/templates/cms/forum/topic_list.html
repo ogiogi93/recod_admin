@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- main area -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-heading border">
+                    <ol class="breadcrumb mb0 no-padding">
+                        <li>
+                            <a href="{% url 'top' %}">ホーム</a>
+                        </li>
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'create_topic' forum_id=forum_id %}">
+                            <button class="btn btn-default pull-right" type="submit"> 新規トピックの作成 </button>
+                        </a>
+                    </span>
+                    <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+                        <thead>
+                        <tr>
+                            <th>タイトル</th>
+                            <th>作成者</th>
+                            <th>投稿日</th>
+                            <th>更新日</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for topic in topics %}
+                            <tr>
+                                <td><a href="{% url 'thread_list' forum_id=forum_id topic_id=topic.id %}">{{ topic.title }}</a></td>
+                                <td>{{ topic.user.nickname }}</td>
+                                <td>{{ topic.created_at }}</td>
+                                <td>{{ topic.updated_at.date }}</td>
+                                <td><a href="{% url 'edit_topic' forum_id=forum_id topic_id=topic.id %}" class="edit"> 編集 </a>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /main area -->
+    </div>
+    <!-- /content panel -->
+{% endblock %}

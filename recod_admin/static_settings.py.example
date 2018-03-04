@@ -1,5 +1,11 @@
 STATIC_SETTINGS = {
     "TOORNAMENT_CLIENT_ID": "",
     "TOORNAMENT_CLIENT_SECRET": "",
-    "TOORNAMENT_API_KEY": ""
+    "TOORNAMENT_API_KEY": "",
+    "AWS_REGION ": "us-west-2",
+    "AWS_ACCESS_KEY_ID": "",
+    "AWS_SECRET_ACCESS_KEY": "",
+    "AWS_S3_BUCKET_NAME": "",
+    "AWS_LOCATION": "",
+    "YOUTUBE_API_KEY": ""
 }

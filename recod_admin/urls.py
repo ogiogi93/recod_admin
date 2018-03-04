@@ -19,10 +19,13 @@ from django.shortcuts import render
 from django.urls import path
 
 import account.urls as account_urls
-import competition.urls.games as games
-import competition.urls.matches as matches
-import competition.urls.teams as teams
-import competition.urls.tournaments as tournaments
+import article.urls as article_urls
+import game.urls as games
+import match.urls as matches
+import team.urls as teams
+import tournament.urls as tournaments
+import forum.urls as forum_urls
+import video.urls as video_urls
 
 
 def top(request):
@@ -33,8 +36,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', top, name='top'),
     url(r'^user/', include(account_urls)),
+    url(r'^article/', include(article_urls)),
     url(r'^competition/', include(games)),
     url(r'^competition/', include(matches)),
     url(r'^competition/', include(teams)),
     url(r'^competition/', include(tournaments)),
+    url(r'^forum/', include(forum_urls)),
+    url(r'^video/', include(video_urls)),
 ]

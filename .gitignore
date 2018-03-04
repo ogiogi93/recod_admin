@@ -14,6 +14,6 @@ log/
 recod_admin/database.py
 recod_admin/static_settings.py
 account/migrations
-competition/migrations
+team/migrations
 .python-version
 template/*

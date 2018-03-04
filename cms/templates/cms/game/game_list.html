@@ -16,6 +16,11 @@
                     </ol>
                 </div>
                 <div class="panel-body">
+                    <span class="input-group-btn">
+                        <a href="{% url 'add_game' %}">
+                            <button class="btn btn-default pull-right" type="submit"> ゲームを新規追加 </button>
+                        </a>
+                    </span>
                     <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
                         <thead>
                         <tr>
@@ -35,7 +40,7 @@
                                 <td>{{ game.platform.name }}</td>
                                 <td>{{ game.home_url }}</td>
                                 <td>{{ game.is_active }}</td>
-                                <td><a href="{% url 'edit_game' game_id=game.id %}" class="edit">Edit</a>
+                                <td><a href="{% url 'edit_game' game_id=game.id %}" class="edit"> 編集 </a>
                                 </td>
                             </tr>
                         {% endfor %}

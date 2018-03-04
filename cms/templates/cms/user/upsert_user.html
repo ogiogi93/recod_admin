@@ -14,7 +14,9 @@
                             <a href="{% url 'user_list' %}">ユーザー</a>
                         </li>
                         <li>
-                            <a href="{% url 'edit_user' user_id=user_id %}"> {{ user_id }} </a>
+                            {% if user_id %}
+                                {{ user_id }}
+                            {% endif %}
                         </li>
                     </ol>
                     <h4>ユーザーを追加 or 修正する</h4>
@@ -24,14 +26,15 @@
                         <div class="col-lg-12">
                             {% if user_id %} <!-- 編集の場合はuser_idが指定されている -->
                                 <form method="post" class="form-horizontal bordered-group" role="form"
-                                      action="{% url 'edit_user' user_id=user_id %}">
+                                      action="{% url 'edit_user' user_id=user_id %}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                 </div>
                                 <span class="input-group-btn">
-                                    <a href="{% url 'delete_user' user_id=user_id %}"><button class="btn btn-default pull-right"
-                                                                                              type="button"> 削除 </button></a>
+                                    <a href="{% url 'delete_user' user_id=user_id %}"><button
+                                            class="btn btn-default pull-right"
+                                            type="button"> 削除 </button></a>
                                     <button class="btn btn-default pull-right" type="submit"> 修正 </button>
                                     <a href="{% url 'create_team' user_id=user_id %}"><button class="btn btn-default"
                                                                                               type="button"> チームを作る </button></a>
@@ -40,7 +43,7 @@
                                 </span>
                             {% else %}
                                 <form method="post" class="form-horizontal bordered-group" role="form"
-                                      action="{% url 'add_user' %}">
+                                      action="{% url 'add_user' %}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {{ form.as_p }}

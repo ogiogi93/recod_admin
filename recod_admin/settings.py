@@ -25,7 +25,7 @@ SECRET_KEY = ')ima!obvl-lazqeq$brkb9!g0ihdi_eg^+y1e)@8_1^&8s*rkh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,9 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'competition',
+    'storages',
     'account',
+    'article',
     'cms',
+    'forum',
+    'game',
+    'match',
+    'service_api',
+    'team',
+    'tournament',
+    'video',
 ]
 
 MIDDLEWARE = [
@@ -109,16 +117,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/recod_admin/staticfiles'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
 
 DATABASE_ROUTERS = ['recod_admin.dbrouters.DefaultDBRouter']
 
@@ -206,3 +204,19 @@ try:
 except ImportError:
     raise
 
+# https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+AWS_REGION = STATIC_SETTINGS['AWS_REGION']
+AWS_ACCESS_KEY_ID = STATIC_SETTINGS['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = STATIC_SETTINGS['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = STATIC_SETTINGS['AWS_S3_BUCKET_NAME']
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = STATIC_SETTINGS['AWS_LOCATION']
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+STATIC_URL = '/static/'
