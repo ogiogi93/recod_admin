@@ -1,6 +1,6 @@
 from django.db import models
 
-from service_api.models.users import CustomUser as User
+from account.models import CustomUser as User
 from service_api.models.disciplines import Game
 
 

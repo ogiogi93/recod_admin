@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 from django.shortcuts import render
 from django.urls import path
@@ -32,7 +33,12 @@ def top(request):
     return render(request, 'cms/index.html')
 
 
+# TODO: ログインページのWarningどうにかする
 urlpatterns = [
+    url(r'^accounts/login/$', auth_views.login, {'template_name': 'cms/account/login.html'},
+        name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, {'template_name': 'cms/account/logout.html'},
+        name='logout'),
     path('admin/', admin.site.urls),
     url(r'^$', top, name='top'),
     url(r'^user/', include(account_urls)),
