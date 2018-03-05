@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    'stronghold',
     'account',
     'article',
     'cms',
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'stronghold.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'recod_admin.urls'
@@ -98,6 +100,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'account.backends.EmailOrUsernameModelBackend'
+]
+AUTH_USER_MODEL = 'account.CustomUser'
 
 
 # Internationalization
@@ -197,6 +204,8 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_REDIRECT_URL = '/'
 
 try:
     from .database import *
