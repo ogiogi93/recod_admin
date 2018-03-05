@@ -89,7 +89,7 @@ CREATE TABLE `teams` (
   `date_created` date NOT NULL,
   `description` varchar(1024),
   `is_active` tinyint(1) DEFAULT '1',
-  `thumbnail_url` varchar(200),
+  `image` varchar(200),
   `website` varchar(200),
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
