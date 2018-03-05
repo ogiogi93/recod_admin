@@ -17,3 +17,4 @@ account/migrations
 team/migrations
 .python-version
 template/*
+staticfiles/
